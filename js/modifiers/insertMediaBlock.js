@@ -41,7 +41,7 @@ var examples = [
   '{1+\\frac{e^{-8\\pi}} {1+\\ldots} } } }',
 ];
 
-export function insertTeXBlock(editorState, file) {
+export default function insertMediaBlock(editorState, file) {
 
   var contentState = editorState.getCurrentContent();
   var selectionState = editorState.getSelection();
@@ -57,9 +57,7 @@ export function insertTeXBlock(editorState, file) {
   var insertionTarget = afterSplit.getSelectionAfter();
 
   var asMedia = Modifier.setBlockType(afterSplit, insertionTarget, 'media');
-  
 
-  debugger
   var entityKey = Entity.create(
     'TOKEN',
     'IMMUTABLE',

@@ -20,8 +20,8 @@ import React from 'react';
 
 import MediaComponent from './MediaComponent';
 import {content} from '../data/content';
-import {insertMediaBlock} from '../modifiers/insertMediaBlock';
-import {removeMediaBlock} from '../modifiers/removeMediaBlock';
+import insertMediaBlock from '../modifiers/insertMediaBlock';
+import removeMediaBlock from '../modifiers/removeMediaBlock';
 import SideControl from './SideControl'
 
 var {ContentState, Editor, EditorState, RichUtils} = Draft;

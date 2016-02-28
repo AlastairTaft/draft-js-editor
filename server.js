@@ -61,5 +61,5 @@ var app = new WebpackDevServer(compiler, {
 app.use('/', express.static('public'));
 app.use('/node_modules', express.static('node_modules'));
 app.listen(APP_PORT, () => {
-  console.log(`TeX Editor is now running on http://localhost:${APP_PORT}`);
+  console.log(`Draft Editor is now running on http://localhost:${APP_PORT}`);
 });

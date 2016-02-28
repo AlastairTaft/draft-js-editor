@@ -29,6 +29,7 @@ var {ContentState, Editor, EditorState, RichUtils} = Draft;
 const styles = {
   editorContainer: {
     position: 'relative',
+    paddingLeft: 48,
   }
 }
 
@@ -128,11 +129,32 @@ export default class RichEditor extends React.Component {
     };
   };
 
+  toggleBlockType = (blockType) => {
+    this.onEditorChange(
+      RichUtils.toggleBlockType(this.state.editorState, blockType));
+  };
+
+  onEditorChange = (editorState) => {
+    this.setState({editorState});
+  };
+
   /**
    * While editing TeX, set the Draft editor to read-only. This allows us to
    * have a textarea within the DOM.
    */
   render() {
+
+
+    var editorState = this.state.editorState
+
+    var currentStyle = editorState.getCurrentInlineStyle();
+
+    const selection = editorState.getSelection();
+    const selectedBlockType = editorState
+      .getCurrentContent()
+      .getBlockForKey(selection.getStartKey())
+      .getType();
+
     return (
       <div className="TexEditor-container">
         <div className="TeXEditor-root">
@@ -143,6 +165,8 @@ export default class RichEditor extends React.Component {
                 display: this.state.selectedBlock ? 'block' : 'none',
               }} 
               onImageClick={() => this.refs['fileInput'].click()}
+              toggleBlockType={type => this.toggleBlockType(type)}
+              selectedBlockType={selectedBlockType}
             />
             <Editor
               blockRendererFn={this._blockRenderer}

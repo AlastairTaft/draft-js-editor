@@ -17,14 +17,54 @@
 import Draft from 'draft-js';
 import {Map} from 'immutable';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import MediaComponent from './MediaComponent';
-import {content} from '../data/content';
 import insertMediaBlock from '../modifiers/insertMediaBlock';
 import removeMediaBlock from '../modifiers/removeMediaBlock';
 import SideControl from './SideControl'
+import PopoverControl from './PopoverControl'
 
-var {ContentState, Editor, EditorState, RichUtils} = Draft;
+var {ContentState, Editor, EditorState, RichUtils, Entity, CompositeDecorator} = Draft;
+
+
+var getSelectedBlockElement = (range) => {
+  var node = range.startContainer
+  do {
+    if (node.getAttribute && node.getAttribute('data-block') == 'true')
+      return node
+    node = node.parentNode
+  } while (node != null)
+  return null
+};
+
+var getSelectionRange = () => {
+  var selection = window.getSelection()
+  if (selection.rangeCount == 0) return null
+  return selection.getRangeAt(0)
+};
+
+function findLinkEntities(contentBlock, callback) {
+  contentBlock.findEntityRanges(
+    (character) => {
+      const entityKey = character.getEntity();
+      return (
+        entityKey !== null &&
+        Entity.get(entityKey).getType() === 'link'
+      );
+    },
+    callback
+  );
+}
+
+const Link = (props) => {
+  const {href} = Entity.get(props.entityKey).getData();
+  return (
+    <a href={href} style={styles.link}>
+      {props.children}
+    </a>
+  );
+};
 
 const styles = {
   editorContainer: {
@@ -36,9 +76,17 @@ const styles = {
 export default class RichEditor extends React.Component {
   constructor(props) {
     super(props);
-    const contentState = ContentState.createFromBlockArray(content);
+
+
+    const decorator = new CompositeDecorator([
+      {
+        strategy: findLinkEntities,
+        component: Link,
+      },
+    ]);
+
     this.state = {
-      editorState: EditorState.createWithContent(contentState),
+      editorState: EditorState.createEmpty(decorator),
       liveTeXEdits: Map(),
     };
 
@@ -75,25 +123,17 @@ export default class RichEditor extends React.Component {
       // later on in the series. Although setting the state twice is less than
       // ideal
       setTimeout(() => {
-        var selectedBlock = this._getSelectedBlockElement()
+        var selectionRange = getSelectionRange()
+        var selectedBlock = selectionRange ? getSelectedBlockElement(selectionRange) : null
         //console.log(selectedBlock)
         this.setState({
           selectedBlock,
+          selectionRange,
         });
       }, 4)
     }
 
-    this._getSelectedBlockElement = () => {
-      var selection = window.getSelection()
-      if (selection.rangeCount == 0) return null
-      var node = selection.getRangeAt(0).startContainer
-      do {
-        if (node.getAttribute && node.getAttribute('data-block') == 'true')
-          return node
-        node = node.parentNode
-      } while (node != null)
-      return null
-    };
+    
 
     this._handleKeyCommand = command => {
       var {editorState} = this.state;
@@ -134,6 +174,25 @@ export default class RichEditor extends React.Component {
       RichUtils.toggleBlockType(this.state.editorState, blockType));
   };
 
+  toggleInlineStyle = (style) => {
+    if (style != 'LINK'){
+      return this.onEditorChange(
+        RichUtils.toggleInlineStyle(this.state.editorState, style));
+    }
+
+    // Add a link
+    const selection = this.state.editorState.getSelection();
+    if (selection.isCollapsed()) {
+      return;
+    }
+    const href = window.prompt('Enter a URL');
+    const entityKey = Entity.create('link', 'MUTABLE', {href});
+    const content = this.state.editorState.getCurrentContent();   
+    this.onEditorChange(
+      RichUtils.toggleLink(this.state.editorState, selection, entityKey))
+
+  };
+
   onEditorChange = (editorState) => {
     this.setState({editorState});
   };
@@ -147,13 +206,23 @@ export default class RichEditor extends React.Component {
 
     var editorState = this.state.editorState
 
-    var currentStyle = editorState.getCurrentInlineStyle();
+    var currentInlineStyle = editorState.getCurrentInlineStyle();
 
     const selection = editorState.getSelection();
     const selectedBlockType = editorState
       .getCurrentContent()
       .getBlockForKey(selection.getStartKey())
       .getType();
+
+
+    var popoverStyles = { display: 'none', top: 0, }
+    if (this.state.selectionRange && !this.state.selectionRange.collapsed){
+      var editorBounds = ReactDOM.findDOMNode(this.refs['editor']).getBoundingClientRect()
+      var rangeBounds = this.state.selectionRange.getBoundingClientRect()
+      popoverStyles.top = rangeBounds.top - editorBounds.top
+      popoverStyles.left = rangeBounds.left - editorBounds.left 
+      popoverStyles.display = 'block'
+    }
 
     return (
       <div className="TexEditor-container">
@@ -167,6 +236,11 @@ export default class RichEditor extends React.Component {
               onImageClick={() => this.refs['fileInput'].click()}
               toggleBlockType={type => this.toggleBlockType(type)}
               selectedBlockType={selectedBlockType}
+            />
+            <PopoverControl 
+              style={popoverStyles} 
+              toggleInlineStyle={style => this.toggleInlineStyle(style)}
+              currentInlineStyle={currentInlineStyle}
             />
             <Editor
               blockRendererFn={this._blockRenderer}

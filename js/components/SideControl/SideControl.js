@@ -6,6 +6,7 @@ const styles = {
 		position: 'absolute',
 		left: 0,
 		top: 0,
+		zIndex: 999,
 	}
 }
 
@@ -58,7 +59,6 @@ export default class SideControl extends Component {
 				<MoreOptions 
 					style={{
 						display: this.state.moreOptionsVisible ? 'block' : 'none',
-						zIndex: 999,
 					}}
 					toggleBlockType={this.props.toggleBlockType}
 					selectedBlockType={this.props.selectedBlockType}

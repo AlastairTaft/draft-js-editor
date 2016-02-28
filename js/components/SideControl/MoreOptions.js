@@ -6,7 +6,8 @@ const styles = {
 		position: 'absolute',
 		left: 0,
 		top: -24,
-		width: 26 * 6
+		width: 26 * 6,
+		zIndex: 999,
 	},
 	iconContainer: {
 		display: 'inline-block',

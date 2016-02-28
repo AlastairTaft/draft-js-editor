@@ -1,5 +1,17 @@
 {
   "name": "draft-js-editor",
+  "version": "0.0.1",
+  "description": "A rich text editor built using draft js",
+  "bugs": {
+    "url": "https://github.com/AlastairTaft/draft-js-editor/issues",
+    "email": "alastair@fleep.io"
+  },
+  "main": "server.js",
+  "author": "alastair@fleep.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlastairTaft/draft-js-editor.git"
+  },
   "scripts": {
     "start": "babel-node --plugins transform-runtime,transform-class-properties --presets es2015,stage-0,react ./server.js"
   },

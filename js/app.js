@@ -20,6 +20,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 ReactDOM.render(
-  <RichEditor />,
+  <div style={{padding: 40}}>
+  	<RichEditor />
+	</div>,
   document.getElementById('target')
 );

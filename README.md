@@ -12,6 +12,10 @@ Run `npm install` then `npm start` to start an example
 
 ### Here from npm?
 
+Run `npm install draft-js-editor --save`
+
+##### Usage Example
+
 Import the `Editor` class into your file. The example below uses [ES6](https://babeljs.io/) but it's not mandatory.
 
 ```javascript

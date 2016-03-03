@@ -19,7 +19,7 @@
   "scripts": {
     "start": "babel-node ./examples/dev-server/server.js",
     "build": "npm run clean & babel src --out-dir lib",
-    "prepare": "npm run build",
+    "prepublishOnly": "npm run build",
     "clean": "rimraf lib"
   },
   "dependencies": {},

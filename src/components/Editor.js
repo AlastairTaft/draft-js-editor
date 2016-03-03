@@ -22,8 +22,8 @@ import ReactDOM from 'react-dom';
 import MediaComponent from './MediaComponent';
 import insertMediaBlock from '../modifiers/insertMediaBlock';
 import removeMediaBlock from '../modifiers/removeMediaBlock';
-import SideControl from './SideControl'
-import PopoverControl from './PopoverControl'
+import SideControl from './SideControl/SideControl'
+import PopoverControl from './PopoverControl/PopoverControl'
 
 var {ContentState, Editor, EditorState, RichUtils, Entity, CompositeDecorator} = Draft;
 

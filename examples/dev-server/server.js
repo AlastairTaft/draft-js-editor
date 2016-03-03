@@ -13,7 +13,7 @@
  */
 
 import express from 'express';
-import path from 'path';
+import path from 'path'
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 
@@ -21,7 +21,7 @@ const APP_PORT = 3000;
 
 // Serve the TeX Editor app
 var compiler = webpack({
-  entry: path.resolve(__dirname, 'js', 'app.js'),
+  entry: path.resolve(__dirname, 'app.js'),
   //eslint: {
   //  configFile: '.eslintrc'
   //},
@@ -32,7 +32,8 @@ var compiler = webpack({
 
         // Skip any files outside of your project's `src` directory
         include: [
-          path.resolve(__dirname, "js"),
+          path.resolve(__dirname, 'app.js'),
+          path.resolve(__dirname, '..', '..', 'src'),
         ],
 
         // Only run `.js` and `.jsx` files through Babel
@@ -40,7 +41,7 @@ var compiler = webpack({
 
         // Options to configure babel with
         query: {
-          plugins: ['transform-runtime', 'transform-class-properties'],
+          plugins: ['transform-runtime', 'transform-class-properties', 'add-module-exports'],
           presets: ['es2015', 'stage-0', 'react'],
         }
       },
@@ -50,7 +51,8 @@ var compiler = webpack({
       //}
     ]
   },
-  output: {filename: 'app.js', path: '/'}
+  output: {filename: 'app.js', path: '/'},
+  devtool: 'source-map'
 });
 var app = new WebpackDevServer(compiler, {
   contentBase: '/public/',
@@ -58,7 +60,7 @@ var app = new WebpackDevServer(compiler, {
   stats: {colors: true}
 });
 // Serve static resources
-app.use('/', express.static('public'));
+app.use('/', express.static(path.resolve(__dirname, 'public')));
 app.use('/node_modules', express.static('node_modules'));
 app.listen(APP_PORT, () => {
   console.log(`Draft Editor is now running on http://localhost:${APP_PORT}`);

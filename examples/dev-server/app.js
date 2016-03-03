@@ -12,16 +12,14 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-'use strict';
-
 import 'babel-polyfill';
-import RichEditor from './components/RichEditor';
+import Editor from './../../src/Editor';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 ReactDOM.render(
   <div style={{padding: 40}}>
-  	<RichEditor />
+  	<Editor />
 	</div>,
   document.getElementById('target')
 );

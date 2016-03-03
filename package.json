@@ -1,15 +1,15 @@
 {
   "name": "draft-js-editor",
-  "version": "0.4.0",
+  "version": "0.4.5",
   "description": "A rich text editor built using draft js",
   "bugs": {
     "url": "https://github.com/AlastairTaft/draft-js-editor/issues",
     "email": "alastair@fleep.io"
   },
   "main": "lib/Editor.js",
-  "directories": [
-    "lib",
-    "src"
+  "files": [
+    "lib/",
+    "src/"
   ],
   "author": "alastair@fleep.io",
   "repository": {
@@ -19,7 +19,7 @@
   "scripts": {
     "start": "babel-node ./examples/dev-server/server.js",
     "build": "npm run clean & babel src --out-dir lib",
-    "prepare": "npm run build",
+    "prepublishOnly": "npm run build",
     "clean": "rimraf lib"
   },
   "dependencies": {},
@@ -29,7 +29,6 @@
     "babel-loader": "^6.2.1",
     "babel-plugin-add-module-exports": "^0.1.2",
     "babel-plugin-transform-class-properties": "^6.4.0",
-    "babel-plugin-transform-runtime": "^6.4.3",
     "babel-polyfill": "^6.3.14",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",

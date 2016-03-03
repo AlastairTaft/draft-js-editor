@@ -14,7 +14,7 @@
 
 'use strict';
 
-import katex from 'katex';
+//import katex from 'katex';
 import React from 'react';
 import {Entity} from 'draft-js';
 
@@ -30,11 +30,11 @@ class KatexOutput extends React.Component {
     }
 
     this._timer = setTimeout(() => {
-      katex.render(
+      /*katex.render(
         this.props.content,
         this.refs.container,
         {displayMode: true}
-      );
+      );*/
     }, 0);
   }
 
@@ -80,7 +80,7 @@ export default class MediaComponent extends React.Component {
       var value = evt.target.value;
       var invalid = false;
       try {
-        katex.__parse(value);
+        //katex.__parse(value);
       } catch (e) {
         invalid = true;
       } finally {

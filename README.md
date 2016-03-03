@@ -7,9 +7,23 @@ Takes inspiration from the text editors on [medium](http://medium.com) and
 
 # Get started
 
-Run `npm install` then `npm start`
+### Cloning from github
+Run `npm install` then `npm start` to start an example
 
-# Here from npm?
+### Here from npm?
 
-If you're seeing this on npm, this is currently just an example repo on Github 
-that demos a rich text editor. Will be packaged more nicely soon.
+Import the `Editor` class into your file. The example below uses [ES6](https://babeljs.io/) but it's not mandatory.
+
+```javascript
+import React, { Component } from 'react'
+import Editor from 'draft-js-editor'
+
+class MyClass extends Component {
+  render() {
+  	return <div>
+  	  A sample text editor
+  	  <Editor />
+	  </div>
+  }
+}
+```

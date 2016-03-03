@@ -7,9 +7,9 @@
     "email": "alastair@fleep.io"
   },
   "main": "lib/Editor.js",
-  "directories": [
-    "lib",
-    "src"
+  "files": [
+    "lib/",
+    "src/"
   ],
   "author": "alastair@fleep.io",
   "repository": {

@@ -72,7 +72,7 @@ const Link = (props) => {
 const styles = {
   editorContainer: {
     position: 'relative',
-    paddingLeft: 48,
+    //paddingLeft: 48,
   },
   popOverControl: {
     width: 78, // Height and width are needed to compute the position
@@ -82,6 +82,9 @@ const styles = {
   },
   sideControl: {
     height: 24, // Required to figure out positioning
+    //width: 48, // Needed to figure out how much to offset the sideControl left
+    left: -48,
+    display: 'none',
   }
 }
 
@@ -123,8 +126,16 @@ export default class RichEditor extends React.Component {
       return null;
     };
 
-    this._focus = () => this.refs.editor.focus();
+    this._focus = () => {
+      var editorBounds = ReactDOM.findDOMNode(this.refs['editor']).getBoundingClientRect()
+      this.setState({
+        editorBounds,
+      })
+      this.refs.editor.focus();
+    };
     this._onChange = (editorState) => {
+
+      
 
       this.setState({
         editorState,
@@ -138,12 +149,51 @@ export default class RichEditor extends React.Component {
     };
 
     this.updateSelection = () => {
-      var selectionRange = getSelectionRange()
-      var selectedBlock = selectionRange ? getSelectedBlockElement(selectionRange) : null
-      //console.log(selectedBlock)
+      var selectionRangeIsCollapsed = null,
+        sideControlVisible = false,
+        sideControlTop = null,
+        sideControlLeft = styles.sideControl.left,
+        popoverControlVisible = false,
+        popoverControlTop = null,
+        popoverControlLeft = null
+      
+      let selectionRange = getSelectionRange()
+      if (selectionRange){
+        let rangeBounds = selectionRange.getBoundingClientRect()
+        var selectedBlock = getSelectedBlockElement(selectionRange)
+        var blockBounds = selectedBlock.getBoundingClientRect()
+
+        sideControlVisible = true
+        //sideControlTop = this.state.selectedBlock.offsetTop
+        var editorBounds = this.state.editorBounds
+
+        var sideControlTop = (blockBounds.top - editorBounds.top)
+          + ((blockBounds.bottom - blockBounds.top) / 2)
+          - (styles.sideControl.height / 2)
+
+
+        if (!selectionRange.collapsed){
+          popoverControlVisible = true
+          var rangeWidth = rangeBounds.right - rangeBounds.left,
+            rangeHeight = rangeBounds.bottom - rangeBounds.top
+          popoverControlTop = (rangeBounds.top - editorBounds.top)
+            - styles.popOverControl.height
+          popoverControlLeft = 0
+            + (rangeBounds.left - editorBounds.left)
+            + (rangeWidth / 2)
+            - (styles.popOverControl.width / 2)
+          
+        }
+
+      }
+      
       this.setState({
-        selectedBlock,
-        selectionRange,
+        sideControlVisible,
+        sideControlTop,
+        sideControlLeft,
+        popoverControlVisible,
+        popoverControlTop,
+        popoverControlLeft,
       });
     };
     
@@ -212,6 +262,7 @@ export default class RichEditor extends React.Component {
     this.setState({editorState});
   };
 
+
   /**
    * While editing TeX, set the Draft editor to read-only. This allows us to
    * have a textarea within the DOM.
@@ -231,32 +282,18 @@ export default class RichEditor extends React.Component {
 
 
 
-    
-    var sideControlTop = 0
+    var sideControlStyles = Object.assign({}, styles.sideControl)
+    if (this.state.sideControlVisible){
+      sideControlStyles.display = 'block'
+      sideControlStyles.top = this.state.sideControlTop
+      sideControlStyles.left = this.state.sideControlLeft
+    }
+
     var popoverStyles = Object.assign({}, styles.popOverControl)
-    if (this.state.selectedBlock){
-      //sideControlTop = this.state.selectedBlock.offsetTop
-      var editorBounds = ReactDOM.findDOMNode(this.refs['editor']).getBoundingClientRect()
-      var blockBounds = this.state.selectedBlock.getBoundingClientRect()
-
-      sideControlTop = (blockBounds.top - editorBounds.top)
-        + (this.state.selectedBlock.clientHeight / 2)
-        - (styles.sideControl.height / 2)
-        //- editorBounds.top
-
-      if (this.state.selectionRange && !this.state.selectionRange.collapsed){
-        var rangeBounds = this.state.selectionRange.getBoundingClientRect()
-        var rangeWidth = rangeBounds.right - rangeBounds.left,
-          rangeHeight = rangeBounds.bottom - rangeBounds.top
-        popoverStyles.top = (rangeBounds.top - editorBounds.top)
-          - popoverStyles.height
-        popoverStyles.left = styles.editorContainer.paddingLeft 
-          + (rangeBounds.left - editorBounds.left)
-          + (rangeWidth / 2)
-          - (popoverStyles.width / 2)
-        popoverStyles.display = 'block'
-        
-      }
+    if (this.state.popoverControlVisible){
+      popoverStyles.display = 'block'
+      popoverStyles.top = this.state.popoverControlTop
+      popoverStyles.left = this.state.popoverControlLeft
     }
 
 
@@ -266,10 +303,7 @@ export default class RichEditor extends React.Component {
     return (
       <div style={styles.editorContainer} 
         className="TeXEditor-editor" onClick={this._focus}>
-        <SideControl style={{
-            top: sideControlTop,
-            display: this.state.selectedBlock ? 'block' : 'none',
-          }} 
+        <SideControl style={sideControlStyles} 
           onImageClick={() => this.refs['fileInput'].click()}
           toggleBlockType={type => this.toggleBlockType(type)}
           selectedBlockType={selectedBlockType}

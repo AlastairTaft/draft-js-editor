@@ -31,3 +31,19 @@ class MyClass extends Component {
   }
 }
 ```
+
+We recommend you add the miniumum styling to your document to avoid a collapsing
+margins issue and to avoid the placeholder element taking up space.
+
+```css
+.DraftEditor-root {
+  /* Stop collapsing margins breaking our side control positioning */
+  padding-top: 1px;
+  position: relative;
+}
+
+
+.public-DraftEditorPlaceholder-root {
+	position: absolute;
+}
+```

@@ -12,8 +12,6 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-'use strict';
-
 import Draft from 'draft-js';
 import {Map} from 'immutable';
 import React from 'react';
@@ -76,9 +74,12 @@ const styles = {
   },
   popOverControl: {
     width: 78, // Height and width are needed to compute the position
-    height: 29,
+    height: 24,
     display: 'none', 
     top: 0,
+    left: 0,
+    position: 'absolute',
+    zIndex: 998,
   },
   sideControl: {
     height: 24, // Required to figure out positioning
@@ -87,6 +88,9 @@ const styles = {
     display: 'none',
   }
 }
+
+const popoverSpacing = 3 // The distance above the selection that popover 
+  // will display
 
 export default class RichEditor extends React.Component {
   constructor(props) {
@@ -161,28 +165,31 @@ export default class RichEditor extends React.Component {
       if (selectionRange){
         let rangeBounds = selectionRange.getBoundingClientRect()
         var selectedBlock = getSelectedBlockElement(selectionRange)
-        var blockBounds = selectedBlock.getBoundingClientRect()
+        if (selectedBlock){
+          var blockBounds = selectedBlock.getBoundingClientRect()
 
-        sideControlVisible = true
-        //sideControlTop = this.state.selectedBlock.offsetTop
-        var editorBounds = this.state.editorBounds
+          sideControlVisible = true
+          //sideControlTop = this.state.selectedBlock.offsetTop
+          var editorBounds = this.state.editorBounds
 
-        var sideControlTop = (blockBounds.top - editorBounds.top)
-          + ((blockBounds.bottom - blockBounds.top) / 2)
-          - (styles.sideControl.height / 2)
+          var sideControlTop = (blockBounds.top - editorBounds.top)
+            + ((blockBounds.bottom - blockBounds.top) / 2)
+            - (styles.sideControl.height / 2)
 
 
-        if (!selectionRange.collapsed){
-          popoverControlVisible = true
-          var rangeWidth = rangeBounds.right - rangeBounds.left,
-            rangeHeight = rangeBounds.bottom - rangeBounds.top
-          popoverControlTop = (rangeBounds.top - editorBounds.top)
-            - styles.popOverControl.height
-          popoverControlLeft = 0
-            + (rangeBounds.left - editorBounds.left)
-            + (rangeWidth / 2)
-            - (styles.popOverControl.width / 2)
-          
+          if (!selectionRange.collapsed){
+            popoverControlVisible = true
+            var rangeWidth = rangeBounds.right - rangeBounds.left,
+              rangeHeight = rangeBounds.bottom - rangeBounds.top
+            popoverControlTop = (rangeBounds.top - editorBounds.top)
+              - styles.popOverControl.height
+              - popoverSpacing
+            popoverControlLeft = 0
+              + (rangeBounds.left - editorBounds.left)
+              + (rangeWidth / 2)
+              - (styles.popOverControl.width / 2)
+            
+          }
         }
 
       }
@@ -314,7 +321,6 @@ export default class RichEditor extends React.Component {
           currentInlineStyle={currentInlineStyle}
         />
         <Editor
-          style={{paddingTop: 1}} // Passing in a style doesn't seem to work
           blockRendererFn={this._blockRenderer}
           editorState={this.state.editorState}
           handleKeyCommand={this._handleKeyCommand}
@@ -323,6 +329,7 @@ export default class RichEditor extends React.Component {
           readOnly={this.state.liveTeXEdits.count()}
           ref="editor"
           spellCheck={true}
+          {...this.props}
         />
         <input type="file" ref="fileInput" style={{display: 'none'}} 
           onChange={this.handleFileInput} />

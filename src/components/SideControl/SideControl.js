@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import MoreOptions from './MoreOptions'
 
+
+  
 const styles = {
 	container: {
 		position: 'absolute',
@@ -9,6 +11,9 @@ const styles = {
 		zIndex: 999,
 	}
 }
+
+
+
 
 export default class SideControl extends Component {
 

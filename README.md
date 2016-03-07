@@ -47,3 +47,18 @@ margins issue and to avoid the placeholder element taking up space.
 	position: absolute;
 }
 ```
+
+## API 
+
+The api for the Editor component, reference it using `refs` 
+e.g. `var myEditor = this.refs['myEditor']`
+
+### getContent()
+Returns an object with an `entityMap` (Object) and `blocks` (Array) keys. 
+Internall it just calls [`convertToRaw`](https://facebook.github.io/draft-js/docs/api-reference-data-conversion.html) and returns the result.
+
+You can re-populate the state by passing in what's returned from this function
+as a `content` property on the component.
+
+
+

@@ -23,7 +23,8 @@ import removeMediaBlock from '../modifiers/removeMediaBlock';
 import SideControl from './SideControl/SideControl'
 import PopoverControl from './PopoverControl/PopoverControl'
 
-var {ContentState, Editor, EditorState, RichUtils, Entity, CompositeDecorator} = Draft;
+var {ContentState, Editor, EditorState, RichUtils, Entity, 
+  CompositeDecorator, convertFromRaw, convertToRaw} = Draft;
 
 
 var getSelectedBlockElement = (range) => {
@@ -104,8 +105,19 @@ export default class RichEditor extends React.Component {
       },
     ]);
 
+    var editorState = null
+    if (this.props.content){
+      const blocks = convertFromRaw(this.props.content);
+      editorState = EditorState.createWithContent(
+        ContentState.createFromBlockArray(blocks), 
+        decorator
+      )
+    } else {
+      editorState = EditorState.createEmpty(decorator)
+    }
+
     this.state = {
-      editorState: EditorState.createEmpty(decorator),
+      editorState,
       liveTeXEdits: Map(),
     };
 
@@ -150,6 +162,10 @@ export default class RichEditor extends React.Component {
       // later on in the series. Although setting the state twice is less than
       // ideal
       setTimeout(this.updateSelection, 4)
+
+      if (this.props.onChange){
+        this.props.onChange()
+      }
     };
 
     this.updateSelection = () => {
@@ -269,6 +285,11 @@ export default class RichEditor extends React.Component {
     this.setState({editorState});
   };
 
+  getContent = () => {
+    const content = this.state.editorState.getCurrentContent()
+    return convertToRaw(content)
+  };
+
 
   /**
    * While editing TeX, set the Draft editor to read-only. This allows us to
@@ -278,6 +299,7 @@ export default class RichEditor extends React.Component {
 
 
     var editorState = this.state.editorState
+    console.log(this.getContent())
 
     var currentInlineStyle = editorState.getCurrentInlineStyle();
 
@@ -308,7 +330,7 @@ export default class RichEditor extends React.Component {
     
 
     return (
-      <div style={styles.editorContainer} 
+      <div style={Object.assign({}, styles.editorContainer, this.props.style)} 
         className="TeXEditor-editor" onClick={this._focus}>
         <SideControl style={sideControlStyles} 
           onImageClick={() => this.refs['fileInput'].click()}
@@ -325,11 +347,10 @@ export default class RichEditor extends React.Component {
           editorState={this.state.editorState}
           handleKeyCommand={this._handleKeyCommand}
           onChange={this._onChange}
-          placeholder="Start a document..."
+          placeholder={this.props.placeholder}
           readOnly={this.state.liveTeXEdits.count()}
           ref="editor"
           spellCheck={true}
-          {...this.props}
         />
         <input type="file" ref="fileInput" style={{display: 'none'}} 
           onChange={this.handleFileInput} />

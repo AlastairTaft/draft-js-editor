@@ -299,7 +299,7 @@ export default class RichEditor extends React.Component {
 
 
     var editorState = this.state.editorState
-    console.log(this.getContent())
+    //console.log(this.getContent())
 
     var currentInlineStyle = editorState.getCurrentInlineStyle();
 

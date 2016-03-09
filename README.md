@@ -79,5 +79,8 @@ Insert a block component into the editor. See the ImageUpload example.
   - `onImageClick` fired when the image icon is clicked, see ImageUpload example
     in the examples folder
   - `blockTypes` Map block types to components
+  - `content` Pass in the value returned from getContent to hydrate an existing
+    state, this is useful when you want to persist the editor's content to 
+    storage.
 
 

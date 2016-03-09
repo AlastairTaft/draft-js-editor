@@ -33,6 +33,8 @@ var compiler = webpack({
         // Skip any files outside of your project's `src` directory
         include: [
           path.resolve(__dirname, 'app.js'),
+          // Should use lib instead of src, src is handy for playing around with
+          // the repo while developing
           path.resolve(__dirname, '..', '..', 'src'),
         ],
 

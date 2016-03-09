@@ -1,17 +1,3 @@
-/**
- * Copyright (c) 2013-present, Facebook, Inc. All rights reserved.
- *
- * This file provided by Facebook is for non-commercial testing and evaluation
- * purposes only. Facebook reserves all rights not expressly granted.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- * FACEBOOK BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
 import Draft from 'draft-js';
 import {Map} from 'immutable';
 import React from 'react';
@@ -22,6 +8,9 @@ import insertMediaBlock from '../modifiers/insertMediaBlock';
 import removeMediaBlock from '../modifiers/removeMediaBlock';
 import SideControl from './SideControl/SideControl'
 import PopoverControl from './PopoverControl/PopoverControl'
+import generateUniqueType from './../lib/generateUniqueType.js'
+import Image from './Image.js'
+import MediaWrapper from './MediaWrapper.js'
 
 var {ContentState, Editor, EditorState, RichUtils, Entity, 
   CompositeDecorator, convertFromRaw, convertToRaw} = Draft;
@@ -94,6 +83,17 @@ const popoverSpacing = 3 // The distance above the selection that popover
   // will display
 
 export default class RichEditor extends React.Component {
+
+  static propTypes = {
+    blockTypes: React.PropTypes.object,
+  };
+
+  static defaultProps = {
+    blockTypes: {
+      'image': Image,
+    },
+  };
+
   constructor(props) {
     super(props);
 
@@ -106,7 +106,9 @@ export default class RichEditor extends React.Component {
     ]);
 
     var editorState = null
-    if (this.props.content){
+    if (this.props.editorState){
+      eidtorState = editorState
+    } else if (this.props.content){
       const blocks = convertFromRaw(this.props.content);
       editorState = EditorState.createWithContent(
         ContentState.createFromBlockArray(blocks), 
@@ -123,21 +125,17 @@ export default class RichEditor extends React.Component {
 
     this._blockRenderer = (block) => {
 
-      if (block.getType() === 'media') {
+      var type = block.getType()
+
+      var Component = this.props.blockTypes[type]
+
+      if (Component){
         return {
-          component: MediaComponent,
+          component: MediaWrapper,
           props: {
-            onStartEdit: (blockKey) => {
-              var {liveTeXEdits} = this.state;
-              this.setState({liveTeXEdits: liveTeXEdits.set(blockKey, true)});
-            },
-            onFinishEdit: (blockKey) => {
-              var {liveTeXEdits} = this.state;
-              this.setState({liveTeXEdits: liveTeXEdits.remove(blockKey)});
-            },
-            onRemove: (blockKey) => this._removeTeX(blockKey),
-          },
-        };
+            child: <Component />,
+          }
+        }
       }
       return null;
     };
@@ -238,21 +236,22 @@ export default class RichEditor extends React.Component {
         editorState: removeMediaBlock(editorState, blockKey),
       });
     };
+  };
 
-    this._insertTeX = (file) => {
+  componentWillReceiveProps = (props) => {
+    if (props.editorState){
       this.setState({
-        liveTeXEdits: Map(),
-        editorState: insertMediaBlock(this.state.editorState, file),
-      });
-    };
+        editorState: props.editorState,
+      })
+    }
+  };
 
-    this.handleFileInput = (e) => {
-      var fileList = e.target.files
-      for (var i = 0; i < fileList.length; i++) {
-        var file = fileList[i]
-        this._insertTeX(file)
-      }
-    };
+  // This editor will support a real basic example of inserting an image
+  // into the page, just so something works out the box.
+  handleFileInput = (e) => {
+    var files = Array.prototype.slice.call(e.target.files, 0)
+    files.forEach(f => 
+      this.insertBlockComponent("image", {src: URL.createObjectURL(f)}))
   };
 
   toggleBlockType = (blockType) => {
@@ -290,13 +289,29 @@ export default class RichEditor extends React.Component {
     return convertToRaw(content)
   };
 
+  insertBlock = (type, data) => {
+    var editorState = insertMediaBlock(this.state.editorState, type, data)
+    this.setState({
+      editorState,
+    })
+  };
+
+  insertBlockComponent = (type, data) => {
+
+    // TODO cerate a componnet pool with type
+    //var type = generateUniqueType()
+    
+    var editorState = insertMediaBlock(this.state.editorState, type, data)
+    this.setState({
+      editorState,
+    })
+  };
 
   /**
    * While editing TeX, set the Draft editor to read-only. This allows us to
    * have a textarea within the DOM.
    */
   render() {
-
 
     var editorState = this.state.editorState
     //console.log(this.getContent())
@@ -308,8 +323,6 @@ export default class RichEditor extends React.Component {
       .getCurrentContent()
       .getBlockForKey(selection.getStartKey())
       .getType();
-
-
 
     var sideControlStyles = Object.assign({}, styles.sideControl)
     if (this.state.sideControlVisible){
@@ -325,15 +338,14 @@ export default class RichEditor extends React.Component {
       popoverStyles.left = this.state.popoverControlLeft
     }
 
-
-    
-    
-
     return (
       <div style={Object.assign({}, styles.editorContainer, this.props.style)} 
         className="TeXEditor-editor" onClick={this._focus}>
         <SideControl style={sideControlStyles} 
-          onImageClick={() => this.refs['fileInput'].click()}
+          onImageClick={this.props.onImageClick
+          // This editor will support a real basic example of inserting an image
+          // into the page, just so something works out the box. 
+            || ((e) => this.refs['fileInput'].click())}
           toggleBlockType={type => this.toggleBlockType(type)}
           selectedBlockType={selectedBlockType}
         />

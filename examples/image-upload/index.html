@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Draft • Color</title>
+  </head>
+  <body>
+    <div style="font-family: Georgia, serif; font-size: 15px; padding: 20px; width: 600px; line-height: 24px;">
+      This example shows one way to structure your code to handle image uploads
+      in the editor. Try selecting an image from the editor side menu, it's
+      hue will change when the upload is done.
+    </div>
+    <div id="target" style="margin: 40px; border: 1px solid #cccccc;"></div>
+    <script src="../../node_modules/react/dist/react.js"></script>
+    <script src="../../node_modules/react-dom/dist/react-dom.js"></script>
+    <script src="../../node_modules/immutable/dist/immutable.js"></script>
+    <script src="../../node_modules/es6-shim/es6-shim.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.js"></script>
+    <script src="../../dist/Editor.js"></script>
+    <script type="text/babel">
+
+      class RichEditor extends React.Component {
+
+        constructor(props){
+          super(props)
+
+          this.render = this.render.bind(this)
+          this.handleFileInput = this.handleFileInput.bind(this)
+          this.insertFile = this.insertFile.bind(this)
+        }
+
+        render(){
+          return <div>
+            <Editor 
+              ref="editor"
+              onImageClick={(e) => this.refs['fileInput'].click()}
+              placholder="Start writing your content..."
+              blockTypes={{
+                'image': Image
+              }}
+            />
+            <input type="file" ref="fileInput" style={{display: 'none'}} 
+              onChange={this.handleFileInput} />
+          </div>
+        }
+
+        handleFileInput(e){
+          // This just converts e.target.files form a FileList to an Array
+          var files = Array.prototype.slice.call(e.target.files, 0)
+          files.forEach(this.insertFile)
+        };
+
+        insertFile(file){
+          var editor = this.refs['editor']
+          editor.insertBlockComponent("image", {src: URL.createObjectURL(file)})
+        };
+      }
+
+      class Image extends React.Component {
+
+        constructor(props){
+          super(props)
+
+          this.state = {
+            src: this.props.src,
+            uploadDone: false,
+          }
+        };
+
+        componentDidMount(){
+          // Do an async upload
+          setTimeout(() => {
+            this.setState({
+              // Normally would replace this with the new image url
+              src: this.state.src,
+              uploadDone: true,
+            })
+          }, 2000)
+        };
+
+        render() {
+
+          var imgStyle = {}
+          // Modify the appearance of the image, just for demo purposes
+          if (this.state.uploadDone){
+            imgStyle.filter = 'hue-rotate(180deg)'
+            imgStyle.MozFilter = 'hue-rotate(180deg)'
+            imgStyle.WebkitFilter = 'hue-rotate(180deg)'
+            imgStyle.OFilter = 'hue-rotate(180deg)'
+            imgStyle.MsFilter = 'hue-rotate(180deg)'
+          }
+
+          return <figure
+            contentEditable={false}>
+            <img src={this.state.src} style={imgStyle} />
+          </figure>
+        };
+      }
+
+      ReactDOM.render(
+        <RichEditor />,
+        document.getElementById('target')
+      );
+    </script>
+  </body>
+</html>

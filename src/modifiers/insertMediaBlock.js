@@ -41,7 +41,7 @@ var examples = [
   '{1+\\frac{e^{-8\\pi}} {1+\\ldots} } } }',
 ];
 
-export default function insertMediaBlock(editorState, file) {
+export default function insertMediaBlock(editorState, type, data) {
 
   var contentState = editorState.getCurrentContent();
   var selectionState = editorState.getSelection();
@@ -56,12 +56,12 @@ export default function insertMediaBlock(editorState, file) {
   var afterSplit = Modifier.splitBlock(afterRemoval, targetSelection);
   var insertionTarget = afterSplit.getSelectionAfter();
 
-  var asMedia = Modifier.setBlockType(afterSplit, insertionTarget, 'media');
+  var asMedia = Modifier.setBlockType(afterSplit, insertionTarget, type);
 
   var entityKey = Entity.create(
     'TOKEN',
     'IMMUTABLE',
-    {preview: URL.createObjectURL(file)}
+    data,
   );
 
   var charData = CharacterMetadata.create({entity: entityKey});
@@ -69,7 +69,7 @@ export default function insertMediaBlock(editorState, file) {
   var fragmentArray = [
     new ContentBlock({
       key: genKey(),
-      type: 'media',
+      type: type,
       text: ' ',
       characterList: List(Repeat(charData, 1)),
     }),
@@ -96,3 +96,5 @@ export default function insertMediaBlock(editorState, file) {
 
   return EditorState.push(editorState, newContent, 'insert-fragment');
 }
+
+

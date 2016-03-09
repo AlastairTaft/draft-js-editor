@@ -169,6 +169,8 @@ export default class MediaComponent extends React.Component {
           </div>
         </div>;
     }
+
+    debugger
     return (
       
       <figure

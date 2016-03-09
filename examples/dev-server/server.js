@@ -41,7 +41,7 @@ var compiler = webpack({
 
         // Options to configure babel with
         query: {
-          plugins: ['transform-runtime', 'transform-class-properties', 'add-module-exports'],
+          plugins: ['transform-class-properties', 'add-module-exports'],
           presets: ['es2015', 'stage-0', 'react'],
         }
       },

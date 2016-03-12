@@ -28,7 +28,7 @@
     "build:dist": "webpack src/Editor.js dist/Editor.js",
     "build:dist:min": "webpack src/Editor.js dist/Editor.min.js --optimize-minimize",
     "build": "npm run clean && npm run build:package & npm run build:dist & npm run build:dist:min",
-    "prepublishOnly": "npm run build",
+    "prepublish": "npm run build",
     "clean": "rimraf lib"
   },
   "dependencies": {},

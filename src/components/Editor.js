@@ -11,6 +11,7 @@ import PopoverControl from './PopoverControl/PopoverControl'
 import generateUniqueType from './../lib/generateUniqueType.js'
 import Image from './Image.js'
 import MediaWrapper from './MediaWrapper.js'
+import getUnboundedScrollPosition from 'fbjs/lib/getUnboundedScrollPosition.js'
 
 var {ContentState, Editor, EditorState, RichUtils, Entity, 
   CompositeDecorator, convertFromRaw, convertToRaw} = Draft;
@@ -147,7 +148,8 @@ export default class RichEditor extends React.Component {
       this.setState({
         editorBounds,
       })
-      this.refs.editor.focus();
+
+      this.refs.editor.focus(getUnboundedScrollPosition());
     };
     this._onChange = (editorState) => {
 
@@ -371,6 +373,7 @@ export default class RichEditor extends React.Component {
           readOnly={this.props.readOnly}
           ref="editor"
           spellCheck={true}
+
         />
         <input type="file" ref="fileInput" style={{display: 'none'}} 
           onChange={this.handleFileInput} />

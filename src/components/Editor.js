@@ -149,7 +149,7 @@ export default class RichEditor extends React.Component {
         editorBounds,
       })
 
-      this.refs.editor.focus(getUnboundedScrollPosition());
+      this.refs.editor.focus();
     };
     this._onChange = (editorState) => {
 

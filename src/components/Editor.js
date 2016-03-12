@@ -164,7 +164,7 @@ export default class RichEditor extends React.Component {
       setTimeout(this.updateSelection, 4)
 
       if (this.props.onChange){
-        this.props.onChange()
+        this.props.onChange(this.getContent())
       }
     };
 

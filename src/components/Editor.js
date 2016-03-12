@@ -309,6 +309,10 @@ export default class RichEditor extends React.Component {
     return entityKey
   };
 
+  getEditorState = () => {
+    return this.state.editorState
+  };
+
   /**
    * While editing TeX, set the Draft editor to read-only. This allows us to
    * have a textarea within the DOM.

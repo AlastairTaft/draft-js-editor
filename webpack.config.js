@@ -42,5 +42,6 @@ module.exports = {
     immutable: 'Immutable',
     react: 'React',
     'react-dom': 'ReactDOM',
+    'draft-js': 'Draft',
   }
 }

@@ -6,18 +6,25 @@
   </head>
   <body>
     <div style="font-family: Georgia, serif; font-size: 15px; padding: 20px; width: 600px; line-height: 24px;">
-      This example shows one way to structure your code to handle image uploads
+      <p>This example shows one way to structure your code to handle image uploads
       in the editor. Try selecting an image from the editor side menu, it's
-      hue will change when the upload is done.
+      hue will change when the upload is done.</p>
+      <p>We currently don't have a way to force the editor to update, after 
+      the image is updated type a character to see the mutated image entity.</p>
     </div>
     <div id="target" style="margin: 40px; border: 1px solid #cccccc;"></div>
     <script src="../../node_modules/react/dist/react.js"></script>
     <script src="../../node_modules/react-dom/dist/react-dom.js"></script>
     <script src="../../node_modules/immutable/dist/immutable.js"></script>
+    <script src="../../node_modules/draft-js/dist/Draft.js"></script>
     <script src="../../node_modules/es6-shim/es6-shim.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.js"></script>
     <script src="../../dist/Editor.js"></script>
     <script type="text/babel">
+
+      const {
+        Entity,
+      } = Draft;
 
       class RichEditor extends React.Component {
 
@@ -27,7 +34,10 @@
           this.render = this.render.bind(this)
           this.handleFileInput = this.handleFileInput.bind(this)
           this.insertFile = this.insertFile.bind(this)
+
+          this.state = {}
         }
+
 
         render(){
           return <div>
@@ -35,9 +45,7 @@
               ref="editor"
               onImageClick={(e) => this.refs['fileInput'].click()}
               placholder="Start writing your content..."
-              blockTypes={{
-                'image': Image
-              }}
+              editorState={this.state.editorState}
             />
             <input type="file" ref="fileInput" style={{display: 'none'}} 
               onChange={this.handleFileInput} />
@@ -52,48 +60,26 @@
 
         insertFile(file){
           var editor = this.refs['editor']
-          editor.insertBlockComponent("image", {src: URL.createObjectURL(file)})
-        };
-      }
-
-      class Image extends React.Component {
-
-        constructor(props){
-          super(props)
-
-          this.state = {
-            src: this.props.src,
-            uploadDone: false,
-          }
-        };
-
-        componentDidMount(){
-          // Do an async upload
+          var entityKey = editor.insertBlockComponent("image", {src: URL.createObjectURL(file)})
+          
+          // Do asynchronouse upload
           setTimeout(() => {
-            this.setState({
-              // Normally would replace this with the new image url
-              src: this.state.src,
-              uploadDone: true,
-            })
-          }, 2000)
-        };
-
-        render() {
-
-          var imgStyle = {}
-          // Modify the appearance of the image, just for demo purposes
-          if (this.state.uploadDone){
+            var imgStyle = {}
+            // Modify the appearance of the image, just for demo purposes
             imgStyle.filter = 'hue-rotate(180deg)'
             imgStyle.MozFilter = 'hue-rotate(180deg)'
             imgStyle.WebkitFilter = 'hue-rotate(180deg)'
             imgStyle.OFilter = 'hue-rotate(180deg)'
             imgStyle.MsFilter = 'hue-rotate(180deg)'
-          }
+            var test = Entity.mergeData(entityKey, {
+              // Would normally change the src attribute with the new url
+              // but we'll just change the appearance for this demo
+              style: imgStyle,
+            })
 
-          return <figure
-            contentEditable={false}>
-            <img src={this.state.src} style={imgStyle} />
-          </figure>
+            alert('Image updated, type a character to see the change.')
+          }, 2000)
+
         };
       }
 

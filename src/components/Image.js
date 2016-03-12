@@ -1,11 +1,24 @@
 import React, { Component } from 'react'
 
-export default class Image extends Component {
 
-	render = () => {
-		return <figure
-      contentEditable={false}>
-      <img src={this.props.src} />
-    </figure>
-	}
+const styles = {
+  image: {
+    maxWidth: '100%',
+  }
+}
+
+export default class Image extends React.Component {
+
+  constructor(props){
+    super(props)
+  };
+
+  render() {
+
+    return <img contentEditable={false} 
+    	src={this.props.src} 
+    	style={Object.assign({}, styles.image, this.props.style)} 
+  	/>
+    
+  };
 }

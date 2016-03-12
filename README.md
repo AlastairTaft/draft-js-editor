@@ -66,7 +66,8 @@ as a `content` property on the component.
 
 ### insertBlockComponent(String:type, String:componentProps)
 
-Insert a block component into the editor. See the ImageUpload example.
+Insert a block component into the editor. Returns
+the key of the created entity.
 
   - **type** The component type, set this up with the `blockTypes` property on
     the editor 

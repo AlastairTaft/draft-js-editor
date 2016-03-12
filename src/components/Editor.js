@@ -142,6 +142,7 @@ export default class RichEditor extends React.Component {
     };
 
     this._focus = () => {
+      if (this.props.readOnly) return
       var editorBounds = ReactDOM.findDOMNode(this.refs['editor']).getBoundingClientRect()
       this.setState({
         editorBounds,

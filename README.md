@@ -83,5 +83,6 @@ the key of the created entity.
   - `content` Pass in the value returned from getContent to hydrate an existing
     state, this is useful when you want to persist the editor's content to 
     storage.
+  - `readOnly` Make the editor read only
 
 

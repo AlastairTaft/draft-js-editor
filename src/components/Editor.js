@@ -86,6 +86,7 @@ export default class RichEditor extends React.Component {
 
   static propTypes = {
     blockTypes: React.PropTypes.object,
+    readOnly: React.PropTypes.bool,
   };
 
   static defaultProps = {
@@ -331,14 +332,14 @@ export default class RichEditor extends React.Component {
       .getType();
 
     var sideControlStyles = Object.assign({}, styles.sideControl)
-    if (this.state.sideControlVisible){
+    if (this.props.readOnly != true && this.state.sideControlVisible){
       sideControlStyles.display = 'block'
       sideControlStyles.top = this.state.sideControlTop
       sideControlStyles.left = this.state.sideControlLeft
     }
 
     var popoverStyles = Object.assign({}, styles.popOverControl)
-    if (this.state.popoverControlVisible){
+    if (this.props.readOnly != true && this.state.popoverControlVisible){
       popoverStyles.display = 'block'
       popoverStyles.top = this.state.popoverControlTop
       popoverStyles.left = this.state.popoverControlLeft
@@ -366,7 +367,7 @@ export default class RichEditor extends React.Component {
           handleKeyCommand={this._handleKeyCommand}
           onChange={this._onChange}
           placeholder={this.props.placeholder}
-          readOnly={this.state.liveTeXEdits.count()}
+          readOnly={this.props.readOnly}
           ref="editor"
           spellCheck={true}
         />

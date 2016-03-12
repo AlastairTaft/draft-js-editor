@@ -1,6 +1,6 @@
 {
   "name": "draft-js-editor",
-  "version": "0.6.7",
+  "version": "0.6.8",
   "description": "A rich text editor built using draft js",
   "bugs": {
     "url": "https://github.com/AlastairTaft/draft-js-editor/issues",

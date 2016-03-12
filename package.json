@@ -31,7 +31,9 @@
     "prepublish": "npm run build",
     "clean": "rimraf lib"
   },
-  "dependencies": {},
+  "dependencies": {
+    "fbjs": "^0.8.0-alpha.3"
+  },
   "devDependencies": {
     "babel-cli": "^6.4.5",
     "babel-core": "^6.4.5",

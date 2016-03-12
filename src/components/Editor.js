@@ -12,6 +12,7 @@ import generateUniqueType from './../lib/generateUniqueType.js'
 import Image from './Image.js'
 import MediaWrapper from './MediaWrapper.js'
 import getUnboundedScrollPosition from 'fbjs/lib/getUnboundedScrollPosition.js'
+import Style from 'fbjs/lib/Style.js'
 
 var {ContentState, Editor, EditorState, RichUtils, Entity, 
   CompositeDecorator, convertFromRaw, convertToRaw} = Draft;
@@ -144,12 +145,16 @@ export default class RichEditor extends React.Component {
 
     this._focus = () => {
       if (this.props.readOnly) return
-      var editorBounds = ReactDOM.findDOMNode(this.refs['editor']).getBoundingClientRect()
+
+      var editorNode = ReactDOM.findDOMNode(this.refs['editor'])
+      var editorBounds = editorNode.getBoundingClientRect()
       this.setState({
         editorBounds,
       })
 
-      this.refs.editor.focus();
+      var scrollParent = Style.getScrollParent(editorNode);
+      this.refs.editor.focus(getUnboundedScrollPosition(scrollParent));
+      //this.refs.editor.focus();
     };
     this._onChange = (editorState) => {
 

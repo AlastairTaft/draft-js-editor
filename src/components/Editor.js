@@ -301,10 +301,12 @@ export default class RichEditor extends React.Component {
     // TODO cerate a componnet pool with type
     //var type = generateUniqueType()
     
-    var editorState = insertMediaBlock(this.state.editorState, type, data)
+    var { editorState, entityKey } = insertMediaBlock(this.state.editorState, type, data)
     this.setState({
       editorState,
     })
+
+    return entityKey
   };
 
   /**

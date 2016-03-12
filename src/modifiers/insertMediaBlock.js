@@ -94,7 +94,12 @@ export default function insertMediaBlock(editorState, type, data) {
     selectionAfter: withMedia.getSelectionAfter().set('hasFocus', true),
   });
 
-  return EditorState.push(editorState, newContent, 'insert-fragment');
+  var editorState = EditorState.push(editorState, newContent, 'insert-fragment');
+
+  return {
+    editorState,
+    entityKey,
+  }
 }
 
 

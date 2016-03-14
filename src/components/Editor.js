@@ -84,6 +84,13 @@ const styles = {
 const popoverSpacing = 3 // The distance above the selection that popover 
   // will display
 
+const decorator = new CompositeDecorator([
+  {
+    strategy: findLinkEntities,
+    component: Link,
+  },
+]);
+
 export default class RichEditor extends React.Component {
 
   static propTypes = {
@@ -99,14 +106,6 @@ export default class RichEditor extends React.Component {
 
   constructor(props) {
     super(props);
-
-
-    const decorator = new CompositeDecorator([
-      {
-        strategy: findLinkEntities,
-        component: Link,
-      },
-    ]);
 
     var editorState = null
     if (this.props.editorState){
@@ -251,6 +250,16 @@ export default class RichEditor extends React.Component {
     if (props.editorState){
       this.setState({
         editorState: props.editorState,
+      })
+    }
+    if (props.content){
+      const blocks = convertFromRaw(props.content);
+      var editorState = EditorState.createWithContent(
+        ContentState.createFromBlockArray(blocks), 
+        decorator
+      )
+      this.setState({
+        editorState,
       })
     }
   };

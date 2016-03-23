@@ -109,7 +109,7 @@ export default class RichEditor extends React.Component {
 
     var editorState = null
     if (this.props.editorState){
-      eidtorState = editorState
+      editorState = this.props.editorState
     } else if (this.props.content){
       const blocks = convertFromRaw(this.props.content);
       editorState = EditorState.createWithContent(

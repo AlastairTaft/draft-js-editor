@@ -2,7 +2,7 @@
 
 A rich text editor built using facebook's [draft.js](https://facebook.github.io/draft-js/). 
 
-*Warning: This repo is still a work in progress.*
+*Warning: This repo is still a work in progress. Feel free to contribute to make it better *
 
 Takes inspiration from the text editors on [medium](http://medium.com) and 
 [facebook notes](https://www.facebook.com/notes/).

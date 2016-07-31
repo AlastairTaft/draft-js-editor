@@ -193,7 +193,7 @@ export default class RichEditor extends React.Component {
           sideControlVisible = true
           //sideControlTop = this.state.selectedBlock.offsetTop
           var editorBounds = this.state.editorBounds
-
+          if (!editorBounds) return
           var sideControlTop = (blockBounds.top - editorBounds.top)
             + ((blockBounds.bottom - blockBounds.top) / 2)
             - (styles.sideControl.height / 2)

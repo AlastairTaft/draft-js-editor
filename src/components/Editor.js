@@ -110,13 +110,13 @@ export default class RichEditor extends React.Component {
     var editorState = null
     if (this.props.editorState){
       editorState = this.props.editorState
-    } else if (this.props.content){
+    } /*else if (this.props.content){
       const contentState = convertFromRaw(this.props.content);
       editorState = EditorState.createWithContent(
         contentState, 
         decorator
       )
-    } else {
+    } */ else {
       editorState = EditorState.createEmpty(decorator)
     }
 
@@ -170,7 +170,7 @@ export default class RichEditor extends React.Component {
       setTimeout(this.updateSelection, 4)
 
       if (this.props.onChange){
-        this.props.onChange(this.getContent())
+        this.props.onChange(editorState)
       }
     };
 
@@ -304,7 +304,7 @@ export default class RichEditor extends React.Component {
     this.setState({editorState});
   };
 
-  getContent = () => {
+  get = () => {
     const content = this.state.editorState.getCurrentContent()
     return convertToRaw(content)
   };

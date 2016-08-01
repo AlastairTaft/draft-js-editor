@@ -9,13 +9,10 @@ Takes inspiration from the text editors on [medium](http://medium.com) and
 
 # Get started
 
+`npm install draft-js-editor --save`
+
 ### Cloning from github
 Run `npm install` then `npm start` to start an example
-
-### Here from npm?
-
-Run `npm install draft-js-editor --save`
-
 
 ##### Usage Example
 
@@ -56,13 +53,6 @@ margins issue and to avoid the placeholder element taking up space.
 The api for the Editor component, reference it using `refs` 
 e.g. `var myEditor = this.refs['myEditor']`
 
-### getContent()
-Returns an object with an `entityMap` (Object) and `blocks` (Array) keys. 
-Internally it just calls [`convertToRaw`](https://facebook.github.io/draft-js/docs/api-reference-data-conversion.html) and returns the result.
-
-You can re-populate the state by passing in what's returned from this function
-as a `content` property on the component.
-
 ### insertBlockComponent(String:type, String:componentProps)
 
 Insert a block component into the editor. Returns
@@ -79,9 +69,14 @@ the key of the created entity.
   - `onImageClick` fired when the image icon is clicked, see ImageUpload example
     in the examples folder
   - `blockTypes` Map block types to components
-  - `content` Pass in the value returned from getContent to hydrate an existing
-    state, this is useful when you want to persist the editor's content to 
-    storage.
+  - `onChange` Fired when the editor content is changed, the first paramater passed back is an [`editorState`](https://facebook.github.io/draft-js/docs/api-reference-editor-state.html) object.
+  - `[`editorState`](https://facebook.github.io/draft-js/docs/api-reference-editor-state.html)` Pass in an editorState to restore an existing state. 
   - `readOnly` Make the editor read only
+
+## Saving the state
+
+If you need to persist the editor state somewhere there are two useful methods that are part of the draft-js library that will let you convert to and from a string, ['convertFromRaw'](https://facebook.github.io/draft-js/docs/api-reference-data-conversion.html#convertfromraw) and ['convertToRaw'](https://facebook.github.io/draft-js/docs/api-reference-data-conversion.html#converttoraw)
+
+These methods require a [`ContentState`](https://facebook.github.io/draft-js/docs/api-reference-content-state.html) which you can obtain by calling [`getCurrentContent`](https://facebook.github.io/draft-js/docs/api-reference-editor-state.html#getcurrentcontent) on the editorState returned from the `onChange` event.
 
 

@@ -25,7 +25,7 @@ class MyClass extends React.Component {
     return <div>
       A sample text editor
       <Editor />
-  </div>
+    </div>
   }
 }
 ```
@@ -74,5 +74,16 @@ the key of the created entity.
 If you need to persist the editor state somewhere there are two useful methods that are part of the draft-js library that will let you convert to and from a string, [`convertFromRaw`](https://facebook.github.io/draft-js/docs/api-reference-data-conversion.html#convertfromraw) and [`convertToRaw`](https://facebook.github.io/draft-js/docs/api-reference-data-conversion.html#converttoraw)
 
 These methods require a [`ContentState`](https://facebook.github.io/draft-js/docs/api-reference-content-state.html) which you can obtain by calling [`getCurrentContent`](https://facebook.github.io/draft-js/docs/api-reference-editor-state.html#getcurrentcontent) on the [`editorState`](https://facebook.github.io/draft-js/docs/api-reference-editor-state.html) object returned from the `onChange` event.
+
+##### Hydrating an editor state from raw content
+
+You can use the static [`createWithContent`](https://facebook.github.io/draft-js/docs/api-reference-editor-state.html#createwithcontent) method to obtain an editor state that can be passed in as a parameter to the Editor.
+
+```
+import { EditorState, convertFromRaw } from 'draft-js'
+const contentState = convertFromRaw(rawContent)
+const editorState = EditorState.createWithContent(contentState)
+```
+
 
 

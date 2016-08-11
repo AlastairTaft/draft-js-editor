@@ -96,6 +96,10 @@ export default class RichEditor extends React.Component {
   static propTypes = {
     blockTypes: React.PropTypes.object,
     readOnly: React.PropTypes.bool,
+    /**
+     * The root component class name.
+     */
+    className: React.PropTypes.string,
   };
 
   static defaultProps = {
@@ -108,15 +112,17 @@ export default class RichEditor extends React.Component {
     super(props);
 
     var editorState = null
-    if (this.props.editorState){
-      editorState = this.props.editorState
-    } /*else if (this.props.content){
-      const contentState = convertFromRaw(this.props.content);
+    if (this.props.editorState instanceof ContentState){
       editorState = EditorState.createWithContent(
-        contentState, 
+        this.props.editorState, 
         decorator
       )
-    } */ else {
+    } else if (this.props.editorState){
+      editorState = this.props.editorState
+      if (typeof editorState.getCurrentInlineStyle !== 'function'){
+        throw new Error('Invalid editorState')
+      }
+    } else {
       editorState = EditorState.createEmpty(decorator)
     }
 
@@ -366,7 +372,7 @@ export default class RichEditor extends React.Component {
 
     return (
       <div style={Object.assign({}, styles.editorContainer, this.props.style)} 
-        className="TeXEditor-editor" onClick={this._focus}>
+        className={this.props.className} onClick={this._focus}>
         <SideControl style={sideControlStyles} 
           onImageClick={this.props.onImageClick
           // This editor will support a real basic example of inserting an image

@@ -68,6 +68,8 @@ the key of the created entity.
   - `onChange` Fired when the editor content is changed, the first paramater passed back is an [`editorState`](https://facebook.github.io/draft-js/docs/api-reference-editor-state.html) object.
   - `editorState` Pass in an [`editorState`](https://facebook.github.io/draft-js/docs/api-reference-editor-state.html) object to restore an existing state. 
   - `readOnly` Make the editor read only
+  - `iconColor` The color of the icons
+  - `iconSelectedColor The color of the icon when selected
 
 ## Saving the state
 

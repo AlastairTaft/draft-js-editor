@@ -17,19 +17,28 @@ const styles = {
 	},
 }
 
-
-const iconFill = '#000000',
-  selectedIconFill = '#2000FF'
-
-
-
 export default class PopoverControl extends Component {
 
 	static propTypes = {
 		style: React.PropTypes.object,
 		toggleInlineStyle: React.PropTypes.func,
 		currentInlineStyle: React.PropTypes.object,
+
+		/**
+		 * The icon fill colour
+		 */
+		iconColor: React.PropTypes.string,
+
+		/**
+		 * The icon fill colour when selected
+		 */
+		iconSelectedColor: React.PropTypes.string,
 	};
+
+	static defaultProps = {
+    iconColor: '#000000',
+    iconSelectedColor: '#2000FF',
+  };
 
 	toggleInlineStyle = (style) => {
 		if (this.props.toggleInlineStyle)
@@ -38,6 +47,7 @@ export default class PopoverControl extends Component {
 
 	render = () => {
 
+    const { iconColor, iconSelectedColor } = this.props
 
 		return <div
 			style={Object.assign({}, styles.container, this.props.style)}
@@ -56,7 +66,7 @@ export default class PopoverControl extends Component {
 			>
 				<svg fill={this.props.currentInlineStyle 
 						&& this.props.currentInlineStyle.has('BOLD') 
-						? selectedIconFill : iconFill} height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+						? iconSelectedColor : iconColor } height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
 			    <path d="M15.6 10.79c.97-.67 1.65-1.77 1.65-2.79 0-2.26-1.75-4-4-4H7v14h7.04c2.09 0 3.71-1.7 3.71-3.79 0-1.52-.86-2.82-2.15-3.42zM10 6.5h3c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-3v-3zm3.5 9H10v-3h3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5z"/>
 				  <path d="M0 0h24v24H0z" fill="none"/>
 				</svg>
@@ -75,7 +85,7 @@ export default class PopoverControl extends Component {
 			>
 				<svg fill={this.props.currentInlineStyle 
 						&& this.props.currentInlineStyle.has('ITALIC') 
-						? selectedIconFill : iconFill} height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+						? iconSelectedColor : iconColor } height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
 			    <path d="M0 0h24v24H0z" fill="none"/>
 			    <path d="M10 4v3h2.21l-3.42 8H6v3h8v-3h-2.21l3.42-8H18V4z"/>
 				</svg>

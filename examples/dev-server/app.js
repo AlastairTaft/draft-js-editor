@@ -19,7 +19,9 @@ import ReactDOM from 'react-dom';
 
 ReactDOM.render(
   <div style={{padding: 40}}>
-  	<Editor placeholder="Write your content..." />
+  	<Editor 
+  		placeholder="Write your content..." 
+		/>
 	</div>,
   document.getElementById('target')
 );

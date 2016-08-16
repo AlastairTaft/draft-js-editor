@@ -100,12 +100,24 @@ export default class RichEditor extends React.Component {
      * The root component class name.
      */
     className: React.PropTypes.string,
+
+    /**
+     * The icon fill colour
+     */
+    iconColor: React.PropTypes.string,
+
+    /**
+     * The icon fill colour when selected
+     */
+    iconSelectedColor: React.PropTypes.string,
   };
 
   static defaultProps = {
     blockTypes: {
       'image': Image,
     },
+    iconColor: '#000000',
+    iconSelectedColor: '#2000FF',
   };
 
   constructor(props) {
@@ -345,6 +357,8 @@ export default class RichEditor extends React.Component {
    */
   render() {
 
+    const { iconColor, iconSelectedColor } = this.props
+    
     var editorState = this.state.editorState
     //console.log(this.getContent())
 
@@ -380,11 +394,15 @@ export default class RichEditor extends React.Component {
             || ((e) => this.refs['fileInput'].click())}
           toggleBlockType={type => this.toggleBlockType(type)}
           selectedBlockType={selectedBlockType}
+          iconSelectedColor={iconSelectedColor}
+          iconColor={iconColor}
         />
         <PopoverControl 
           style={popoverStyles} 
           toggleInlineStyle={style => this.toggleInlineStyle(style)}
           currentInlineStyle={currentInlineStyle}
+          iconSelectedColor={iconSelectedColor}
+          iconColor={iconColor}
         />
         <Editor
           blockRendererFn={this._blockRenderer}

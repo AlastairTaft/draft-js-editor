@@ -22,6 +22,21 @@ export default class SideControl extends Component {
 		onImageClick: React.PropTypes.func,
 		toggleBlockType: React.PropTypes.func,
 		selectedBlockType: React.PropTypes.string,
+
+		/**
+		 * The icon fill colour
+		 */
+		iconColor: React.PropTypes.string,
+
+		/**
+		 * The icon fill colour when selected
+		 */
+		iconSelectedColor: React.PropTypes.string,
+	};
+
+	static defaultProps = {
+		iconColor: '#000000',
+		iconSelectedColor: '#2000FF',
 	};
 
 	state = {
@@ -29,6 +44,10 @@ export default class SideControl extends Component {
 	};
 
 	render = () => {
+
+		const { iconColor, iconSelectedColor } = this.props
+
+
 		return <div
 			style={Object.assign({}, styles.container, this.props.style)}
 		>
@@ -37,7 +56,7 @@ export default class SideControl extends Component {
 				style={{cursor: 'pointer'}}
 				onMouseDown={(e) => e.preventDefault()}
 				onClick={this.props.onImageClick}
-				fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+				fill={iconColor} height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
 		    <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
 		    <path d="M0 0h24v24H0z" fill="none"/>
 			</svg>
@@ -57,7 +76,7 @@ export default class SideControl extends Component {
 			>
 				<svg 
 					onMouseDown={(e) => e.preventDefault()}
-					fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+					fill={iconColor} height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
 			    <path d="M0 0h24v24H0z" fill="none"/>
 			    <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
 				</svg>
@@ -67,6 +86,8 @@ export default class SideControl extends Component {
 					}}
 					toggleBlockType={this.props.toggleBlockType}
 					selectedBlockType={this.props.selectedBlockType}
+					iconSelectedColor={iconSelectedColor}
+					iconColor={iconColor}
 				/>
 			</div>
 		</div>

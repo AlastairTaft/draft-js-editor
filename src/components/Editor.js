@@ -110,6 +110,11 @@ export default class RichEditor extends React.Component {
      * The icon fill colour when selected
      */
     iconSelectedColor: React.PropTypes.string,
+
+    /**
+     * Override the inline styles for the popover component.
+     */
+    popoverStyle: React.PropTypes.object,
   };
 
   static defaultProps = {
@@ -357,8 +362,11 @@ export default class RichEditor extends React.Component {
    */
   render() {
 
-    const { iconColor, iconSelectedColor } = this.props
-    
+    const { 
+      iconColor, 
+      iconSelectedColor,
+      popoverStyle, } = this.props
+
     var editorState = this.state.editorState
     //console.log(this.getContent())
 
@@ -377,12 +385,13 @@ export default class RichEditor extends React.Component {
       sideControlStyles.left = this.state.sideControlLeft
     }
 
-    var popoverStyles = Object.assign({}, styles.popOverControl)
+    var popoverStyleLocal = Object.assign({}, styles.popOverControl)
     if (this.props.readOnly != true && this.state.popoverControlVisible){
-      popoverStyles.display = 'block'
-      popoverStyles.top = this.state.popoverControlTop
-      popoverStyles.left = this.state.popoverControlLeft
+      popoverStyleLocal.display = 'block'
+      popoverStyleLocal.top = this.state.popoverControlTop
+      popoverStyleLocal.left = this.state.popoverControlLeft
     }
+    Object.assign(popoverStyleLocal, popoverStyle)
 
     return (
       <div style={Object.assign({}, styles.editorContainer, this.props.style)} 
@@ -396,9 +405,10 @@ export default class RichEditor extends React.Component {
           selectedBlockType={selectedBlockType}
           iconSelectedColor={iconSelectedColor}
           iconColor={iconColor}
+          popoverStyle={popoverStyle}
         />
         <PopoverControl 
-          style={popoverStyles} 
+          style={popoverStyleLocal} 
           toggleInlineStyle={style => this.toggleInlineStyle(style)}
           currentInlineStyle={currentInlineStyle}
           iconSelectedColor={iconSelectedColor}

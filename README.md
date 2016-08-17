@@ -69,7 +69,8 @@ the key of the created entity.
   - `editorState` Pass in an [`editorState`](https://facebook.github.io/draft-js/docs/api-reference-editor-state.html) object to restore an existing state. 
   - `readOnly` Make the editor read only
   - `iconColor` The color of the icons
-  - `iconSelectedColor The color of the icon when selected
+  - `iconSelectedColor` The color of the icon when selected
+  - `popoverStyle` Override the inline styles for the popover menu controls
 
 ## Saving the state
 

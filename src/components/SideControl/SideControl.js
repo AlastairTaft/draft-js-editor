@@ -32,6 +32,11 @@ export default class SideControl extends Component {
 		 * The icon fill colour when selected
 		 */
 		iconSelectedColor: React.PropTypes.string,
+
+    /**
+     * Override the inline styles for the popover component.
+     */
+    popoverStyle: React.PropTypes.object,
 	};
 
 	static defaultProps = {
@@ -45,7 +50,7 @@ export default class SideControl extends Component {
 
 	render = () => {
 
-		const { iconColor, iconSelectedColor } = this.props
+		const { iconColor, iconSelectedColor, popoverStyle, } = this.props
 
 
 		return <div
@@ -81,9 +86,9 @@ export default class SideControl extends Component {
 			    <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
 				</svg>
 				<MoreOptions 
-					style={{
+					style={Object.assign({}, popoverStyle, {
 						display: this.state.moreOptionsVisible ? 'block' : 'none',
-					}}
+					})}
 					toggleBlockType={this.props.toggleBlockType}
 					selectedBlockType={this.props.selectedBlockType}
 					iconSelectedColor={iconSelectedColor}

@@ -20,7 +20,11 @@ const styles = {
 export default class PopoverControl extends Component {
 
 	static propTypes = {
+		/**
+		 * The popover container style
+		 */
 		style: React.PropTypes.object,
+		
 		toggleInlineStyle: React.PropTypes.func,
 		currentInlineStyle: React.PropTypes.object,
 

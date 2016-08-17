@@ -32,7 +32,11 @@ const styles = {
 export default class MoreOptions extends Component {
 
 	static propTypes = {
+		/**
+     * Override the inline styles for the container.
+     */
 		style: React.PropTypes.object,
+		
 		toggleBlockType: React.PropTypes.func,
 		selectedBlockType: React.PropTypes.string,
 
@@ -45,6 +49,7 @@ export default class MoreOptions extends Component {
 		 * The icon fill colour when selected
 		 */
 		iconSelectedColor: React.PropTypes.string,
+
 	};
 
 	static defaultProps = {
@@ -59,10 +64,10 @@ export default class MoreOptions extends Component {
 
 	render = () => {
 
-		const { iconColor, iconSelectedColor } = this.props
+		const { iconColor, iconSelectedColor, style } = this.props
 
-		return <div style={Object.assign({}, styles.container, this.props.style)}>
-			<div style={styles.innerContainer}>
+		return <div style={Object.assign({}, styles.container)}>
+			<div style={Object.assign({}, styles.innerContainer, style)}>
 				<div
 					style={Object.assign({}, 
 						styles.iconContainer,

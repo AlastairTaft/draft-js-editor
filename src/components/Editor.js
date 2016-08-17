@@ -71,7 +71,7 @@ const styles = {
     top: 0,
     left: 0,
     position: 'absolute',
-    zIndex: 998,
+    zIndex: 999,
   },
   sideControl: {
     height: 24, // Required to figure out positioning

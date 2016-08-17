@@ -10,8 +10,8 @@ const styles = {
 		left: 0,
 		top: -24 - popoverSpacing,
 		width: 24 * 6,
-		zIndex: 999,
 		height: 24 + popoverSpacing,
+		zIndex: 998,
 	},
 	innerContainer: {
 		backgroundColor: 'rgba(255, 255, 255, 0.9)',

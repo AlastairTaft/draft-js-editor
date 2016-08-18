@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Custom Buttons</title>
+  </head>
+  <body>
+    <div style="font-family: Georgia, serif; font-size: 15px; padding: 20px; width: 600px; line-height: 24px;">
+      
+      <p>This example shows how you can extend the inline button controls. 
+      Inline buttons are the ones displayed in the highlighted text popover, e.g. bold, italic, etc.</p>
+
+      <p>We will create a button that styles the text pink.</p>
+    </div>
+    <div id="target" style="margin: 40px; border: 1px solid #cccccc;"></div>
+    <script src="../../node_modules/react/dist/react.js"></script>
+    <script src="../../node_modules/react-dom/dist/react-dom.js"></script>
+    <script src="../../node_modules/immutable/dist/immutable.js"></script>
+    <script src="../../node_modules/draft-js/dist/Draft.js"></script>
+    <script src="../../node_modules/es6-shim/es6-shim.js"></script>
+    <script src="./../node_modules/babel-core/browser.js"></script>
+    <script src="../../dist/Editor.js"></script>
+    <script type="text/babel">
+
+      // We need a button that will do the toggling
+      class PinkToggleButton extends React.Component {
+
+        render = () => {
+
+          const { editorState, updateEditorState } = this.props
+
+          const currentInlineStyle = editorState.getCurrentInlineStyle()
+          const selected = currentInlineStyle.has('PINK')
+
+          return <div
+            style={{
+              color: selected ? 'PINK' : 'GREY',
+            }}
+            onMouseDown={(e) => {
+              e.preventDefault()
+              updateEditorState(Draft.RichUtils.toggleInlineStyle(editorState, 'PINK'))
+            }}
+          >
+            PINK BUTTON
+          </div>
+        };
+      }
+
+      // Add our custom button to the default inline buttons
+      defaultInlineButtons.push(<PinkToggleButton />)
+
+      ReactDOM.render(
+        <div style={{padding: 40}}>
+          <Editor 
+            placeholder="Write your content..." 
+            // We have to add a custom style map, this gives all the PINK
+            // style types the below inline styling
+            customStyleMap={{
+              'PINK': {
+                color: 'pink',
+              },
+            }}
+            inlineButtons={Editor.defaultInlineButtons}
+          />
+        </div>,
+        document.getElementById('target')
+      );
+
+    </script>
+  </body>
+</html>

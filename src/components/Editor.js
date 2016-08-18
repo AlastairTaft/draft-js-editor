@@ -365,7 +365,8 @@ export default class RichEditor extends React.Component {
     const { 
       iconColor, 
       iconSelectedColor,
-      popoverStyle, } = this.props
+      popoverStyle,
+      ...otherProps, } = this.props
 
     var editorState = this.state.editorState
     //console.log(this.getContent())
@@ -410,11 +411,13 @@ export default class RichEditor extends React.Component {
         <PopoverControl 
           style={popoverStyleLocal} 
           toggleInlineStyle={style => this.toggleInlineStyle(style)}
-          currentInlineStyle={currentInlineStyle}
+          editorState={editorState}
           iconSelectedColor={iconSelectedColor}
           iconColor={iconColor}
+          updateEditorState={this.onEditorChange}
         />
         <Editor
+          {...otherProps}
           blockRendererFn={this._blockRenderer}
           editorState={this.state.editorState}
           handleKeyCommand={this._handleKeyCommand}
@@ -423,7 +426,6 @@ export default class RichEditor extends React.Component {
           readOnly={this.props.readOnly}
           ref="editor"
           spellCheck={true}
-
         />
         <input type="file" ref="fileInput" style={{display: 'none'}} 
           onChange={this.handleFileInput} />

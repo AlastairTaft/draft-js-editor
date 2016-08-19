@@ -7,6 +7,7 @@ const styles = {
     height: 24,
     width: 24,
     cursor: 'pointer',
+    verticalAlign: 'middle',
   },
 }
 

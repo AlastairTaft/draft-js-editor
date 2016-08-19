@@ -56,6 +56,7 @@
     "eslint-plugin-react": "^3.2.0",
     "express": "^4.13.1",
     "katex": "^0.5.1",
+    "react-router": "^2.6.1",
     "rimraf": "^2.5.2",
     "webpack": "^1.10.5",
     "webpack-dev-server": "^1.10.1"

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Entity } from 'draft-js'
+import { Entity, CompositeDecorator } from 'draft-js'
 
 function findLinkEntities(contentBlock, callback) {
   contentBlock.findEntityRanges(
@@ -23,9 +23,11 @@ const Link = (props) => {
   );
 };
 
-export default const decorator = new CompositeDecorator([
+const decorator = new CompositeDecorator([
   {
     strategy: findLinkEntities,
     component: Link,
   },
 ]);
+
+export default decorator

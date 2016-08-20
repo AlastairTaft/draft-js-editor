@@ -94,6 +94,11 @@ export default class RichEditor extends React.Component {
      * The decorator to use.
      */
     decorator: React.PropTypes.object,
+
+    /**
+     * Override the inline buttons, these are displayed in the popover control.
+     */
+    inlineButtons: React.PropTypes.array,
   };
 
   static defaultProps = {
@@ -353,6 +358,7 @@ export default class RichEditor extends React.Component {
       iconColor, 
       iconSelectedColor,
       popoverStyle,
+      inlineButtons,
       ...otherProps, } = this.props
 
     var editorState = this.state.editorState
@@ -403,6 +409,7 @@ export default class RichEditor extends React.Component {
           iconColor={iconColor}
           updateEditorState={this.onEditorChange}
           ref="popoverControl"
+          buttons={inlineButtons}
         />
         <Editor
           {...otherProps}

@@ -3,8 +3,11 @@ import Editor from './../../../src/Editor'
 import defaultInlineButtons from './../../../src/components/PopoverControl/defaultButtons.js'
 import { RichUtils } from 'draft-js'
 
+const inlineButtons = defaultInlineButtons.slice()
+
 class CustomInlineButtonDemo extends Component {
   render = () => {
+    
     return <div>
       <p>This demonstrates adding a custom inline button to the default
       buttons. It's a simple button that you can use to toggle highlighting 
@@ -19,7 +22,7 @@ class CustomInlineButtonDemo extends Component {
               color: 'pink',
             },
           }}
-          inlineButtons={defaultInlineButtons}
+          inlineButtons={inlineButtons}
         />
       </div>
     </div>
@@ -62,6 +65,6 @@ class PinkToggleButton extends React.Component {
 }
 
 // Add our custom button to the default inline buttons
-defaultInlineButtons.push(<PinkToggleButton />)
+inlineButtons.push(<PinkToggleButton />)
 
 export default CustomInlineButtonDemo

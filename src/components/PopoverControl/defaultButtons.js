@@ -1,7 +1,7 @@
 import React  from 'react'
-import BoldButton from './BoldButton.jsx'
-import ItalicButton from './ItalicButton.jsx'
-import LinkButton from './LinkButton.jsx'
+import BoldButton from './BoldButton.js'
+import ItalicButton from './ItalicButton.js'
+import LinkButton from './LinkButton.js'
 
 
 export default [

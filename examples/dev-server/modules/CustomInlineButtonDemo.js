@@ -5,18 +5,23 @@ import { RichUtils } from 'draft-js'
 
 class CustomInlineButtonDemo extends Component {
   render = () => {
-    return <div style={{padding: 40}}>
-      <Editor 
-        placeholder="Write your content..." 
-        // We have to add a custom style map, this gives all the PINK
-        // style types the below inline styling
-        customStyleMap={{
-          'PINK': {
-            color: 'pink',
-          },
-        }}
-        inlineButtons={Editor.defaultInlineButtons}
-      />
+    return <div>
+      <p>This demonstrates adding a custom inline button to the default
+      buttons. It's a simple button that you can use to toggle highlighting 
+      the text in pink.</p>
+      <div style={{padding: 40}}>
+        <Editor 
+          placeholder="Write your content..." 
+          // We have to add a custom style map, this gives all the PINK
+          // style types the below inline styling
+          customStyleMap={{
+            'PINK': {
+              color: 'pink',
+            },
+          }}
+          inlineButtons={defaultInlineButtons}
+        />
+      </div>
     </div>
   }
 }
@@ -25,6 +30,11 @@ const styles = {
   pinkButton: {
     display: 'inline-block',
     verticalAlign: 'middle',
+    color: 'pink',
+    border: '1px solid grey',
+    borderRadius: 2,
+    padding: '1px 2px',
+    cursor: 'pointer',
   },
 }
 

@@ -65,7 +65,7 @@ const styles = {
     //paddingLeft: 48,
   },
   popOverControl: {
-    width: 78, // Height and width are needed to compute the position
+    //width: 78, // Height and width are needed to compute the position
     height: 24,
     display: 'none', 
     top: 0,
@@ -223,6 +223,12 @@ export default class RichEditor extends React.Component {
 
 
           if (!selectionRange.collapsed){
+
+            var popoverControlElement = ReactDOM.findDOMNode(this.refs["popoverControl"])
+            // The control needs to be visible so that we can get it's width
+            popoverControlElement.style.display = 'block'
+            var popoverWidth = popoverControlElement.clientWidth
+
             popoverControlVisible = true
             var rangeWidth = rangeBounds.right - rangeBounds.left,
               rangeHeight = rangeBounds.bottom - rangeBounds.top
@@ -232,7 +238,7 @@ export default class RichEditor extends React.Component {
             popoverControlLeft = 0
               + (rangeBounds.left - editorBounds.left)
               + (rangeWidth / 2)
-              - (styles.popOverControl.width / 2)
+              - (/*styles.popOverControl.width*/ popoverWidth / 2)
             
           }
         }
@@ -415,6 +421,7 @@ export default class RichEditor extends React.Component {
           iconSelectedColor={iconSelectedColor}
           iconColor={iconColor}
           updateEditorState={this.onEditorChange}
+          ref="popoverControl"
         />
         <Editor
           {...otherProps}

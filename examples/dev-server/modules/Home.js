@@ -3,10 +3,10 @@ import { Link } from 'react-router'
 
 class Home extends Component {
   render(){
-    return <div>
-      <Link to="/basic">Basic Editor</Link>
-      <Link to="/custom-inline-button">Custom Inline Button</Link>
-    </div>
+    return <ul>
+      <li><Link to="/basic">Basic Editor</Link></li>
+      <li><Link to="/custom-inline-button">Custom Inline Button</Link></li>
+    </ul>
   }
 }
 

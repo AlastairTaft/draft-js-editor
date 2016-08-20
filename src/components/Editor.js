@@ -65,7 +65,7 @@ const styles = {
     //paddingLeft: 48,
   },
   popOverControl: {
-    width: 78, // Height and width are needed to compute the position
+    //width: 78, // Height and width are needed to compute the position
     height: 24,
     display: 'none', 
     top: 0,
@@ -223,6 +223,12 @@ export default class RichEditor extends React.Component {
 
 
           if (!selectionRange.collapsed){
+
+            var popoverControlElement = ReactDOM.findDOMNode(this.refs["popoverControl"])
+            // The control needs to be visible so that we can get it's width
+            popoverControlElement.style.display = 'block'
+            var popoverWidth = popoverControlElement.clientWidth
+
             popoverControlVisible = true
             var rangeWidth = rangeBounds.right - rangeBounds.left,
               rangeHeight = rangeBounds.bottom - rangeBounds.top
@@ -232,7 +238,7 @@ export default class RichEditor extends React.Component {
             popoverControlLeft = 0
               + (rangeBounds.left - editorBounds.left)
               + (rangeWidth / 2)
-              - (styles.popOverControl.width / 2)
+              - (/*styles.popOverControl.width*/ popoverWidth / 2)
             
           }
         }
@@ -365,7 +371,8 @@ export default class RichEditor extends React.Component {
     const { 
       iconColor, 
       iconSelectedColor,
-      popoverStyle, } = this.props
+      popoverStyle,
+      ...otherProps, } = this.props
 
     var editorState = this.state.editorState
     //console.log(this.getContent())
@@ -410,11 +417,14 @@ export default class RichEditor extends React.Component {
         <PopoverControl 
           style={popoverStyleLocal} 
           toggleInlineStyle={style => this.toggleInlineStyle(style)}
-          currentInlineStyle={currentInlineStyle}
+          editorState={editorState}
           iconSelectedColor={iconSelectedColor}
           iconColor={iconColor}
+          updateEditorState={this.onEditorChange}
+          ref="popoverControl"
         />
         <Editor
+          {...otherProps}
           blockRendererFn={this._blockRenderer}
           editorState={this.state.editorState}
           handleKeyCommand={this._handleKeyCommand}
@@ -423,7 +433,6 @@ export default class RichEditor extends React.Component {
           readOnly={this.props.readOnly}
           ref="editor"
           spellCheck={true}
-
         />
         <input type="file" ref="fileInput" style={{display: 'none'}} 
           onChange={this.handleFileInput} />

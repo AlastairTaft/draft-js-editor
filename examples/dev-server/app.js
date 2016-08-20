@@ -13,15 +13,16 @@
  */
 
 import 'babel-polyfill';
-import Editor from './../../src/Editor';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 
-ReactDOM.render(
-  <div style={{padding: 40}}>
-  	<Editor 
-  		placeholder="Write your content..." 
-		/>
-	</div>,
-  document.getElementById('target')
-);
+render((
+  <Router history={browserHistory}>
+    <Route path="/" component={require('./modules/App.js')}>
+      <IndexRoute component={require('./modules/Home.js')} />
+      <Route path="basic" component={require('./modules/BasicDemo.js')}/>
+      <Route path="custom-inline-button" component={require('./modules/CustomInlineButtonDemo.js')}/>
+    </Route>
+  </Router>
+), document.getElementById('target'))

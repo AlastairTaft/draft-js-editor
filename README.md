@@ -71,6 +71,8 @@ the key of the created entity.
   - `iconColor` The color of the icons
   - `iconSelectedColor` The color of the icon when selected
   - `popoverStyle` Override the inline styles for the popover menu controls
+  - `customStyleMap` See [here](https://facebook.github.io/draft-js/docs/advanced-topics-inline-styles.html#mapping-a-style-string-to-css)
+  - `inlineButtons` This should be an array of React elements that will be rendered. Use this to customise the popover inline buttons. There's a 'Custom Inline Buttons' example under examples. Each element that gets rendered gets passed the following props: updateEditorState (call this after doing any editor state manipulations), editorState (the editor state), iconColor, iconSelectedColor.
 
 ## Saving the state
 

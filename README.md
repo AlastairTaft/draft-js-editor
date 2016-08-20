@@ -73,7 +73,7 @@ the key of the created entity.
   - `popoverStyle` Override the inline styles for the popover menu controls
   - `customStyleMap` See [here](https://facebook.github.io/draft-js/docs/advanced-topics-inline-styles.html#mapping-a-style-string-to-css)
   - `inlineButtons` This should be an array of React elements that will be rendered. Use this to customise the popover inline buttons. There's a 'Custom Inline Buttons' example under examples. Each element that gets rendered gets passed the following props: updateEditorState (call this after doing any editor state manipulations), editorState (the editor state), iconColor, iconSelectedColor.
-
+  - `decorator` Pass in a custom [decorator](https://facebook.github.io/draft-js/docs/advanced-topics-decorators.html)
 ## Saving the state
 
 If you need to persist the editor state somewhere there are two useful methods that are part of the draft-js library that will let you convert to and from a string, [`convertFromRaw`](https://facebook.github.io/draft-js/docs/api-reference-data-conversion.html#convertfromraw) and [`convertToRaw`](https://facebook.github.io/draft-js/docs/api-reference-data-conversion.html#converttoraw)

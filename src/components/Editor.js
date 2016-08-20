@@ -13,6 +13,7 @@ import Image from './Image.js'
 import MediaWrapper from './MediaWrapper.js'
 import getUnboundedScrollPosition from 'fbjs/lib/getUnboundedScrollPosition.js'
 import Style from 'fbjs/lib/Style.js'
+import defaultDecorator from './defaultDecorator.js'
 
 var {ContentState, Editor, EditorState, RichUtils, Entity, 
   CompositeDecorator, convertFromRaw, convertToRaw} = Draft;
@@ -35,28 +36,6 @@ var getSelectionRange = () => {
   var selection = window.getSelection()
   if (selection.rangeCount == 0) return null
   return selection.getRangeAt(0)
-};
-
-function findLinkEntities(contentBlock, callback) {
-  contentBlock.findEntityRanges(
-    (character) => {
-      const entityKey = character.getEntity();
-      return (
-        entityKey !== null &&
-        Entity.get(entityKey).getType() === 'link'
-      );
-    },
-    callback
-  );
-}
-
-const Link = (props) => {
-  const {href} = Entity.get(props.entityKey).getData();
-  return (
-    <a href={href} style={styles.link}>
-      {props.children}
-    </a>
-  );
 };
 
 const styles = {
@@ -84,12 +63,7 @@ const styles = {
 const popoverSpacing = 3 // The distance above the selection that popover 
   // will display
 
-const decorator = new CompositeDecorator([
-  {
-    strategy: findLinkEntities,
-    component: Link,
-  },
-]);
+
 
 export default class RichEditor extends React.Component {
 
@@ -115,6 +89,11 @@ export default class RichEditor extends React.Component {
      * Override the inline styles for the popover component.
      */
     popoverStyle: React.PropTypes.object,
+
+    /**
+     * The decorator to use.
+     */
+    decorator: React.PropTypes.object,
   };
 
   static defaultProps = {
@@ -127,6 +106,8 @@ export default class RichEditor extends React.Component {
 
   constructor(props) {
     super(props);
+
+    var decorator = props.decorator || defaultDecorator
 
     var editorState = null
     if (this.props.editorState instanceof ContentState){

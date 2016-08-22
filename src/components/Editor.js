@@ -125,6 +125,13 @@ export default class RichEditor extends React.Component {
       if (typeof editorState.getCurrentInlineStyle !== 'function'){
         throw new Error('Invalid editorState')
       }
+
+      // If a decorator was provided but it differs from the current
+      // decorator then apply it
+      if (editorState.getDecorator() != decorator){
+        editorState = EditorState.set(editorState, {decorator})
+      }
+
     } else {
       editorState = EditorState.createEmpty(decorator)
     }

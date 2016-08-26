@@ -112,29 +112,21 @@ export default class RichEditor extends React.Component {
   constructor(props) {
     super(props);
 
-    var decorator = props.decorator || defaultDecorator
+    if (props.decorator)
+      throw new Error(`Passing in a decorator is deprecated, you must first 
+        create an editorState object using your decorator and pass in that
+        editorState object instead. e.g. EditorState.createEmpty(decorator)`)
 
-    var editorState = null
-    if (this.props.editorState instanceof ContentState){
-      editorState = EditorState.createWithContent(
-        this.props.editorState, 
-        decorator
-      )
-    } else if (this.props.editorState){
-      editorState = this.props.editorState
-      if (typeof editorState.getCurrentInlineStyle !== 'function'){
-        throw new Error('Invalid editorState')
-      }
+    if (props.editorState instanceof ContentState)
+      throw new Error(`You passed in a ContentState object when an EditorState 
+        object was expected, use EditorState.createWithContent first.`)
 
-      // If a decorator was provided but it differs from the current
-      // decorator then apply it
-      if (editorState.getDecorator() != decorator){
-        editorState = EditorState.set(editorState, {decorator})
-      }
-
-    } else {
-      editorState = EditorState.createEmpty(decorator)
-    }
+    if (props.editorState != null && 
+      !(props.editorState instanceof EditorState))
+     throw new Error('Invalid editorState')
+      
+    const editorState = props.editorState || EditorState.createEmpty(defaultDecorator)
+    
 
     this.state = {
       editorState,
@@ -168,6 +160,7 @@ export default class RichEditor extends React.Component {
       })
 
       var scrollParent = Style.getScrollParent(editorNode);
+      //console.log(`focus called: ${require('util').inspect(getUnboundedScrollPosition(scrollParent))}`)
       this.refs.editor.focus(getUnboundedScrollPosition(scrollParent));
       //this.refs.editor.focus();
     };
@@ -266,26 +259,6 @@ export default class RichEditor extends React.Component {
         editorState: removeMediaBlock(editorState, blockKey),
       });
     };
-  };
-
-  componentWillReceiveProps = (props) => {
-    
-    if (props.editorState){
-      this.setState({
-        editorState: props.editorState,
-      })
-    }
-    if (props.content){
-
-      const contentState = convertFromRaw(props.content);
-      var editorState = EditorState.createWithContent(
-        contentState, 
-        decorator
-      )
-      this.setState({
-        editorState,
-      })
-    }
   };
 
   // This editor will support a real basic example of inserting an image
@@ -419,8 +392,8 @@ export default class RichEditor extends React.Component {
           buttons={inlineButtons}
         />
         <Editor
-          {...otherProps}
           blockRendererFn={this._blockRenderer}
+          {...otherProps}
           editorState={this.state.editorState}
           handleKeyCommand={this._handleKeyCommand}
           onChange={this._onChange}

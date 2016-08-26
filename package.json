@@ -25,6 +25,7 @@
   "scripts": {
     "start": "babel-node ./examples/dev-server/server.js",
     "build:package": "npm run clean & babel src --out-dir lib",
+    "build:package:watch": "npm run clean & babel src --out-dir lib --watch",
     "build:dist": "webpack src/Editor.js dist/Editor.js",
     "build:dist:min": "webpack src/Editor.js dist/Editor.min.js --optimize-minimize",
     "build": "npm run clean && npm run build:package & npm run build:dist & npm run build:dist:min",
@@ -32,11 +33,8 @@
     "clean": "rimraf lib"
   },
   "dependencies": {
-    "draft-js": "^0.7.0",
     "fbjs": "^0.8.3",
-    "immutable": "^3.8.1",
-    "react": "^15.3.0",
-    "react-dom": "^15.3.0"
+    "immutable": "^3.8.1"
   },
   "devDependencies": {
     "babel-cli": "^6.4.5",
@@ -62,7 +60,8 @@
     "webpack-dev-server": "^1.10.1"
   },
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0-rc",
-    "react-dom": "^0.14.0 || ^15.0.0-rc"
+    "draft-js": "^0.8.1",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1"
   }
 }

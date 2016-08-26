@@ -91,11 +91,6 @@ export default class RichEditor extends React.Component {
     popoverStyle: React.PropTypes.object,
 
     /**
-     * The decorator to use.
-     */
-    decorator: React.PropTypes.object,
-
-    /**
      * Override the inline buttons, these are displayed in the popover control.
      */
     inlineButtons: React.PropTypes.array,

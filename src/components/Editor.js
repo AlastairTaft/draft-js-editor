@@ -17,7 +17,7 @@ import defaultDecorator from './defaultDecorator.js'
 
 var {ContentState, Editor, EditorState, RichUtils, Entity, 
   CompositeDecorator, convertFromRaw, convertToRaw} = Draft;
-
+//
 
 var getSelectedBlockElement = (range) => {
   var node = range.startContainer
@@ -27,8 +27,8 @@ var getSelectedBlockElement = (range) => {
     node = node.parentNode
   } while (node != null)
   return null
-  /*const currentContent = this.state.editorState.getCurrentContent()
-  const selection = this.state.editorState.getSelection()
+  /*const currentContent = this.props.editorState.getCurrentContent()
+  const selection = this.props.editorState.getSelection()
   return currentContent.getBlockForKey(selection.getStartKey())*/
 };
 
@@ -119,15 +119,7 @@ export default class RichEditor extends React.Component {
     if (props.editorState != null && 
       !(props.editorState instanceof EditorState))
      throw new Error('Invalid editorState')
-      
-    const editorState = props.editorState || EditorState.createEmpty(defaultDecorator)
     
-
-    this.state = {
-      editorState,
-      liveTeXEdits: Map(),
-    };
-
     this._blockRenderer = (block) => {
 
       var type = block.getType()
@@ -160,12 +152,6 @@ export default class RichEditor extends React.Component {
       //this.refs.editor.focus();
     };
     this._onChange = (editorState) => {
-
-      
-
-      this.setState({
-        editorState,
-      })
 
       // Calling this right away doesn't always seem to be reliable. It 
       // sometimes selects the first block when the user has focus on a block
@@ -247,13 +233,14 @@ export default class RichEditor extends React.Component {
       return false;
     };
 
-    this._removeTeX = (blockKey) => {
-      var {editorState, liveTeXEdits} = this.state;
-      this.setState({
-        liveTeXEdits: liveTeXEdits.remove(blockKey),
-        editorState: removeMediaBlock(editorState, blockKey),
-      });
-    };
+  };
+
+  static defaultProps = {
+    editorState: EditorState.createEmpty(defaultDecorator),
+  };
+
+  componentWillReceiveProps = (newProps) => {
+
   };
 
   // This editor will support a real basic example of inserting an image
@@ -266,7 +253,7 @@ export default class RichEditor extends React.Component {
 
   toggleBlockType = (blockType) => {
     this.onEditorChange(
-      RichUtils.toggleBlockType(this.state.editorState, blockType));
+      RichUtils.toggleBlockType(this.props.editorState, blockType));
 
     setTimeout(this.updateSelection, 4)
   };
@@ -274,19 +261,19 @@ export default class RichEditor extends React.Component {
   toggleInlineStyle = (style) => {
     if (style != 'LINK'){
       return this.onEditorChange(
-        RichUtils.toggleInlineStyle(this.state.editorState, style));
+        RichUtils.toggleInlineStyle(this.props.editorState, style));
     }
 
     // Add a link
-    const selection = this.state.editorState.getSelection();
+    const selection = this.props.editorState.getSelection();
     if (selection.isCollapsed()) {
       return;
     }
     const href = window.prompt('Enter a URL');
     const entityKey = Entity.create('link', 'MUTABLE', {href});
-    const content = this.state.editorState.getCurrentContent();   
+    const content = this.props.editorState.getCurrentContent();   
     this.onEditorChange(
-      RichUtils.toggleLink(this.state.editorState, selection, entityKey))
+      RichUtils.toggleLink(this.props.editorState, selection, entityKey))
 
   };
 
@@ -295,12 +282,12 @@ export default class RichEditor extends React.Component {
   };
 
   get = () => {
-    const content = this.state.editorState.getCurrentContent()
+    const content = this.props.editorState.getCurrentContent()
     return convertToRaw(content)
   };
 
   insertBlock = (type, data) => {
-    var editorState = insertMediaBlock(this.state.editorState, type, data)
+    var editorState = insertMediaBlock(this.props.editorState, type, data)
     this.setState({
       editorState,
     })
@@ -311,7 +298,7 @@ export default class RichEditor extends React.Component {
     // TODO cerate a componnet pool with type
     //var type = generateUniqueType()
     
-    var { editorState, entityKey } = insertMediaBlock(this.state.editorState, type, data)
+    var { editorState, entityKey } = insertMediaBlock(this.props.editorState, type, data)
     this.setState({
       editorState,
     })
@@ -320,7 +307,7 @@ export default class RichEditor extends React.Component {
   };
 
   getEditorState = () => {
-    return this.state.editorState
+    return this.props.editorState
   };
 
   /**
@@ -336,7 +323,7 @@ export default class RichEditor extends React.Component {
       inlineButtons,
       ...otherProps, } = this.props
 
-    var editorState = this.state.editorState
+    var editorState = this.props.editorState
     //console.log(this.getContent())
 
     var currentInlineStyle = editorState.getCurrentInlineStyle();
@@ -389,7 +376,7 @@ export default class RichEditor extends React.Component {
         <Editor
           blockRendererFn={this._blockRenderer}
           {...otherProps}
-          editorState={this.state.editorState}
+          editorState={this.props.editorState}
           handleKeyCommand={this._handleKeyCommand}
           onChange={this._onChange}
           placeholder={this.props.placeholder}

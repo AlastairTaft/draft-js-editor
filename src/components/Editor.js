@@ -101,6 +101,7 @@ export default class RichEditor extends React.Component {
     },
     iconColor: '#000000',
     iconSelectedColor: '#2000FF',
+    editorState: EditorState.createEmpty(defaultDecorator),
   };
 
   constructor(props) {
@@ -232,10 +233,6 @@ export default class RichEditor extends React.Component {
       return false;
     };
 
-  };
-
-  static defaultProps = {
-    editorState: EditorState.createEmpty(defaultDecorator),
   };
 
   componentWillReceiveProps = (newProps) => {

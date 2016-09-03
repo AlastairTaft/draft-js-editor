@@ -17,7 +17,6 @@ import defaultDecorator from './defaultDecorator.js'
 
 var {ContentState, Editor, EditorState, RichUtils, Entity, 
   CompositeDecorator, convertFromRaw, convertToRaw} = Draft;
-//
 
 var getSelectedBlockElement = (range) => {
   var node = range.startContainer

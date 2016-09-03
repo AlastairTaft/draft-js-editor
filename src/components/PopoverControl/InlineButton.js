@@ -32,7 +32,7 @@ class InlineButton extends Component {
     /**
      * The icon colour when selected. This gets passed down from the Editor.
      */
-    selectedIconColor: React.PropTypes.string,
+    iconSelectedColor: React.PropTypes.string,
 
     /**
      * The current editorState. This gets passed down from the editor.
@@ -62,12 +62,12 @@ class InlineButton extends Component {
 
   render = () => {
 
-    const { editorState, updateEditorState, iconColor, selectedIconColor, 
+    const { editorState, updateEditorState, iconColor, iconSelectedColor, 
       inlineStyleType,
       ...otherProps } = this.props
 
     const selected = this.isSelected(editorState, inlineStyleType) 
-    const fill = selected ? selectedIconColor : iconColor
+    const fill = selected ? iconSelectedColor : iconColor
 
     return <div
       style={styles.iconContainer}

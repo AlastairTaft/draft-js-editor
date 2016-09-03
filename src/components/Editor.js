@@ -104,6 +104,8 @@ export default class RichEditor extends React.Component {
     editorState: EditorState.createEmpty(defaultDecorator),
   };
 
+  state = {};
+
   constructor(props) {
     super(props);
 

@@ -21,10 +21,16 @@ Import the `Editor` class into your file. The example below uses [ES6](https://b
 import Editor from 'draft-js-editor'
 
 class MyClass extends React.Component {
+
+  state = {};
+
   render() {
     return <div>
       A sample text editor
-      <Editor />
+      <Editor 
+        onChange={(editorState) => this.setState({ editorState })}
+        editorState={this.state.editorState}
+      />
     </div>
   }
 }

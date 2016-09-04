@@ -102,6 +102,7 @@ export default class RichEditor extends React.Component {
     iconColor: '#000000',
     iconSelectedColor: '#2000FF',
     editorState: EditorState.createEmpty(defaultDecorator),
+    onChange: (editorState) => {},
   };
 
   state = {};
@@ -152,18 +153,6 @@ export default class RichEditor extends React.Component {
       //console.log(`focus called: ${require('util').inspect(getUnboundedScrollPosition(scrollParent))}`)
       this.refs.editor.focus(getUnboundedScrollPosition(scrollParent));
       //this.refs.editor.focus();
-    };
-    this._onChange = (editorState) => {
-
-      // Calling this right away doesn't always seem to be reliable. It 
-      // sometimes selects the first block when the user has focus on a block
-      // later on in the series. Although setting the state twice is less than
-      // ideal
-      setTimeout(this.updateSelection, 4)
-
-      if (this.props.onChange){
-        this.props.onChange(editorState)
-      }
     };
 
     this.updateSelection = () => {
@@ -226,7 +215,7 @@ export default class RichEditor extends React.Component {
     
 
     this._handleKeyCommand = command => {
-      var {editorState} = this.state;
+      var {editorState} = this.props;
       var newState = RichUtils.handleKeyCommand(editorState, command);
       if (newState) {
         this._onChange(newState);
@@ -235,6 +224,20 @@ export default class RichEditor extends React.Component {
       return false;
     };
 
+  };
+
+  _onChange = (editorState) => {
+
+    var { onChange } = this.props
+
+    // Calling this right away doesn't always seem to be reliable. It 
+    // sometimes selects the first block when the user has focus on a block
+    // later on in the series. Although setting the state twice is less than
+    // ideal
+    setTimeout(this.updateSelection, 4)
+
+    onChange(editorState)
+    
   };
 
   componentWillReceiveProps = (newProps) => {
@@ -276,7 +279,8 @@ export default class RichEditor extends React.Component {
   };
 
   onEditorChange = (editorState) => {
-    this.setState({editorState});
+    var { onChange } = this.props
+    onChange(editorState)
   };
 
   get = () => {
@@ -284,12 +288,12 @@ export default class RichEditor extends React.Component {
     return convertToRaw(content)
   };
 
-  insertBlock = (type, data) => {
+  /*insertBlock = (type, data) => {
     var editorState = insertMediaBlock(this.props.editorState, type, data)
     this.setState({
       editorState,
     })
-  };
+  };*/
 
   insertBlockComponent = (type, data) => {
 
@@ -297,9 +301,10 @@ export default class RichEditor extends React.Component {
     //var type = generateUniqueType()
     
     var { editorState, entityKey } = insertMediaBlock(this.props.editorState, type, data)
-    this.setState({
+    /*this.setState({
       editorState,
-    })
+    })*/
+    this.props.onChange(editorState)
 
     return entityKey
   };
@@ -319,10 +324,8 @@ export default class RichEditor extends React.Component {
       iconSelectedColor,
       popoverStyle,
       inlineButtons,
+      editorState,
       ...otherProps, } = this.props
-
-    var editorState = this.props.editorState
-    //console.log(this.getContent())
 
     var currentInlineStyle = editorState.getCurrentInlineStyle();
 
@@ -374,7 +377,7 @@ export default class RichEditor extends React.Component {
         <Editor
           blockRendererFn={this._blockRenderer}
           {...otherProps}
-          editorState={this.props.editorState}
+          editorState={editorState}
           handleKeyCommand={this._handleKeyCommand}
           onChange={this._onChange}
           placeholder={this.props.placeholder}

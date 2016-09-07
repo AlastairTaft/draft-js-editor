@@ -54,7 +54,7 @@ const styles = {
   sideControl: {
     height: 24, // Required to figure out positioning
     //width: 48, // Needed to figure out how much to offset the sideControl left
-    left: -48,
+    left: -24,
     display: 'none',
   }
 }

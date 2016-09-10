@@ -37,6 +37,15 @@ var getSelectionRange = () => {
   return selection.getRangeAt(0)
 };
 
+const isParentOf = (ele, maybeParent) => {
+
+  while (ele.parentNode != null && ele.parentNode != document.body){
+    if (ele.parentNode == maybeParent) return true
+    ele = ele.parentNode
+  }
+  return false
+}
+
 const styles = {
   editorContainer: {
     position: 'relative',
@@ -46,8 +55,6 @@ const styles = {
     //width: 78, // Height and width are needed to compute the position
     height: 24,
     display: 'none', 
-    top: 0,
-    left: 0,
     position: 'absolute',
     zIndex: 999,
   },
@@ -101,7 +108,7 @@ export default class RichEditor extends React.Component {
     },
     iconColor: '#000000',
     iconSelectedColor: '#2000FF',
-    editorState: EditorState.createEmpty(defaultDecorator),
+    //editorState: EditorState.createEmpty(defaultDecorator),
     onChange: (editorState) => {},
   };
 
@@ -123,6 +130,11 @@ export default class RichEditor extends React.Component {
       !(props.editorState instanceof EditorState))
      throw new Error('Invalid editorState')
     
+    /*if (props.editorState == null){
+      throw new Error(`editorState prop missing, you can create one with 
+        EditorState.createEmpty(defaultDecorator), you can import the 
+        defaultDecorator with import { defaultDecorator } form 'draft-js-editor'`)
+    }*/
     this._blockRenderer = (block) => {
 
       var type = block.getType()
@@ -140,22 +152,10 @@ export default class RichEditor extends React.Component {
       return null;
     };
 
-    this._focus = () => {
-      if (this.props.readOnly) return
-
-      var editorNode = ReactDOM.findDOMNode(this.refs['editor'])
-      var editorBounds = editorNode.getBoundingClientRect()
-      this.setState({
-        editorBounds,
-      })
-
-      var scrollParent = Style.getScrollParent(editorNode);
-      //console.log(`focus called: ${require('util').inspect(getUnboundedScrollPosition(scrollParent))}`)
-      this.refs.editor.focus(getUnboundedScrollPosition(scrollParent));
-      //this.refs.editor.focus();
-    };
+    
 
     this.updateSelection = () => {
+      
       var selectionRangeIsCollapsed = null,
         sideControlVisible = false,
         sideControlTop = null,
@@ -164,53 +164,66 @@ export default class RichEditor extends React.Component {
         popoverControlTop = null,
         popoverControlLeft = null
       
-      let selectionRange = getSelectionRange()
-      if (selectionRange){
-        let rangeBounds = selectionRange.getBoundingClientRect()
-        var selectedBlock = getSelectedBlockElement(selectionRange)
-        if (selectedBlock){
-          var blockBounds = selectedBlock.getBoundingClientRect()
-
-          sideControlVisible = true
-          //sideControlTop = this.state.selectedBlock.offsetTop
-          var editorBounds = this.state.editorBounds
-          if (!editorBounds) return
-          var sideControlTop = (blockBounds.top - editorBounds.top)
-            + ((blockBounds.bottom - blockBounds.top) / 2)
-            - (styles.sideControl.height / 2)
-
-
-          if (!selectionRange.collapsed){
-
-            var popoverControlElement = ReactDOM.findDOMNode(this.refs["popoverControl"])
-            // The control needs to be visible so that we can get it's width
-            popoverControlElement.style.display = 'block'
-            var popoverWidth = popoverControlElement.clientWidth
-
-            popoverControlVisible = true
-            var rangeWidth = rangeBounds.right - rangeBounds.left,
-              rangeHeight = rangeBounds.bottom - rangeBounds.top
-            popoverControlTop = (rangeBounds.top - editorBounds.top)
-              - styles.popOverControl.height
-              - popoverSpacing
-            popoverControlLeft = 0
-              + (rangeBounds.left - editorBounds.left)
-              + (rangeWidth / 2)
-              - (/*styles.popOverControl.width*/ popoverWidth / 2)
-            
-          }
-        }
-
-      }
       
-      this.setState({
-        sideControlVisible,
-        sideControlTop,
-        sideControlLeft,
-        popoverControlVisible,
-        popoverControlTop,
-        popoverControlLeft,
-      });
+      let selectionRange = getSelectionRange()
+      if (!selectionRange) return
+      
+      var editorEle = ReactDOM.findDOMNode(this.refs['editor'])
+      if (!isParentOf(selectionRange.commonAncestorContainer, editorEle))
+        return
+
+      var popoverControlEle = ReactDOM.findDOMNode(this.refs['popoverControl'])
+      var sideControlEle = ReactDOM.findDOMNode(this.refs['sideControl'])
+
+      let rangeBounds = selectionRange.getBoundingClientRect()
+      var selectedBlock = getSelectedBlockElement(selectionRange)
+      if (selectedBlock){
+        var blockBounds = selectedBlock.getBoundingClientRect()
+
+        sideControlVisible = true
+        //sideControlTop = this.state.selectedBlock.offsetTop
+        var editorBounds = this.state.editorBounds
+        if (!editorBounds) return
+        var sideControlTop = (blockBounds.top - editorBounds.top)
+          + ((blockBounds.bottom - blockBounds.top) / 2)
+          - (styles.sideControl.height / 2)
+
+        sideControlEle.style.left = sideControlLeft
+        sideControlEle.style.top = sideControlTop
+        sideControlEle.style.display = 'block'
+  
+        if (!selectionRange.collapsed){
+
+          // The control needs to be visible so that we can get it's width
+          popoverControlEle.style.display = 'block'
+          var popoverWidth = popoverControlEle.clientWidth
+
+
+
+          popoverControlVisible = true
+          var rangeWidth = rangeBounds.right - rangeBounds.left,
+            rangeHeight = rangeBounds.bottom - rangeBounds.top
+          popoverControlTop = (rangeBounds.top - editorBounds.top)
+            - styles.popOverControl.height
+            - popoverSpacing
+          popoverControlLeft = 0
+            + (rangeBounds.left - editorBounds.left)
+            + (rangeWidth / 2)
+            - (/*styles.popOverControl.width*/ popoverWidth / 2)
+
+
+          //console.log(require('util').inspect(popoverControlLeft))
+          //console.log(popoverControlEle)
+          //console.log(popoverControlEle.style)
+          popoverControlEle.style.left = popoverControlLeft + 'px'
+          popoverControlEle.style.top = popoverControlTop + 'px'
+        } else {
+          popoverControlEle.style.display = 'none'
+        }
+      } else {
+        sideControlEle.style.display = 'none'
+        popoverControlEle.style.display = 'none'
+      }
     };
     
 
@@ -230,18 +243,37 @@ export default class RichEditor extends React.Component {
 
     var { onChange } = this.props
 
+    onChange(editorState)
+
     // Calling this right away doesn't always seem to be reliable. It 
     // sometimes selects the first block when the user has focus on a block
     // later on in the series. Although setting the state twice is less than
     // ideal
-    setTimeout(this.updateSelection, 4)
+    //setTimeout(this.updateSelection, 4)
+    //this.updateSelection()
 
-    onChange(editorState)
     
   };
 
-  componentWillReceiveProps = (newProps) => {
 
+  _focus = () => {
+    if (this.props.readOnly) return
+
+    var editorNode = ReactDOM.findDOMNode(this.refs['editor'])
+    var editorBounds = editorNode.getBoundingClientRect()
+    this.setState({
+      editorBounds,
+    })
+
+    var scrollParent = Style.getScrollParent(editorNode);
+    //console.log(`focus called: ${require('util').inspect(getUnboundedScrollPosition(scrollParent))}`)
+    this.refs.editor.focus(getUnboundedScrollPosition(scrollParent));
+    //this.refs.editor.focus();
+  };
+
+  componentDidUpdate = () => {
+    
+    this.updateSelection()
   };
 
   // This editor will support a real basic example of inserting an image
@@ -256,7 +288,8 @@ export default class RichEditor extends React.Component {
     this.onEditorChange(
       RichUtils.toggleBlockType(this.props.editorState, blockType));
 
-    setTimeout(this.updateSelection, 4)
+    //setTimeout(this.updateSelection, 4)
+    //this.updateSelection()
   };
 
   toggleInlineStyle = (style) => {
@@ -313,19 +346,30 @@ export default class RichEditor extends React.Component {
     return this.props.editorState
   };
 
+  onBlur = () => {
+    var popoverControlEle = ReactDOM.findDOMNode(this.refs['popoverControl'])
+    var sideControlEle = ReactDOM.findDOMNode(this.refs['sideControl'])
+    popoverControlEle.style.display = 'none'
+    sideControlEle.style.display = 'none'
+  };
+
   /**
    * While editing TeX, set the Draft editor to read-only. This allows us to
    * have a textarea within the DOM.
    */
   render() {
-
-    const { 
+    var { 
       iconColor, 
       iconSelectedColor,
       popoverStyle,
       inlineButtons,
       editorState,
       ...otherProps, } = this.props
+
+    if (!editorState){
+      editorState = EditorState.createEmpty(defaultDecorator)
+      this._onChange(editorState)
+    }
 
     var currentInlineStyle = editorState.getCurrentInlineStyle();
 
@@ -336,18 +380,14 @@ export default class RichEditor extends React.Component {
       .getType();
 
     var sideControlStyles = Object.assign({}, styles.sideControl)
-    if (this.props.readOnly != true && this.state.sideControlVisible){
+    /*if (this.props.readOnly != true && this.state.sideControlVisible){
       sideControlStyles.display = 'block'
-      sideControlStyles.top = this.state.sideControlTop
-      sideControlStyles.left = this.state.sideControlLeft
-    }
+    }*/
 
     var popoverStyleLocal = Object.assign({}, styles.popOverControl)
-    if (this.props.readOnly != true && this.state.popoverControlVisible){
+    /*if (this.props.readOnly != true && this.state.popoverControlVisible){
       popoverStyleLocal.display = 'block'
-      popoverStyleLocal.top = this.state.popoverControlTop
-      popoverStyleLocal.left = this.state.popoverControlLeft
-    }
+    }*/
     Object.assign(popoverStyleLocal, popoverStyle)
 
     return (
@@ -363,6 +403,7 @@ export default class RichEditor extends React.Component {
           iconSelectedColor={iconSelectedColor}
           iconColor={iconColor}
           popoverStyle={popoverStyle}
+          ref="sideControl"
         />
         <PopoverControl 
           style={popoverStyleLocal} 
@@ -384,6 +425,7 @@ export default class RichEditor extends React.Component {
           readOnly={this.props.readOnly}
           ref="editor"
           spellCheck={true}
+          onBlur={this.onBlur}
         />
         <input type="file" ref="fileInput" style={{display: 'none'}} 
           onChange={this.handleFileInput} />

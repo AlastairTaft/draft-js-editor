@@ -6,6 +6,7 @@ class Home extends Component {
     return <ul>
       <li><Link to="/basic">Basic Editor</Link></li>
       <li><Link to="/custom-inline-button">Custom Inline Button</Link></li>
+      <li><Link to="/multiple-editors">Multiple Editors</Link></li>
     </ul>
   }
 }

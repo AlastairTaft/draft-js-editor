@@ -6,6 +6,9 @@ import { RichUtils } from 'draft-js'
 const inlineButtons = defaultInlineButtons.slice()
 
 class CustomInlineButtonDemo extends Component {
+  
+  state = {}
+
   render = () => {
     
     return <div>
@@ -23,6 +26,8 @@ class CustomInlineButtonDemo extends Component {
             },
           }}
           inlineButtons={inlineButtons}
+          onChange={(editorState) => this.setState({ editorState })}
+          editorState={this.state.editorState}
         />
       </div>
     </div>

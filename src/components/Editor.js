@@ -188,8 +188,10 @@ export default class RichEditor extends React.Component {
           + ((blockBounds.bottom - blockBounds.top) / 2)
           - (styles.sideControl.height / 2)
 
-        sideControlEle.style.left = sideControlLeft
-        sideControlEle.style.top = sideControlTop
+        //console.log(require('util').inspect(sideControlTop))
+          
+        sideControlEle.style.left = sideControlLeft + 'px'
+        sideControlEle.style.top = sideControlTop + 'px'
         sideControlEle.style.display = 'block'
   
         if (!selectionRange.collapsed){
@@ -212,7 +214,6 @@ export default class RichEditor extends React.Component {
             - (/*styles.popOverControl.width*/ popoverWidth / 2)
 
 
-          //console.log(require('util').inspect(popoverControlLeft))
           //console.log(popoverControlEle)
           //console.log(popoverControlEle.style)
           popoverControlEle.style.left = popoverControlLeft + 'px'

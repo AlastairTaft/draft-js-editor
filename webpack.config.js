@@ -30,6 +30,13 @@ module.exports = {
       //}
     ]
   },
+  resolve: {
+    extensions: [ '', '.js' ],
+    fallback: path.join(__dirname, "node_modules")
+  },
+  resolveLoader: {
+    root: path.join(__dirname, "node_modules")
+  },
   output: {
     // export itself to a global var
     libraryTarget: "var",

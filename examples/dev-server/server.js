@@ -52,7 +52,14 @@ var compiler = webpack({
       //  test: /\.js$/,
       //  loader: 'eslint'
       //}
-    ]
+    ],
+  },
+  resolve: {
+    extensions: [ '', '.js' ],
+    fallback: path.join(__dirname, '..', '..', "node_modules")
+  },
+  resolveLoader: {
+    root: path.join(__dirname, '..', '..', "node_modules")
   },
   output: {filename: 'app.js', path: '/'},
   devtool: 'source-map'

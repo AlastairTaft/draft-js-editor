@@ -23,7 +23,7 @@
     "url": "https://github.com/AlastairTaft/draft-js-editor.git"
   },
   "scripts": {
-    "start": "babel-node ./examples/dev-server/server.js",
+    "start": "NODE_PATH=./node_modules babel-node ./examples/dev-server/server.js",
     "build:package": "npm run clean & babel src --out-dir lib",
     "build:package:watch": "npm run clean & babel src --out-dir lib --watch",
     "build:dist": "webpack src/Editor.js dist/Editor.js",

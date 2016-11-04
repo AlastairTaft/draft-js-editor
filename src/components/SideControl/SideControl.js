@@ -78,6 +78,7 @@ export default class SideControl extends Component {
 						moreOptionsVisible: true,
 					})
 				}}
+				className="DraftJsEditor-more-options"
 			>
 				<svg 
 					onMouseDown={(e) => e.preventDefault()}

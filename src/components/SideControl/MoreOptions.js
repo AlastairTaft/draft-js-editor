@@ -78,6 +78,7 @@ export default class MoreOptions extends Component {
 						e.preventDefault()
 						this.toggleBlockType('header-one')
 					}}
+					className="DraftJsEditor-header-one"
 				>
 					<svg fill={this.props.selectedBlockType == 'header-one' 
 							? iconSelectedColor : iconColor} height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
@@ -95,6 +96,7 @@ export default class MoreOptions extends Component {
 						e.preventDefault()
 						this.toggleBlockType('header-two')
 					}}
+					className="DraftJsEditor-header-two"
 				>
 					<svg fill={this.props.selectedBlockType == 'header-two' 
 							? iconSelectedColor : iconColor} height="24" viewBox="-3 -6 30 30" width="24" xmlns="http://www.w3.org/2000/svg">
@@ -112,6 +114,7 @@ export default class MoreOptions extends Component {
 						e.preventDefault()
 						this.toggleBlockType('unordered-list-item')
 					}}
+					className="DraftJsEditor-unordered-list-item"
 				>
 					<svg fill={this.props.selectedBlockType == 'unordered-list-item' 
 							? iconSelectedColor : iconColor} height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
@@ -129,6 +132,7 @@ export default class MoreOptions extends Component {
 						e.preventDefault()
 						this.toggleBlockType('ordered-list-item')
 					}}
+					className="DraftJsEditor-ordered-list-item"
 				>
 					<svg fill={this.props.selectedBlockType == 'ordered-list-item' 
 							? iconSelectedColor : iconColor} height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
@@ -146,6 +150,7 @@ export default class MoreOptions extends Component {
 						e.preventDefault()
 						this.toggleBlockType('blockquote')
 					}}
+					className="DraftJsEditor-blockquote"
 				>
 					<svg fill={this.props.selectedBlockType == 'blockquote' 
 							? iconSelectedColor : iconColor} height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
@@ -163,6 +168,7 @@ export default class MoreOptions extends Component {
 						e.preventDefault()
 						this.toggleBlockType('code-block')
 					}}
+					className="DraftJsEditor-code-block"
 				>
 					<svg fill={this.props.selectedBlockType == 'code-block' 
 							? iconSelectedColor : iconColor} height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">

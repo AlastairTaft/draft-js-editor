@@ -24,6 +24,7 @@ render((
       <Route path="basic" component={require('./modules/BasicDemo.js')}/>
       <Route path="custom-inline-button" component={require('./modules/CustomInlineButtonDemo.js')}/>
       <Route path="multiple-editors-test" component={require('./modules/MultipleEditorsDemo.js')}/>
+      <Route path="raw-content-test" component={require('./modules/RawContentDemo.js')}/>
     </Route>
   </Router>
 ), document.getElementById('target'))

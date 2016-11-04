@@ -100,6 +100,12 @@ export default class RichEditor extends React.Component {
      * Override the inline buttons, these are displayed in the popover control.
      */
     inlineButtons: React.PropTypes.array,
+
+    /**
+     * Override the block buttons, these are displayed in the "more options" 
+     * side control.
+     */
+    blockButtons: React.PropTypes.array,
   };
 
   static defaultProps = {
@@ -364,6 +370,7 @@ export default class RichEditor extends React.Component {
       iconSelectedColor,
       popoverStyle,
       inlineButtons,
+      blockButtons,
       editorState,
       ...otherProps, } = this.props
 
@@ -405,6 +412,9 @@ export default class RichEditor extends React.Component {
           iconColor={iconColor}
           popoverStyle={popoverStyle}
           ref="sideControl"
+          buttons={blockButtons}
+          editorState={editorState}
+          updateEditorState={this.onEditorChange}
         />
         <PopoverControl 
           style={popoverStyleLocal} 

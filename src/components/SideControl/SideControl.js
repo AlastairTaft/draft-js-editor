@@ -37,6 +37,11 @@ export default class SideControl extends Component {
      * Override the inline styles for the popover component.
      */
     popoverStyle: React.PropTypes.object,
+
+    /**
+     * Override the block buttons.
+     */
+    buttons: React.PropTypes.array,
 	};
 
 	static defaultProps = {
@@ -50,7 +55,14 @@ export default class SideControl extends Component {
 
 	render = () => {
 
-		const { iconColor, iconSelectedColor, popoverStyle, } = this.props
+		const { 
+			iconColor, 
+			iconSelectedColor, 
+			popoverStyle, 
+			buttons,
+			editorState,
+			updateEditorState,
+		} = this.props
 
 
 		return <div
@@ -94,6 +106,9 @@ export default class SideControl extends Component {
 					selectedBlockType={this.props.selectedBlockType}
 					iconSelectedColor={iconSelectedColor}
 					iconColor={iconColor}
+					buttons={buttons}
+					editorState={editorState}
+					updateEditorState={updateEditorState}
 				/>
 			</div>
 		</div>

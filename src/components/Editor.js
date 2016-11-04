@@ -291,14 +291,6 @@ export default class RichEditor extends React.Component {
       this.insertBlockComponent("image", {src: URL.createObjectURL(f)}))
   };
 
-  toggleBlockType = (blockType) => {
-    this.onEditorChange(
-      RichUtils.toggleBlockType(this.props.editorState, blockType));
-
-    //setTimeout(this.updateSelection, 4)
-    //this.updateSelection()
-  };
-
   toggleInlineStyle = (style) => {
     if (style != 'LINK'){
       return this.onEditorChange(
@@ -406,8 +398,6 @@ export default class RichEditor extends React.Component {
           // This editor will support a real basic example of inserting an image
           // into the page, just so something works out the box. 
             || ((e) => this.refs['fileInput'].click())}
-          toggleBlockType={type => this.toggleBlockType(type)}
-          selectedBlockType={selectedBlockType}
           iconSelectedColor={iconSelectedColor}
           iconColor={iconColor}
           popoverStyle={popoverStyle}

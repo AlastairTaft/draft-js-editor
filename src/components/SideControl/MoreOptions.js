@@ -9,9 +9,10 @@ const styles = {
 		position: 'absolute',
 		left: 0,
 		top: -24 - popoverSpacing,
-		width: 24 * 6,
+		//width: 24 * 6,
 		height: 24 + popoverSpacing,
 		zIndex: 998,
+		whiteSpace: 'nowrap',
 	},
 	innerContainer: {
 		backgroundColor: 'rgba(255, 255, 255, 0.9)',

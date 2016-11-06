@@ -4,6 +4,7 @@ import defaultBlockButtons from './../../../src/components/SideControl/defaultBu
 import { RichUtils, EditorState, Modifier } from 'draft-js'
 import Immutable from 'immutable'
 import Draft from 'draft-js'
+import insertAtomicBlock from './../../../src/modifiers/insertAtomicBlock'
 const blockButtons = defaultBlockButtons.slice()
 
 class MyCustomBlock extends React.Component {
@@ -15,7 +16,7 @@ class MyCustomBlock extends React.Component {
         color: 'red',
         border: '1px solid red',
       }}>
-        {this.props.block.text}
+        {this.props.block.text || 'Some sample text'}
       </div>
   }
 }
@@ -25,9 +26,7 @@ function customBlockRenderer(contentBlock) {
   const type = contentBlock.getType();
   
   if (type === 'atomic') {
-
     const data = contentBlock.getData().toJS()
-
     if (data.type == 'custom-block')
       return {
         component: MyCustomBlock,
@@ -95,7 +94,7 @@ class TestBlockButton extends React.Component {
       }}
       onMouseDown={(e) => {
         e.preventDefault()
-        var newEditorState = RichUtils.toggleBlockType(editorState, 'atomic')
+        /*var newEditorState = RichUtils.toggleBlockType(editorState, 'atomic')
         var newContentState = Modifier.setBlockData(
           newEditorState.getCurrentContent(), 
           newEditorState.getSelection(),
@@ -104,7 +103,8 @@ class TestBlockButton extends React.Component {
           }
         )
         newEditorState = EditorState.push(newEditorState, newContentState, 'change-block-data')
-        updateEditorState(newEditorState)
+        updateEditorState(newEditorState)*/
+        updateEditorState(insertAtomicBlock(editorState, { type: 'custom-block' }))
       }}
     >
       Custom Block

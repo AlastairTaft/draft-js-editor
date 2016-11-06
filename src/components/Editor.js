@@ -4,8 +4,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import MediaComponent from './MediaComponent';
-import insertMediaBlock from '../modifiers/insertMediaBlock';
-import removeMediaBlock from '../modifiers/removeMediaBlock';
 import SideControl from './SideControl/SideControl'
 import PopoverControl from './PopoverControl/PopoverControl'
 import generateUniqueType from './../lib/generateUniqueType.js'
@@ -115,7 +113,7 @@ export default class RichEditor extends React.Component {
     iconColor: '#000000',
     iconSelectedColor: '#2000FF',
     //editorState: EditorState.createEmpty(defaultDecorator),
-    onChange: (editorState) => {},
+    onChange: function(){},
   };
 
   state = {};
@@ -234,34 +232,9 @@ export default class RichEditor extends React.Component {
     };
     
 
-    this._handleKeyCommand = command => {
-      var {editorState} = this.props;
-      var newState = RichUtils.handleKeyCommand(editorState, command);
-      if (newState) {
-        this._onChange(newState);
-        return true;
-      }
-      return false;
-    };
-
   };
 
-  _onChange = (editorState) => {
-
-    var { onChange } = this.props
-
-    onChange(editorState)
-
-    // Calling this right away doesn't always seem to be reliable. It 
-    // sometimes selects the first block when the user has focus on a block
-    // later on in the series. Although setting the state twice is less than
-    // ideal
-    //setTimeout(this.updateSelection, 4)
-    //this.updateSelection()
-
-    
-  };
-
+  _onChange = (editorState) => this.props.onChange(editorState);
 
   _focus = () => {
     if (this.props.readOnly) return
@@ -278,71 +251,11 @@ export default class RichEditor extends React.Component {
     //this.refs.editor.focus();
   };
 
-  componentDidUpdate = () => {
-    
-    this.updateSelection()
-  };
-
-  // This editor will support a real basic example of inserting an image
-  // into the page, just so something works out the box.
-  handleFileInput = (e) => {
-    var files = Array.prototype.slice.call(e.target.files, 0)
-    files.forEach(f => 
-      this.insertBlockComponent("image", {src: URL.createObjectURL(f)}))
-  };
-
-  toggleInlineStyle = (style) => {
-    if (style != 'LINK'){
-      return this.onEditorChange(
-        RichUtils.toggleInlineStyle(this.props.editorState, style));
-    }
-
-    // Add a link
-    const selection = this.props.editorState.getSelection();
-    if (selection.isCollapsed()) {
-      return;
-    }
-    const href = window.prompt('Enter a URL');
-    const entityKey = Entity.create('link', 'MUTABLE', {href});
-    const content = this.props.editorState.getCurrentContent();   
-    this.onEditorChange(
-      RichUtils.toggleLink(this.props.editorState, selection, entityKey))
-
-  };
+  componentDidUpdate = () => this.updateSelection();
 
   onEditorChange = (editorState) => {
     var { onChange } = this.props
     onChange(editorState)
-  };
-
-  get = () => {
-    const content = this.props.editorState.getCurrentContent()
-    return convertToRaw(content)
-  };
-
-  /*insertBlock = (type, data) => {
-    var editorState = insertMediaBlock(this.props.editorState, type, data)
-    this.setState({
-      editorState,
-    })
-  };*/
-
-  insertBlockComponent = (type, data) => {
-
-    // TODO cerate a componnet pool with type
-    //var type = generateUniqueType()
-    
-    var { editorState, entityKey } = insertMediaBlock(this.props.editorState, type, data)
-    /*this.setState({
-      editorState,
-    })*/
-    this.props.onChange(editorState)
-
-    return entityKey
-  };
-
-  getEditorState = () => {
-    return this.props.editorState
   };
 
   onBlur = () => {
@@ -394,10 +307,6 @@ export default class RichEditor extends React.Component {
       <div style={Object.assign({}, styles.editorContainer, this.props.style)} 
         className={this.props.className} onClick={this._focus}>
         <SideControl style={sideControlStyles} 
-          onImageClick={this.props.onImageClick
-          // This editor will support a real basic example of inserting an image
-          // into the page, just so something works out the box. 
-            || ((e) => this.refs['fileInput'].click())}
           iconSelectedColor={iconSelectedColor}
           iconColor={iconColor}
           popoverStyle={popoverStyle}
@@ -408,7 +317,6 @@ export default class RichEditor extends React.Component {
         />
         <PopoverControl 
           style={popoverStyleLocal} 
-          toggleInlineStyle={style => this.toggleInlineStyle(style)}
           editorState={editorState}
           iconSelectedColor={iconSelectedColor}
           iconColor={iconColor}
@@ -418,18 +326,13 @@ export default class RichEditor extends React.Component {
         />
         <Editor
           blockRendererFn={this._blockRenderer}
+          spellCheck={true}
           {...otherProps}
           editorState={editorState}
-          handleKeyCommand={this._handleKeyCommand}
           onChange={this._onChange}
-          placeholder={this.props.placeholder}
-          readOnly={this.props.readOnly}
           ref="editor"
-          spellCheck={true}
           onBlur={this.onBlur}
         />
-        <input type="file" ref="fileInput" style={{display: 'none'}} 
-          onChange={this.handleFileInput} />
       </div>
         
     );

@@ -16,7 +16,7 @@ class MyCustomBlock extends React.Component {
         color: 'red',
         border: '1px solid red',
       }}>
-        {this.props.block.text || 'Some sample text'}
+        This is a custom block
       </div>
   }
 }

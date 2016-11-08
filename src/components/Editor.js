@@ -1,20 +1,12 @@
-import Draft from 'draft-js';
-import {Map} from 'immutable';
-import React from 'react';
-import ReactDOM from 'react-dom';
-
-import MediaComponent from './MediaComponent';
+import {ContentState, Editor, EditorState, RichUtils } from 'draft-js'
+import React from 'react'
+import ReactDOM from 'react-dom'
 import SideControl from './SideControl/SideControl'
 import PopoverControl from './PopoverControl/PopoverControl'
-import generateUniqueType from './../lib/generateUniqueType.js'
-import Image from './Image.js'
 import MediaWrapper from './MediaWrapper.js'
 import getUnboundedScrollPosition from 'fbjs/lib/getUnboundedScrollPosition.js'
 import Style from 'fbjs/lib/Style.js'
 import defaultDecorator from './defaultDecorator.js'
-
-var {ContentState, Editor, EditorState, RichUtils, Entity, 
-  CompositeDecorator, convertFromRaw, convertToRaw} = Draft;
 
 var getSelectedBlockElement = (range) => {
   var node = range.startContainer
@@ -67,9 +59,7 @@ const styles = {
 const popoverSpacing = 3 // The distance above the selection that popover 
   // will display
 
-
-
-export default class RichEditor extends React.Component {
+class RichEditor extends React.Component {
 
   static propTypes = {
     blockTypes: React.PropTypes.object,
@@ -108,7 +98,6 @@ export default class RichEditor extends React.Component {
 
   static defaultProps = {
     blockTypes: {
-      'image': Image,
     },
     iconColor: '#000000',
     iconSelectedColor: '#2000FF',
@@ -234,6 +223,20 @@ export default class RichEditor extends React.Component {
 
   };
 
+  /**
+   * This is needed, so that we can return true. Required to stop the event
+   * bubbling up and then triggering handling for keyDown.
+   */
+  _handleKeyCommand = command => {
+    var {editorState} = this.props;
+    var newState = RichUtils.handleKeyCommand(editorState, command);
+    if (newState) {
+      this._onChange(newState);
+      return true
+    }
+    return false
+  };
+
   _onChange = (editorState) => this.props.onChange(editorState);
 
   _focus = () => {
@@ -332,9 +335,12 @@ export default class RichEditor extends React.Component {
           onChange={this._onChange}
           ref="editor"
           onBlur={this.onBlur}
+          handleKeyCommand={this._handleKeyCommand}
         />
       </div>
         
     );
   }
 }
+
+export default RichEditor

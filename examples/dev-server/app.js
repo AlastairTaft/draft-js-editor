@@ -23,6 +23,8 @@ render((
       <IndexRoute component={require('./modules/Home.js')} />
       <Route path="basic" component={require('./modules/BasicDemo.js')}/>
       <Route path="custom-inline-button" component={require('./modules/CustomInlineButtonDemo.js')}/>
+      <Route path="custom-block-button" component={require('./modules/CustomBlockButtonDemo.js')}/>
+      <Route path="custom-block-button-draft-api" component={require('./modules/CustomBlockButtonDraftApiDemo.js')}/>
       <Route path="multiple-editors-test" component={require('./modules/MultipleEditorsDemo.js')}/>
       <Route path="raw-content-test" component={require('./modules/RawContentDemo.js')}/>
     </Route>

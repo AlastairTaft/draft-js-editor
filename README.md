@@ -8,8 +8,6 @@ Takes inspiration from the text editors on [medium](http://medium.com) and
 ## Get started
 `npm install draft-js-editor --save`
 
-##### Cloning from github
-Run `npm install` then `npm start` to start an example
 
 ## Usage
 
@@ -35,20 +33,6 @@ class MyClass extends React.Component {
 }
 ```
 
-We recommend adding the miniumum styling to your document to avoid a collapsing
-margins issue and to avoid the placeholder element taking up space.
-
-```css
-.DraftEditor-root {
-  /* Stop collapsing margins breaking our side control positioning */
-  padding-top: 1px;
-  position: relative;
-}
-.public-DraftEditorPlaceholder-root {
-  position: absolute;
-}
-```
-
 ## API 
 
 The Editor component accepts all the [draft-js Editor](https://facebook.github.io/draft-js/docs/api-reference-editor.html#content) props with the following additional ones.
@@ -60,6 +44,7 @@ The Editor component accepts all the [draft-js Editor](https://facebook.github.i
   - `popoverStyle` Override the inline styles for the popover menu controls
   - `inlineButtons` This should be an array of React elements that will be rendered. Use this to customise the popover inline buttons. There's a 'Custom Inline Buttons' example under examples. Each element that gets rendered gets passed the following props: updateEditorState (call this after doing any editor state manipulations), editorState (the editor state), iconColor, iconSelectedColor.
   - `blockButtons` Customise the block buttons. See the custom block button example
+  - `blockTypes` An object mapping custom types to components. Simpler than using draft-js's native blockRenderFn property.
   
 ## Saving the state
 

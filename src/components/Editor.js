@@ -7,6 +7,8 @@ import MediaWrapper from './MediaWrapper.js'
 import getUnboundedScrollPosition from 'fbjs/lib/getUnboundedScrollPosition.js'
 import Style from 'fbjs/lib/Style.js'
 import defaultDecorator from './defaultDecorator.js'
+import defaultBlockRenderMap from './defaultBlockRenderMap'
+import insertAtomicBlock from './../modifiers/insertAtomicBlock'
 
 var getSelectedBlockElement = (range) => {
   var node = range.startContainer
@@ -35,6 +37,10 @@ const isParentOf = (ele, maybeParent) => {
   }
   return false
 }
+
+const isInDev = typeof process == 'undefined' 
+  || typeof process.env == 'undefined'
+  || process.env.NODE_ENV != 'production'
 
 const styles = {
   editorContainer: {
@@ -123,30 +129,7 @@ class RichEditor extends React.Component {
       !(props.editorState instanceof EditorState))
      throw new Error('Invalid editorState')
     
-    /*if (props.editorState == null){
-      throw new Error(`editorState prop missing, you can create one with 
-        EditorState.createEmpty(defaultDecorator), you can import the 
-        defaultDecorator with import { defaultDecorator } form 'draft-js-editor'`)
-    }*/
-    this._blockRenderer = (block) => {
-
-      var type = block.getType()
-
-      var Component = this.props.blockTypes[type]
-
-      if (Component){
-        return {
-          component: MediaWrapper,
-          props: {
-            child: <Component />,
-          }
-        }
-      }
-      return null;
-    };
-
     
-
     this.updateSelection = () => {
       
       var selectionRangeIsCollapsed = null,
@@ -223,6 +206,23 @@ class RichEditor extends React.Component {
 
   };
 
+  _blockRenderer = (contentBlock) => {
+    const type = contentBlock.getType()
+    
+    if (type === 'atomic') {
+      const data = contentBlock.getData().toJS()
+      const { blockTypes } = this.props
+      var component = blockTypes[data.type]
+      
+      return {
+        component,
+        editable: false,
+        props: {},
+      }
+    }
+  }
+
+
   /**
    * This is needed, so that we can return true. Required to stop the event
    * bubbling up and then triggering handling for keyDown.
@@ -252,6 +252,25 @@ class RichEditor extends React.Component {
     //console.log(`focus called: ${require('util').inspect(getUnboundedScrollPosition(scrollParent))}`)
     this.refs.editor.focus(getUnboundedScrollPosition(scrollParent));
     //this.refs.editor.focus();
+  };
+
+  insertBlock = (blockType) => {
+    const { editorState } = this.props
+    var newEditorState = insertAtomicBlock(editorState, { type: blockType })
+    this._onChange(newEditorState)
+  };
+
+  // For backwards compatibility
+  insertBlockComponent = (blockType, componentProps) => {
+    if (isInDev && componentProps){
+      console.warn(`The second componentProps parameter is not supported anymore
+        if this breaks your workflow, please file an issue at 
+        https://github.com/AlastairTaft/draft-js-editor`)
+    }
+    if (isInDev){
+      console.warn(`insertBlockComponent is deprecated, use insertBlock instead.`)
+    }
+    return this.insertBlock(blockType)
   };
 
   componentDidUpdate = () => this.updateSelection();
@@ -329,6 +348,7 @@ class RichEditor extends React.Component {
         />
         <Editor
           blockRendererFn={this._blockRenderer}
+          blockRenderMap={defaultBlockRenderMap}
           spellCheck={true}
           {...otherProps}
           editorState={editorState}

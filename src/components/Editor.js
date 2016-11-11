@@ -127,7 +127,7 @@ class RichEditor extends React.Component {
 
     if (props.editorState != null && 
       !(props.editorState instanceof EditorState))
-     throw new Error('Invalid editorState')
+      console.error(new Error('Invalid editorState'))
     
     
     this.updateSelection = () => {

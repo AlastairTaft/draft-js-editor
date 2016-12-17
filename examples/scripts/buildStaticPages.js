@@ -18,13 +18,13 @@ const getTemplate = (pathToRoot = '') => `<!doctype html>
 </html>
 `
 
-let publicFolder = path.resolve(__dirname, '../public')
+let docsFolder = path.resolve(__dirname, '../../docs')
 // Create the root index file
-fs.mkdirSync(publicFolder)
-fs.writeFileSync(publicFolder + '/index.html', getTemplate())
+fs.mkdirSync(docsFolder)
+fs.writeFileSync(docsFolder + '/index.html', getTemplate())
 
 routes.forEach(route => {
-	let folderPath = publicFolder + '/' + route.path
+	let folderPath = docsFolder + '/' + route.path
 	fs.mkdirSync(folderPath)
 	fs.writeFileSync(folderPath + '/index.html', getTemplate('../'))
 })

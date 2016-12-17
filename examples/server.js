@@ -15,7 +15,7 @@ app.use(devMiddleware(compiler, {
 
 app.use(hotMiddleware(compiler));
 
-app.use('/draft-js-editor', express.static('public'))
+app.use('/draft-js-editor', express.static('../docs'))
 
 app.listen(3000, function (err) {
   if (err) {

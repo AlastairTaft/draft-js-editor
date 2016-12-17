@@ -30,8 +30,7 @@
     "build:dist:min": "webpack src/Editor.js dist/Editor.min.js --optimize-minimize",
     "build": "npm run clean && npm run build:package & npm run build:dist & npm run build:dist:min",
     "prepublish": "npm run build",
-    "clean": "rimraf lib",
-    "deploy": "git subtree push --prefix examples/public origin gh-pages"
+    "clean": "rimraf lib"
   },
   "dependencies": {
     "fbjs": "^0.8.3",

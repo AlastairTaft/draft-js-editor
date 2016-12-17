@@ -11,7 +11,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'public/js'),
     filename: 'bundle.js',
-    publicPath: '/js/'
+    publicPath: '/draft-js-editor/js/'
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),

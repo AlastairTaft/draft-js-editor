@@ -3,9 +3,9 @@
  */
 import fs from 'fs'
 import path from 'path'
-import { routes } from './../src/App.js'
+import routes from './../src/routes'
 
-const template = `<!doctype html>
+const getTemplate = (pathToRoot = '') => `<!doctype html>
 <html>
   <head>
     <title>Sample App</title>
@@ -13,7 +13,7 @@ const template = `<!doctype html>
   <body>
     <div id='root'>
     </div>
-    <script src="/js/bundle.js"></script>
+    <script src="${pathToRoot}js/bundle.js"></script>
   </body>
 </html>
 `
@@ -21,10 +21,10 @@ const template = `<!doctype html>
 let publicFolder = path.resolve(__dirname, '../public')
 // Create the root index file
 fs.mkdirSync(publicFolder)
-fs.writeFileSync(publicFolder + '/index.html', template)
+fs.writeFileSync(publicFolder + '/index.html', getTemplate())
 
 routes.forEach(route => {
 	let folderPath = publicFolder + '/' + route.path
 	fs.mkdirSync(folderPath)
-	fs.writeFileSync(folderPath + '/index.html', template)
+	fs.writeFileSync(folderPath + '/index.html', getTemplate('../'))
 })

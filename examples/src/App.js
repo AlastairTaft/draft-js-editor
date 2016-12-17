@@ -1,30 +1,14 @@
 import React, { Component } from 'react'
 import Layout from './Layout'
 import Home from './pages/Home'
-import { Router, browserHistory } from 'react-router'
-import BasicDemo from './pages/BasicDemo'
-import CustomInlineButtonDemo from './pages/CustomInlineButtonDemo'
-import MultipleEditorsDemo from './pages/MultipleEditorsDemo'
-import RawContentDemo from './pages/RawContentDemo'
+import { Router } from 'react-router'
+import { createHistory, useBasename } from 'history'
+import routes from './routes'
 
-export const routes = [
-  {
-	  path: 'basic',
-	  component: BasicDemo,
-	},
-  {
-	  path: 'custom-inline-button',
-	  component: CustomInlineButtonDemo,
-	},
-	{
-	  path: 'multiple-editors-test',
-	  component: MultipleEditorsDemo,
-	},
-	{
-	  path: 'raw-content-test',
-	  component: RawContentDemo,
-	},
-]
+const browserHistory = useBasename(createHistory)({
+  basename: '/draft-js-editor'
+})
+
 
 const rootRoute = {
   childRoutes: [ {

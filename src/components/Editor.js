@@ -1,22 +1,14 @@
-import Draft from 'draft-js';
-import {Map} from 'immutable';
-import React from 'react';
-import ReactDOM from 'react-dom';
-
-import MediaComponent from './MediaComponent';
-import insertMediaBlock from '../modifiers/insertMediaBlock';
-import removeMediaBlock from '../modifiers/removeMediaBlock';
+import {ContentState, Editor, EditorState, RichUtils } from 'draft-js'
+import React from 'react'
+import ReactDOM from 'react-dom'
 import SideControl from './SideControl/SideControl'
 import PopoverControl from './PopoverControl/PopoverControl'
-import generateUniqueType from './../lib/generateUniqueType.js'
-import Image from './Image.js'
 import MediaWrapper from './MediaWrapper.js'
 import getUnboundedScrollPosition from 'fbjs/lib/getUnboundedScrollPosition.js'
 import Style from 'fbjs/lib/Style.js'
 import defaultDecorator from './defaultDecorator.js'
-
-var {ContentState, Editor, EditorState, RichUtils, Entity, 
-  CompositeDecorator, convertFromRaw, convertToRaw} = Draft;
+import defaultBlockRenderMap from './defaultBlockRenderMap'
+import insertAtomicBlock from './../modifiers/insertAtomicBlock'
 
 var getSelectedBlockElement = (range) => {
   var node = range.startContainer
@@ -46,6 +38,10 @@ const isParentOf = (ele, maybeParent) => {
   return false
 }
 
+const isInDev = typeof process == 'undefined' 
+  || typeof process.env == 'undefined'
+  || process.env.NODE_ENV != 'production'
+
 const styles = {
   editorContainer: {
     position: 'relative',
@@ -69,9 +65,7 @@ const styles = {
 const popoverSpacing = 3 // The distance above the selection that popover 
   // will display
 
-
-
-export default class RichEditor extends React.Component {
+class RichEditor extends React.Component {
 
   static propTypes = {
     blockTypes: React.PropTypes.object,
@@ -100,16 +94,21 @@ export default class RichEditor extends React.Component {
      * Override the inline buttons, these are displayed in the popover control.
      */
     inlineButtons: React.PropTypes.array,
+
+    /**
+     * Override the block buttons, these are displayed in the "more options" 
+     * side control.
+     */
+    blockButtons: React.PropTypes.array,
   };
 
   static defaultProps = {
     blockTypes: {
-      'image': Image,
     },
     iconColor: '#000000',
     iconSelectedColor: '#2000FF',
     //editorState: EditorState.createEmpty(defaultDecorator),
-    onChange: (editorState) => {},
+    onChange: function(){},
   };
 
   state = {};
@@ -130,30 +129,7 @@ export default class RichEditor extends React.Component {
       !(props.editorState instanceof EditorState))
      throw new Error('Invalid editorState')
     
-    /*if (props.editorState == null){
-      throw new Error(`editorState prop missing, you can create one with 
-        EditorState.createEmpty(defaultDecorator), you can import the 
-        defaultDecorator with import { defaultDecorator } form 'draft-js-editor'`)
-    }*/
-    this._blockRenderer = (block) => {
-
-      var type = block.getType()
-
-      var Component = this.props.blockTypes[type]
-
-      if (Component){
-        return {
-          component: MediaWrapper,
-          props: {
-            child: <Component />,
-          }
-        }
-      }
-      return null;
-    };
-
     
-
     this.updateSelection = () => {
       
       var selectionRangeIsCollapsed = null,
@@ -228,34 +204,40 @@ export default class RichEditor extends React.Component {
     };
     
 
-    this._handleKeyCommand = command => {
-      var {editorState} = this.props;
-      var newState = RichUtils.handleKeyCommand(editorState, command);
-      if (newState) {
-        this._onChange(newState);
-        return true;
-      }
-      return false;
-    };
-
   };
 
-  _onChange = (editorState) => {
-
-    var { onChange } = this.props
-
-    onChange(editorState)
-
-    // Calling this right away doesn't always seem to be reliable. It 
-    // sometimes selects the first block when the user has focus on a block
-    // later on in the series. Although setting the state twice is less than
-    // ideal
-    //setTimeout(this.updateSelection, 4)
-    //this.updateSelection()
-
+  _blockRenderer = (contentBlock) => {
+    const type = contentBlock.getType()
     
+    if (type === 'atomic') {
+      const data = contentBlock.getData().toJS()
+      const { blockTypes } = this.props
+      var component = blockTypes[data.type]
+      
+      return {
+        component,
+        editable: false,
+        props: {},
+      }
+    }
+  }
+
+
+  /**
+   * This is needed, so that we can return true. Required to stop the event
+   * bubbling up and then triggering handling for keyDown.
+   */
+  _handleKeyCommand = command => {
+    var {editorState} = this.props;
+    var newState = RichUtils.handleKeyCommand(editorState, command);
+    if (newState) {
+      this._onChange(newState);
+      return true
+    }
+    return false
   };
 
+  _onChange = (editorState) => this.props.onChange(editorState);
 
   _focus = () => {
     if (this.props.readOnly) return
@@ -272,79 +254,30 @@ export default class RichEditor extends React.Component {
     //this.refs.editor.focus();
   };
 
-  componentDidUpdate = () => {
-    
-    this.updateSelection()
+  insertBlock = (blockType) => {
+    const { editorState } = this.props
+    var newEditorState = insertAtomicBlock(editorState, { type: blockType })
+    this._onChange(newEditorState)
   };
 
-  // This editor will support a real basic example of inserting an image
-  // into the page, just so something works out the box.
-  handleFileInput = (e) => {
-    var files = Array.prototype.slice.call(e.target.files, 0)
-    files.forEach(f => 
-      this.insertBlockComponent("image", {src: URL.createObjectURL(f)}))
-  };
-
-  toggleBlockType = (blockType) => {
-    this.onEditorChange(
-      RichUtils.toggleBlockType(this.props.editorState, blockType));
-
-    //setTimeout(this.updateSelection, 4)
-    //this.updateSelection()
-  };
-
-  toggleInlineStyle = (style) => {
-    if (style != 'LINK'){
-      return this.onEditorChange(
-        RichUtils.toggleInlineStyle(this.props.editorState, style));
+  // For backwards compatibility
+  insertBlockComponent = (blockType, componentProps) => {
+    if (isInDev && componentProps){
+      console.warn(`The second componentProps parameter is not supported anymore
+        if this breaks your workflow, please file an issue at 
+        https://github.com/AlastairTaft/draft-js-editor`)
     }
-
-    // Add a link
-    const selection = this.props.editorState.getSelection();
-    if (selection.isCollapsed()) {
-      return;
+    if (isInDev){
+      console.warn(`insertBlockComponent is deprecated, use insertBlock instead.`)
     }
-    const href = window.prompt('Enter a URL');
-    const entityKey = Entity.create('link', 'MUTABLE', {href});
-    const content = this.props.editorState.getCurrentContent();   
-    this.onEditorChange(
-      RichUtils.toggleLink(this.props.editorState, selection, entityKey))
-
+    return this.insertBlock(blockType)
   };
+
+  componentDidUpdate = () => this.updateSelection();
 
   onEditorChange = (editorState) => {
     var { onChange } = this.props
     onChange(editorState)
-  };
-
-  get = () => {
-    const content = this.props.editorState.getCurrentContent()
-    return convertToRaw(content)
-  };
-
-  /*insertBlock = (type, data) => {
-    var editorState = insertMediaBlock(this.props.editorState, type, data)
-    this.setState({
-      editorState,
-    })
-  };*/
-
-  insertBlockComponent = (type, data) => {
-
-    // TODO cerate a componnet pool with type
-    //var type = generateUniqueType()
-    
-    var { editorState, entityKey } = insertMediaBlock(this.props.editorState, type, data)
-    /*this.setState({
-      editorState,
-    })*/
-    this.props.onChange(editorState)
-
-    return entityKey
-  };
-
-  getEditorState = () => {
-    return this.props.editorState
   };
 
   onBlur = () => {
@@ -364,6 +297,7 @@ export default class RichEditor extends React.Component {
       iconSelectedColor,
       popoverStyle,
       inlineButtons,
+      blockButtons,
       editorState,
       ...otherProps, } = this.props
 
@@ -395,20 +329,16 @@ export default class RichEditor extends React.Component {
       <div style={Object.assign({}, styles.editorContainer, this.props.style)} 
         className={this.props.className} onClick={this._focus}>
         <SideControl style={sideControlStyles} 
-          onImageClick={this.props.onImageClick
-          // This editor will support a real basic example of inserting an image
-          // into the page, just so something works out the box. 
-            || ((e) => this.refs['fileInput'].click())}
-          toggleBlockType={type => this.toggleBlockType(type)}
-          selectedBlockType={selectedBlockType}
           iconSelectedColor={iconSelectedColor}
           iconColor={iconColor}
           popoverStyle={popoverStyle}
           ref="sideControl"
+          buttons={blockButtons}
+          editorState={editorState}
+          updateEditorState={this.onEditorChange}
         />
         <PopoverControl 
           style={popoverStyleLocal} 
-          toggleInlineStyle={style => this.toggleInlineStyle(style)}
           editorState={editorState}
           iconSelectedColor={iconSelectedColor}
           iconColor={iconColor}
@@ -418,20 +348,19 @@ export default class RichEditor extends React.Component {
         />
         <Editor
           blockRendererFn={this._blockRenderer}
+          blockRenderMap={defaultBlockRenderMap}
+          spellCheck={true}
           {...otherProps}
           editorState={editorState}
-          handleKeyCommand={this._handleKeyCommand}
           onChange={this._onChange}
-          placeholder={this.props.placeholder}
-          readOnly={this.props.readOnly}
           ref="editor"
-          spellCheck={true}
           onBlur={this.onBlur}
+          handleKeyCommand={this._handleKeyCommand}
         />
-        <input type="file" ref="fileInput" style={{display: 'none'}} 
-          onChange={this.handleFileInput} />
       </div>
         
     );
   }
 }
+
+export default RichEditor

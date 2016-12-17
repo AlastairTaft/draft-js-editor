@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node server.js",
     "lint": "eslint src",
-    "build": "rimraf public && npm run build:static & npm run build:bundle",
+    "build": "rimraf ../docs && npm run build:static & npm run build:bundle",
     "build:bundle": "webpack --config=webpack.production.config.js",
     "build:static": "babel-node scripts/buildStaticPages.js"
   },

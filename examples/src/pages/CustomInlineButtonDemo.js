@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import Editor from './../../../src/Editor'
-import defaultInlineButtons from './../../../src/components/PopoverControl/defaultButtons.js'
+import Editor from 'draft-js-editor/lib/Editor'
+import defaultInlineButtons from 'draft-js-editor/lib/components/PopoverControl/defaultButtons.js'
 import { RichUtils } from 'draft-js'
 
 const inlineButtons = defaultInlineButtons.slice()

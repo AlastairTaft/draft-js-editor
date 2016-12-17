@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import Editor from './../../../src/Editor'
-import defaultDecorator from './../../../src/components/defaultDecorator'
+import Editor from 'draft-js-editor/lib/Editor'
+import defaultDecorator from 'draft-js-editor/lib/components/defaultDecorator'
 import { EditorState } from 'draft-js'
 
 class MultipleEditorsDemo extends Component {

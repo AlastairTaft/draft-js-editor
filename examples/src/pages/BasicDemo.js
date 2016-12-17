@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Editor from './../../../src/Editor'
+import Editor from 'draft-js-editor/lib/Editor'
 
 class BasicDemo extends Component {
 
@@ -19,5 +19,7 @@ class BasicDemo extends Component {
     </div>
   }
 }
+
+//
 
 export default BasicDemo

@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "start": "node server.js",
+    "start": "NODE_PATH=./node_modules node server.js",
     "lint": "eslint src",
     "build": "rimraf ../docs && npm run build:static & npm run build:bundle",
     "build:bundle": "webpack --config=webpack.production.config.js",
@@ -27,10 +27,12 @@
     "babel-cli": "^6.18.0",
     "draft-js": "^0.9.1",
     "draft-js-editor": "^1.8.5",
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2",
     "react-hot-loader": "^3.0.0-beta.6",
     "react-router": "^3.0.0",
     "rimraf": "^2.5.4"
+  },
+  "peerDependencies": {
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2"
   }
 }

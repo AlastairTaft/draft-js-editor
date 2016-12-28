@@ -285,6 +285,9 @@ class RichEditor extends React.Component {
     var sideControlEle = ReactDOM.findDOMNode(this.refs['sideControl'])
     popoverControlEle.style.display = 'none'
     sideControlEle.style.display = 'none'
+    const { onBlur } = this.props
+    if (onBlur)
+      onBlur.apply(this, arguments)
   };
 
   /**

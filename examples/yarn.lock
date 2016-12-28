@@ -848,14 +848,14 @@ babel-register@^6.18.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.2"
 
-babel-runtime@^6.0.0, babel-runtime@^6.11.6, babel-runtime@^6.20.0:
+babel-runtime@6.20.0, babel-runtime@^6.0.0, babel-runtime@^6.11.6, babel-runtime@^6.20.0, babel-runtime@^6.9.1:
   version "6.20.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.20.0.tgz#87300bdcf4cd770f09bf0048c64204e17806d16f"
   dependencies:
     core-js "^2.4.0"
     regenerator-runtime "^0.10.0"
 
-babel-runtime@^6.9.0, babel-runtime@^6.9.1:
+babel-runtime@^6.9.0:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.18.0.tgz#0f4177ffd98492ef13b9f823e9994a02584c9078"
   dependencies:
@@ -1137,6 +1137,12 @@ crypto-browserify@~3.2.6:
     pbkdf2-compat "2.0.1"
     ripemd160 "0.2.0"
     sha.js "2.2.6"
+
+css-vendor@^0.3.8:
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/css-vendor/-/css-vendor-0.3.8.tgz#6421cfd3034ce664fe7673972fd0119fc28941fa"
+  dependencies:
+    is-in-browser "^1.0.2"
 
 d@^0.1.1, d@~0.1.1:
   version "0.1.1"
@@ -1505,7 +1511,7 @@ fast-levenshtein@~2.0.4:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.5.tgz#bd33145744519ab1c36c3ee9f31f08e9079b67f2"
 
-fbjs@^0.8.3, fbjs@^0.8.4:
+fbjs@^0.8.3:
   version "0.8.5"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.5.tgz#f69ba8a876096cb1b9bffe4d7c1e71c19d39d008"
   dependencies:
@@ -1959,6 +1965,10 @@ is-glob@^2.0.0, is-glob@^2.0.1:
   dependencies:
     is-extglob "^1.0.0"
 
+is-in-browser@1.0.2, is-in-browser@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/is-in-browser/-/is-in-browser-1.0.2.tgz#f688bea8f1e5aadc3244ebc870d188cfb9b613cf"
+
 is-my-json-valid@^2.10.0, is-my-json-valid@^2.12.4:
   version "2.15.0"
   resolved "https://registry.yarnpkg.com/is-my-json-valid/-/is-my-json-valid-2.15.0.tgz#936edda3ca3c211fd98f3b2d3e08da43f7b2915b"
@@ -2104,6 +2114,73 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.3.6"
 
+jss-camel-case@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/jss-camel-case/-/jss-camel-case-3.0.0.tgz#46aa18eb149e95afce074532ad47df1c2a7d45cb"
+
+jss-compose@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/jss-compose/-/jss-compose-2.0.0.tgz#f144357fc3d6a0341741590716b03d313143bdb4"
+  dependencies:
+    warning "^3.0.0"
+
+jss-default-unit@^5.0.0:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/jss-default-unit/-/jss-default-unit-5.0.1.tgz#7962d38d763a544d46c30e631549ee0fa851476c"
+
+jss-expand@^2.0.1:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/jss-expand/-/jss-expand-2.0.2.tgz#ed49cb7ba8de6cb24c36c051ad9d153d8ace2d34"
+
+jss-extend@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/jss-extend/-/jss-extend-3.0.0.tgz#01bda4ad71a3048ed776e085b61566e104743975"
+  dependencies:
+    warning "^3.0.0"
+
+jss-global@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/jss-global/-/jss-global-0.3.0.tgz#9879edca7f999c70742380cfa401d67f8257261d"
+
+jss-nested@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/jss-nested/-/jss-nested-3.0.0.tgz#bf646cd941ec93a459e88f6f32df239ac7733259"
+  dependencies:
+    warning "^3.0.0"
+
+jss-preset-default@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/jss-preset-default/-/jss-preset-default-1.1.0.tgz#ab163d8b908084d00755621bf5d0566533f8736b"
+  dependencies:
+    jss-camel-case "^3.0.0"
+    jss-compose "^2.0.0"
+    jss-default-unit "^5.0.0"
+    jss-expand "^2.0.1"
+    jss-extend "^3.0.0"
+    jss-global "^0.3.0"
+    jss-nested "^3.0.0"
+    jss-props-sort "^3.0.0"
+    jss-vendor-prefixer "^4.0.0"
+
+jss-props-sort@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/jss-props-sort/-/jss-props-sort-3.0.0.tgz#19544610109b1fa953f22799eecb080240d8dc00"
+
+jss-vendor-prefixer@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/jss-vendor-prefixer/-/jss-vendor-prefixer-4.0.0.tgz#df16a8fcc6ecb4567394174e6ab90145cf8b34a3"
+  dependencies:
+    css-vendor "^0.3.8"
+
+jss@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/jss/-/jss-6.1.0.tgz#1988b6f182af9e6cbd93e4d39f2561126a6e6fd7"
+  dependencies:
+    babel-runtime "6.20.0"
+    is-in-browser "1.0.2"
+    murmurhash-js "1.0.0"
+    warning "3.0.0"
+
 jsx-ast-utils@^1.3.3:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/jsx-ast-utils/-/jsx-ast-utils-1.3.3.tgz#ccfdbe0320ba03f7a1fc4e67ceaf7e2cc0169721"
@@ -2149,7 +2226,7 @@ longest@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/longest/-/longest-1.0.1.tgz#30a0b2da38f73770e8294a0d22e6625ed77d0097"
 
-loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.2.0:
+loose-envify@^1.0.0, loose-envify@^1.2.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.3.0.tgz#6b26248c42f6d4fa4b0d8542f78edfcde35642a8"
   dependencies:
@@ -2239,6 +2316,10 @@ minimist@^1.2.0:
 ms@0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.1.tgz#9cd13c03adbff25b65effde7ce864ee952017098"
+
+murmurhash-js@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/murmurhash-js/-/murmurhash-js-1.0.0.tgz#b06278e21fc6c37fa5313732b0412bcb6ae15f51"
 
 mute-stream@0.0.5:
   version "0.0.5"
@@ -2450,6 +2531,10 @@ pbkdf2-compat@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/pbkdf2-compat/-/pbkdf2-compat-2.0.1.tgz#b6e0c8fa99494d94e0511575802a59a5c142f288"
 
+performance-now@^0.2.0, performance-now@~0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-0.2.0.tgz#33ef30c5c77d4ea21c5a53869d91b56d8f2555e5"
+
 pify@^2.0.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/pify/-/pify-2.3.0.tgz#ed141a6ac043a849ea588498e7dca8b15330e90c"
@@ -2550,6 +2635,12 @@ querystring@0.2.0, querystring@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
 
+raf@^3.1.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/raf/-/raf-3.3.0.tgz#93845eeffc773f8129039f677f80a36044eee2c3"
+  dependencies:
+    performance-now "~0.2.0"
+
 randomatic@^1.1.3:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/randomatic/-/randomatic-1.1.5.tgz#5e9ef5f2d573c67bd2b8124ae90b5156e457840b"
@@ -2574,9 +2665,9 @@ react-deep-force-update@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-2.0.1.tgz#4f7f6c12c3e7de42f345992a3c518236fa1ecad3"
 
-react-dom@^15.3.2:
-  version "15.3.2"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.3.2.tgz#c46b0aa5380d7b838e7a59c4a7beff2ed315531f"
+react-easy-swipe@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/react-easy-swipe/-/react-easy-swipe-0.0.5.tgz#e89c2c09c556c805c30868bb81dd99852339edff"
 
 react-hot-loader@^3.0.0-beta.6:
   version "3.0.0-beta.6"
@@ -2588,6 +2679,13 @@ react-hot-loader@^3.0.0-beta.6:
     react-proxy "^3.0.0-alpha.0"
     redbox-react "^1.2.5"
     source-map "^0.4.4"
+
+react-motion@^0.4.7:
+  version "0.4.7"
+  resolved "https://registry.yarnpkg.com/react-motion/-/react-motion-0.4.7.tgz#f77331ec7920bdb0d0cfc37eb6ffa10571bf42c7"
+  dependencies:
+    performance-now "^0.2.0"
+    raf "^3.1.0"
 
 react-proxy@^3.0.0-alpha.0:
   version "3.0.0-alpha.1"
@@ -2604,14 +2702,6 @@ react-router@^3.0.0:
     invariant "^2.2.1"
     loose-envify "^1.2.0"
     warning "^3.0.0"
-
-react@^15.3.2:
-  version "15.3.2"
-  resolved "https://registry.yarnpkg.com/react/-/react-15.3.2.tgz#a7bccd2fee8af126b0317e222c28d1d54528d09e"
-  dependencies:
-    fbjs "^0.8.4"
-    loose-envify "^1.1.0"
-    object-assign "^4.1.0"
 
 readable-stream@^1.0.27-1, readable-stream@^1.1.13:
   version "1.1.14"
@@ -3148,7 +3238,7 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
-warning@^3.0.0:
+warning@3.0.0, warning@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/warning/-/warning-3.0.0.tgz#32e5377cb572de4ab04753bdf8821c01ed605b7c"
   dependencies:

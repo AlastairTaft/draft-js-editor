@@ -125,9 +125,9 @@ class RichEditor extends React.Component {
       throw new Error(`You passed in a ContentState object when an EditorState 
         object was expected, use EditorState.createWithContent first.`)
 
-    if (props.editorState != null && 
+    /*if (props.editorState != null && 
       !(props.editorState instanceof EditorState))
-     throw new Error('Invalid editorState')
+     throw new Error('Invalid editorState')*/
     
     
     this.updateSelection = () => {

@@ -4,6 +4,7 @@ import MultipleEditorsDemo from './pages/MultipleEditorsDemo'
 import RawContentDemo from './pages/RawContentDemo'
 import CustomBlockButtonDemo from './pages/CustomBlockButtonDemo'
 import CustomBlockButtonDraftApiDemo from './pages/CustomBlockButtonDraftApiDemo'
+import CustomMenu from './pages/CustomMenu'
 
 const routes = [
   {
@@ -29,6 +30,10 @@ const routes = [
 	{
 		path: 'custom-block-button-draft-api',
 		component: CustomBlockButtonDraftApiDemo,
+	}, 
+	{
+		path: 'custom-menu',
+		component: CustomMenu
 	}
 ]
 

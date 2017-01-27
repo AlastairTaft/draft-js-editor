@@ -309,13 +309,16 @@ class RichEditor extends React.Component {
       this._onChange(editorState)
     }
 
-    var currentInlineStyle = editorState.getCurrentInlineStyle();
-
-    const selection = editorState.getSelection();
-    const selectedBlockType = editorState
+    /*const selectedBlock = editorState
       .getCurrentContent()
       .getBlockForKey(selection.getStartKey())
-      .getType();
+
+    if (selectedBlock){
+      var selectedBlockType = selectedBlock.getType()
+      var currentInlineStyle = editorState.getCurrentInlineStyle()
+    }
+    const selection = editorState.getSelection()*/
+    
 
     var sideControlStyles = Object.assign({}, styles.sideControl)
     /*if (this.props.readOnly != true && this.state.sideControlVisible){

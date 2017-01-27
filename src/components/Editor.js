@@ -356,12 +356,12 @@ class RichEditor extends React.Component {
           blockRendererFn={this._blockRenderer}
           blockRenderMap={defaultBlockRenderMap}
           spellCheck={true}
+          handleKeyCommand={this._handleKeyCommand}
           {...otherProps}
           editorState={editorState}
           onChange={this._onChange}
           ref="editor"
           onBlur={this.onBlur}
-          handleKeyCommand={this._handleKeyCommand}
         />
       </div>
         

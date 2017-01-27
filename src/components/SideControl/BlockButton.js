@@ -42,10 +42,11 @@ class BlockButton extends Component {
 
   isSelected = (editorState, blockType) => {
     const selection = editorState.getSelection()
-    const selectedBlockType = editorState
+    const selectedBlock = editorState
       .getCurrentContent()
       .getBlockForKey(selection.getStartKey())
-      .getType()
+    if (!selectedBlock) return false
+    const selectedBlockType.getType()
     return selectedBlockType == blockType
   };
 

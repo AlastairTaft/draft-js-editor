@@ -46,7 +46,7 @@ class BlockButton extends Component {
       .getCurrentContent()
       .getBlockForKey(selection.getStartKey())
     if (!selectedBlock) return false
-    const selectedBlockType.getType()
+    const selectedBlockType = selectedBlock.getType()
     return selectedBlockType == blockType
   };
 

@@ -239,7 +239,7 @@ class RichEditor extends React.Component {
 
   _onChange = (editorState) => this.props.onChange(editorState);
 
-  _focus = () => {
+  focus = () => {
     if (this.props.readOnly) return
 
     var editorNode = ReactDOM.findDOMNode(this.refs['editor'])
@@ -333,7 +333,7 @@ class RichEditor extends React.Component {
 
     return (
       <div style={Object.assign({}, styles.editorContainer, this.props.style)} 
-        className={this.props.className} onClick={this._focus}>
+        className={this.props.className} onClick={this.focus}>
         <SideControl style={sideControlStyles} 
           iconSelectedColor={iconSelectedColor}
           iconColor={iconColor}

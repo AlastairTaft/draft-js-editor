@@ -28,6 +28,7 @@
     "draft-js": "^0.9.1",
     "draft-js-editor": "^1.8.5",
     "jss": "^6.1.0",
+    "jss-global": "^0.4.1",
     "jss-preset-default": "^1.1.0",
     "react-easy-swipe": "^0.0.5",
     "react-hot-loader": "^3.0.0-beta.6",

@@ -8,17 +8,17 @@ import insertBlock from 'draft-js-editor/lib/modifiers/insertBlock'
 
 jss.setup(preset())
 
-jss.createStyleSheet({
-  '.SideMenu': {
-    //position: 'fixed',
-    position: 'relative',
+const sheet = jss.createStyleSheet({
+  sideMenu: {
+    position: 'fixed',
+    //position: 'relative',
     left: 0,
     top: 0,
     width: 200,
     height: '100vh',
     backgroundColor: 'red',
   },
-  '.SideMenu-contents': {
+  contents: {
   	width: '100vw',
   	position: 'fixed',
   	left: 0,
@@ -27,7 +27,9 @@ jss.createStyleSheet({
   	// This is the nav bar offset
   	paddingRight: 20,
   },
-}, {named: false}).attach()
+}).attach()
+
+const styles = sheet.classes
 
 class SideMenu extends Component {
 	
@@ -79,14 +81,14 @@ class SideMenu extends Component {
           onSwipeMove={this.onSwipeMove}
           onSwipeEnd={this.onSwipeEnd}
         >
-          <div className="SideMenu" style={{left}}>
+          <div className={styles.sideMenu} style={{left}}>
             <Button
               onClick={() => onEditorStateChange(insertBlock(editorState, 'textInput'))}
             >
               Text
             </Button>
           </div>
-          <div className="SideMenu-contents" style={{left: left + 200}}>
+          <div className={styles.contents} style={{left: left + 200}}>
           	{children}
           </div>
         </Swipe>

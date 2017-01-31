@@ -2142,6 +2142,10 @@ jss-global@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/jss-global/-/jss-global-0.3.0.tgz#9879edca7f999c70742380cfa401d67f8257261d"
 
+jss-global@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/jss-global/-/jss-global-0.4.1.tgz#41862c78528de4d333853004eb71adecde1a5fda"
+
 jss-nested@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/jss-nested/-/jss-nested-3.0.0.tgz#bf646cd941ec93a459e88f6f32df239ac7733259"

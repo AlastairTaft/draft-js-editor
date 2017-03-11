@@ -11,7 +11,13 @@ const toggleLink = (editorState) => {
   if (selection.isCollapsed()) {
     return;
   }
-  const href = window.prompt('Enter a URL');
+
+  let href = window.prompt('Enter a URL') || "";
+
+  if (href && !href.startsWith("http://") && !href.startsWith("https://")) {
+    href = "http://" + href;
+  }
+
   const entityKey = Entity.create('LINK', 'MUTABLE', {href, url: href});
   const content = editorState.getCurrentContent();   
   return RichUtils.toggleLink(editorState, selection, entityKey)

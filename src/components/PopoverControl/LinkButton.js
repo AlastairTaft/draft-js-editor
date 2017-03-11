@@ -12,7 +12,7 @@ const toggleLink = (editorState) => {
     return;
   }
   const href = window.prompt('Enter a URL');
-  const entityKey = Entity.create('LINK', 'MUTABLE', {href});
+  const entityKey = Entity.create('LINK', 'MUTABLE', {href, url: href});
   const content = editorState.getCurrentContent();   
   return RichUtils.toggleLink(editorState, selection, entityKey)
 };

@@ -54,8 +54,8 @@ export default function insertAtomicBlock(editorState, data) {
     new ContentBlock({
       key: genKey(),
       type: 'atomic',
-      text: ' ',
-      characterList: List(Repeat(charData, 1)),
+      text: data.text || ' ',
+      characterList: List(Repeat(charData, (data.text || ' ').length)),
       data,
     }),
     new ContentBlock({

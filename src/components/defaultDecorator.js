@@ -7,7 +7,9 @@ function findLinkEntities(contentBlock, callback) {
       const entityKey = character.getEntity();
       return (
         entityKey !== null &&
-        Entity.get(entityKey).getType() === 'LINK'
+        (Entity.get(entityKey).getType() === 'LINK'
+          // For backward compatibility
+          || Entity.get(entityKey).getType() === 'link')
       );
     },
     callback

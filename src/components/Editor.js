@@ -140,16 +140,15 @@ class RichEditor extends React.Component {
         popoverControlTop = null,
         popoverControlLeft = null
       
-      
       let selectionRange = getSelectionRange()
       if (!selectionRange) return
       
-      var editorEle = ReactDOM.findDOMNode(this.refs['editor'])
+      var editorEle = ReactDOM.findDOMNode(this.editor_)
       if (!isParentOf(selectionRange.commonAncestorContainer, editorEle))
         return
 
-      var popoverControlEle = ReactDOM.findDOMNode(this.refs['popoverControl'])
-      var sideControlEle = ReactDOM.findDOMNode(this.refs['sideControl'])
+      var popoverControlEle = ReactDOM.findDOMNode(this.popoverControl_)
+      var sideControlEle = ReactDOM.findDOMNode(this.sideControl_)
 
       let rangeBounds = selectionRange.getBoundingClientRect()
       var selectedBlock = getSelectedBlockElement(selectionRange)
@@ -242,7 +241,7 @@ class RichEditor extends React.Component {
   focus = () => {
     if (this.props.readOnly) return
 
-    var editorNode = ReactDOM.findDOMNode(this.refs['editor'])
+    var editorNode = ReactDOM.findDOMNode(this.editor_)
     var editorBounds = editorNode.getBoundingClientRect()
     this.setState({
       editorBounds,
@@ -250,7 +249,7 @@ class RichEditor extends React.Component {
 
     var scrollParent = Style.getScrollParent(editorNode);
     //console.log(`focus called: ${require('util').inspect(getUnboundedScrollPosition(scrollParent))}`)
-    this.refs.editor.focus(getUnboundedScrollPosition(scrollParent));
+    this.editor_.focus(getUnboundedScrollPosition(scrollParent));
     //this.refs.editor.focus();
   };
 
@@ -281,8 +280,8 @@ class RichEditor extends React.Component {
   };
 
   onBlur = () => {
-    var popoverControlEle = ReactDOM.findDOMNode(this.refs['popoverControl'])
-    var sideControlEle = ReactDOM.findDOMNode(this.refs['sideControl'])
+    var popoverControlEle = ReactDOM.findDOMNode(this.popoverControl_)
+    var sideControlEle = ReactDOM.findDOMNode(this.sideControl_)
     popoverControlEle.style.display = 'none'
     sideControlEle.style.display = 'none'
     const { onBlur } = this.props
@@ -338,7 +337,8 @@ class RichEditor extends React.Component {
           iconSelectedColor={iconSelectedColor}
           iconColor={iconColor}
           popoverStyle={popoverStyle}
-          ref="sideControl"
+          //ref="sideControl"
+          ref={el => this.sideControl_ = el}
           buttons={blockButtons}
           editorState={editorState}
           updateEditorState={this.onEditorChange}
@@ -349,7 +349,8 @@ class RichEditor extends React.Component {
           iconSelectedColor={iconSelectedColor}
           iconColor={iconColor}
           updateEditorState={this.onEditorChange}
-          ref="popoverControl"
+          //ref="popoverControl"
+          ref={el => this.popoverControl_ = el}
           buttons={inlineButtons}
         />
         <Editor
@@ -360,7 +361,8 @@ class RichEditor extends React.Component {
           {...otherProps}
           editorState={editorState}
           onChange={this._onChange}
-          ref="editor"
+          //ref="editor"
+          ref={el => this.editor_ = el}
           onBlur={this.onBlur}
         />
       </div>

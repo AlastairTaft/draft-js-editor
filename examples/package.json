@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "start": "NODE_PATH=./node_modules node server.js",
+    "start": "NODE_PATH=./node_modules node --preserve-symlinks server.js",
     "lint": "eslint src",
     "build": "rimraf ../docs && npm run build:static & npm run build:bundle",
     "build:bundle": "webpack --config=webpack.production.config.js",
@@ -19,13 +19,13 @@
     "eslint": "^3.9.1",
     "eslint-plugin-react": "^6.5.0",
     "express": "^4.13.4",
-    "webpack": "^1.12.2",
+    "webpack": "^2.6.1",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.10.0"
   },
   "dependencies": {
     "babel-cli": "^6.18.0",
-    "draft-js": "^0.10.0",
+    "draft-js": "^0.10.1",
     "draft-js-editor": "^1.8.5",
     "jss": "^6.1.0",
     "jss-global": "^0.4.1",

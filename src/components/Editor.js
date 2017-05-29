@@ -175,8 +175,6 @@ class RichEditor extends React.Component {
           popoverControlEle.style.display = 'block'
           var popoverWidth = popoverControlEle.clientWidth
 
-
-
           popoverControlVisible = true
           var rangeWidth = rangeBounds.right - rangeBounds.left,
             rangeHeight = rangeBounds.bottom - rangeBounds.top
@@ -187,7 +185,6 @@ class RichEditor extends React.Component {
             + (rangeBounds.left - editorBounds.left)
             + (rangeWidth / 2)
             - (/*styles.popOverControl.width*/ popoverWidth / 2)
-
 
           //console.log(popoverControlEle)
           //console.log(popoverControlEle.style)

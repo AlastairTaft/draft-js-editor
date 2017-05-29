@@ -14,7 +14,6 @@ module.exports = {
     publicPath: '/js/'
   },
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
     //new webpack.HotModuleReplacementPlugin(),
     //new webpack.NoErrorsPlugin(),
     new webpack.optimize.UglifyJsPlugin(),
@@ -23,10 +22,17 @@ module.exports = {
     })
   ],
   module: {
-    loaders: [{
+    rules: [{
       test: /\.jsx?$/,
-      loaders: ['babel'],
+      user: ['babel-loader'],
       include: path.join(__dirname, 'src')
     }]
+  },
+  resolve: {
+    extensions: [ '.js', '.jsx', '.json' ],
+    modules: [
+      path.join(__dirname, "node_modules")
+    ],
+    symlinks: false,
   }
 };

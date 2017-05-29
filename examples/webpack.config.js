@@ -14,15 +14,21 @@ module.exports = {
     publicPath: '/draft-js-editor/js/'
   },
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
   ],
   module: {
-    loaders: [{
+    rules: [{
       test: /\.jsx?$/,
-      loaders: ['babel'],
+      use: ['babel-loader'],
       include: path.join(__dirname, 'src')
     }]
+  },
+  resolve: {
+    extensions: [ '.js', '.jsx', '.json' ],
+    modules: [
+      path.join(__dirname, "node_modules")
+    ],
+    symlinks: false,
   }
 };

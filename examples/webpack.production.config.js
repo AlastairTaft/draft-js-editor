@@ -24,7 +24,7 @@ module.exports = {
   module: {
     rules: [{
       test: /\.jsx?$/,
-      user: ['babel-loader'],
+      use: ['babel-loader'],
       include: path.join(__dirname, 'src')
     }]
   },

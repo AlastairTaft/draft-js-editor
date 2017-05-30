@@ -1,9 +1,8 @@
 /**
  * Builds folders that match pages and adds index.html files.
  */
-import fs from 'fs'
-import path from 'path'
-import routes from './../src/routes'
+var fs = require('fs')
+var path = require('path')
 
 const getTemplate = (pathToRoot = '') => `<!doctype html>
 <html>
@@ -23,8 +22,19 @@ let docsFolder = path.resolve(__dirname, '../../docs')
 fs.mkdirSync(docsFolder)
 fs.writeFileSync(docsFolder + '/index.html', getTemplate())
 
-routes.forEach(route => {
-	let folderPath = docsFolder + '/' + route.path
+// Needs to match routes.js
+const routePaths = [
+  'basic',
+  'custom-inline-button',
+  'multiple-editors-test',
+  'raw-content-test',
+  'custom-block-button',
+  'custom-block-button-draft-api',
+  'custom-menu',
+]
+
+routePaths.forEach(path => {
+	let folderPath = docsFolder + '/' + path
 	fs.mkdirSync(folderPath)
 	fs.writeFileSync(folderPath + '/index.html', getTemplate('../'))
 })

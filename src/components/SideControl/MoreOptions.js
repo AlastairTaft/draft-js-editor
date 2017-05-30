@@ -76,9 +76,10 @@ export default class MoreOptions extends Component {
 			buttons, 
 			updateEditorState,
 			editorState,
+			...otherProps
 		} = this.props
 
-		return <div style={Object.assign({}, styles.container)}>
+		return <div style={Object.assign({}, styles.container)} {...otherProps}>
 			<div style={Object.assign({}, styles.innerContainer, style)}>
 				{(buttons || defaultButtons).map(button => React.cloneElement(button, {
 	          // Pass down some useful props to each button

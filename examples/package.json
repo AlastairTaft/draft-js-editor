@@ -7,7 +7,7 @@
     "lint": "eslint src",
     "build": "rimraf ../docs && npm run build:static & npm run build:bundle",
     "build:bundle": "webpack --config=webpack.production.config.js",
-    "build:static": "babel-node scripts/buildStaticPages.js"
+    "build:static": "node --preserve-symlinks scripts/buildStaticPages.js"
   },
   "devDependencies": {
     "babel-core": "^6.0.20",

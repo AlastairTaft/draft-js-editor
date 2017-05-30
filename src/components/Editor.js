@@ -44,7 +44,7 @@ const isInDev = typeof process == 'undefined'
 
 const styles = {
   editorContainer: {
-    position: 'relative',
+    //position: 'relative',
     //paddingLeft: 48,
   },
   popOverControl: {
@@ -55,9 +55,9 @@ const styles = {
     zIndex: 999,
   },
   sideControl: {
-    height: 24, // Required to figure out positioning
+    height: 38, // Required to figure out positioning
     //width: 48, // Needed to figure out how much to offset the sideControl left
-    left: -24,
+    left: -40,
     display: 'none',
   }
 }
@@ -140,9 +140,11 @@ class RichEditor extends React.Component {
         popoverControlTop = null,
         popoverControlLeft = null
       
+
+
       let selectionRange = getSelectionRange()
       if (!selectionRange) return
-      
+
       var editorEle = ReactDOM.findDOMNode(this.editor_)
       if (!isParentOf(selectionRange.commonAncestorContainer, editorEle))
         return
@@ -157,14 +159,36 @@ class RichEditor extends React.Component {
 
         sideControlVisible = true
         //sideControlTop = this.state.selectedBlock.offsetTop
-        var editorBounds = this.state.editorBounds
-        if (!editorBounds) return
-        sideControlTop = (blockBounds.top - editorBounds.top)
+
+        var editorNode = ReactDOM.findDOMNode(this.editor_)
+        if (!editorNode) return
+        var editorBounds = editorNode.getBoundingClientRect()
+        // Get offset parent that isn't a table cell
+        var offsetParent = getNonTDOffsetParent(editorNode)
+        var offsetParentBounds = offsetParent.getBoundingClientRect()
+
+        sideControlTop = (blockBounds.top - offsetParentBounds.top)
           + ((blockBounds.bottom - blockBounds.top) / 2)
           - (styles.sideControl.height / 2)
 
+        sideControlLeft = (blockBounds.left - offsetParentBounds.left)
+          + styles.sideControl.left
+
+        // If the side control is off the screen then put it above the block
+        if (sideControlLeft < 0){
+          sideControlLeft = 0
+          sideControlTop = (blockBounds.top - offsetParentBounds.top)
+            - (styles.sideControl.height)
+        }
+
+        // If it's off the top of the page
+        if (sideControlTop < 0){
+          sideControlTop = (blockBounds.top - offsetParentBounds.top)
+            + ((blockBounds.bottom - blockBounds.top))
+        }
+
         //console.log(require('util').inspect(sideControlTop))
-          
+        
         sideControlEle.style.left = sideControlLeft + 'px'
         sideControlEle.style.top = sideControlTop + 'px'
         sideControlEle.style.display = 'block'
@@ -175,17 +199,21 @@ class RichEditor extends React.Component {
           popoverControlEle.style.display = 'block'
           var popoverWidth = popoverControlEle.clientWidth
 
+          // ----
+          
+          // ----
+          //debugger
           popoverControlVisible = true
           var rangeWidth = rangeBounds.right - rangeBounds.left,
             rangeHeight = rangeBounds.bottom - rangeBounds.top
-          popoverControlTop = (rangeBounds.top - editorBounds.top)
+          popoverControlTop = ((rangeBounds.top - offsetParentBounds.top) /*- (editorBounds.top - offsetParentBounds.top)*/)
             - styles.popOverControl.height
             - popoverSpacing
           popoverControlLeft = 0
-            + (rangeBounds.left - editorBounds.left)
+            + (rangeBounds.left - offsetParentBounds.left)
             + (rangeWidth / 2)
             - (/*styles.popOverControl.width*/ popoverWidth / 2)
-
+          
           //console.log(popoverControlEle)
           //console.log(popoverControlEle.style)
           popoverControlEle.style.left = popoverControlLeft + 'px'
@@ -239,10 +267,23 @@ class RichEditor extends React.Component {
     if (this.props.readOnly) return
 
     var editorNode = ReactDOM.findDOMNode(this.editor_)
-    var editorBounds = editorNode.getBoundingClientRect()
-    this.setState({
-      editorBounds,
-    })
+    
+    // relative bounds, this is the distance before finding a node with position
+    // relative.
+    //
+    
+    //var relativeBounds = {
+    //  left: editorBounds.left - offsetParentBounds.left, 
+    //  top: editorBounds.top - offsetParentBounds.top,
+    //}
+    //debugger
+    //var parent = editorNode.offsetParent
+    
+
+    /*this.setState({
+      //editorBounds,
+      editorBounds: Object.assign({}, offsetParentBounds, {top: topOffset}),
+    })*/
 
     var scrollParent = Style.getScrollParent(editorNode);
     //console.log(`focus called: ${require('util').inspect(getUnboundedScrollPosition(scrollParent))}`)
@@ -366,6 +407,18 @@ class RichEditor extends React.Component {
         
     );
   }
+}
+
+function getNonTDOffsetParent(ele){
+  var parent = ele.offsetParent
+  while (
+    (parent.style.position != 'relative' && parent != document.body)
+    && (parent.tagName == 'TH' || parent.tagName == 'TD' || parent.tagName == 'TABLE')
+  ){
+
+    parent = parent.offsetParent
+  }
+  return parent
 }
 
 export default RichEditor

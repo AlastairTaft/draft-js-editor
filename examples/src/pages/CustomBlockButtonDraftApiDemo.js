@@ -42,7 +42,7 @@ class CustomBlockButtonDemo extends Component {
 
   render = () => {
     
-    return <div>
+    return <div style={{display: 'inline-block'}}>
       <p>This demonstrates adding a custom block component to the default
       buttons. We're using the standard draft-js api by making use of the <a href="https://facebook.github.io/draft-js/docs/api-reference-editor.html#blockrendererfn">blockRenderFn</a> property.</p>
 

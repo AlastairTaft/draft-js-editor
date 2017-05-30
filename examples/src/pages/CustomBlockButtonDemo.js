@@ -27,7 +27,7 @@ class CustomBlockButtonDemo extends Component {
 
   render = () => {
     
-    return <div>
+    return <div style={{display: 'inline-block'}}>
       <p>This demonstrates adding a custom block component to the default
       block buttons. It uses the `blockTypes` prop which is specific to this
       'draft-js-editor' package. If you want to use the native 'draft-js' api 

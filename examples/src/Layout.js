@@ -11,6 +11,7 @@ jss.createStyleSheet({
 	'@global': {
 		'body': {
 			'font-family': "'Roboto', sans-serif",
+			margin: 0,
 		},
 		'.public-DraftEditorPlaceholder-root': {
 			position: 'absolute',

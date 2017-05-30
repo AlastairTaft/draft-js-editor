@@ -39,7 +39,7 @@ class RawContentDemo extends Component {
   };
 
   render = () => {
-    return <div>
+    return <div style={{display: 'inline-block'}}>
     	<p>Testing rendering raw content</p>
     	<div style={{padding: 40}}>
 	      <Editor 

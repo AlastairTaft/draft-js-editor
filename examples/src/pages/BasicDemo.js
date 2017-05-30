@@ -6,7 +6,7 @@ class BasicDemo extends Component {
   state = {};
 
   render = () => {
-    return <div>
+    return <div style={{display: 'inline-block'}}>
     	<p>This shows what the editor looks like straight out of the box without
     	any customisations.</p>
     	<div style={{padding: 40}}>

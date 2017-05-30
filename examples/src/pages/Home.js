@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 
 class Home extends Component {
   render(){
-    return <div>
+    return <div style={{display: 'inline-block'}}>
       <h1>Draft JS Editor</h1>
       <p>A rich text editor built using draft js.</p>
 

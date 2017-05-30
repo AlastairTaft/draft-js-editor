@@ -13,7 +13,7 @@ class MultipleEditorsDemo extends Component {
   };
 
   render = () => {
-    return <div>
+    return <div style={{display: 'inline-block'}}>
       <p>Testing multiple editors on one screen.</p>
       <div style={{padding: 40}}>
         <Editor 

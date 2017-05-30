@@ -26,7 +26,7 @@
   "dependencies": {
     "babel-cli": "^6.18.0",
     "draft-js": "^0.10.1",
-    "draft-js-editor": "^1.8.5",
+    "draft-js-editor": "^1.9.0",
     "jss": "^6.1.0",
     "jss-global": "^0.4.1",
     "jss-preset-default": "^1.1.0",

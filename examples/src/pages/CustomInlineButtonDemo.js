@@ -11,7 +11,7 @@ class CustomInlineButtonDemo extends Component {
 
   render = () => {
     
-    return <div>
+    return <div style={{display: 'inline-block'}}>
       <p>This demonstrates adding a custom inline button to the default
       buttons. It's a simple button that you can use to toggle highlighting 
       the text in pink.</p>

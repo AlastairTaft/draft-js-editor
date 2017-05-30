@@ -19,6 +19,9 @@ jss.createStyleSheet({
 			left: 0,
 			color: 'grey',
 		},
+		'.DraftEditor-root': {
+			position: 'relative',
+		},
 	}
 }, {named: false}).attach()
 

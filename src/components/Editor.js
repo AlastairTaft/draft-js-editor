@@ -263,7 +263,8 @@ class RichEditor extends React.Component {
 
   _onChange = (editorState) => this.props.onChange(editorState);
 
-  focus = () => {
+  // Removing focus as it interfers with third party onClick events
+  /*focus = () => {
     if (this.props.readOnly) return
 
     var editorNode = ReactDOM.findDOMNode(this.editor_)
@@ -283,13 +284,13 @@ class RichEditor extends React.Component {
     /*this.setState({
       //editorBounds,
       editorBounds: Object.assign({}, offsetParentBounds, {top: topOffset}),
-    })*/
+    })*//*
 
     var scrollParent = Style.getScrollParent(editorNode);
     //console.log(`focus called: ${require('util').inspect(getUnboundedScrollPosition(scrollParent))}`)
     this.editor_.focus(getUnboundedScrollPosition(scrollParent));
     //this.refs.editor.focus();
-  };
+  };*/
 
   insertBlock = (blockType) => {
     const { editorState } = this.props
@@ -370,7 +371,9 @@ class RichEditor extends React.Component {
 
     return (
       <div style={Object.assign({}, styles.editorContainer, this.props.style)} 
-        className={this.props.className} onClick={this.focus}>
+        className={this.props.className} 
+          //onClick={this.focus}
+        >
         <SideControl style={sideControlStyles} 
           iconSelectedColor={iconSelectedColor}
           iconColor={iconColor}

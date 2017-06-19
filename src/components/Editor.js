@@ -140,7 +140,7 @@ class RichEditor extends React.Component {
         popoverControlTop = null,
         popoverControlLeft = null
       
-
+      if (this.props.readOnly) return
 
       let selectionRange = getSelectionRange()
       if (!selectionRange) return
@@ -264,7 +264,7 @@ class RichEditor extends React.Component {
   _onChange = (editorState) => this.props.onChange(editorState);
 
   // Removing focus as it interfers with third party onClick events
-  /*focus = () => {
+  focus = () => {
     if (this.props.readOnly) return
 
     var editorNode = ReactDOM.findDOMNode(this.editor_)
@@ -284,13 +284,13 @@ class RichEditor extends React.Component {
     /*this.setState({
       //editorBounds,
       editorBounds: Object.assign({}, offsetParentBounds, {top: topOffset}),
-    })*//*
+    })*/
 
     var scrollParent = Style.getScrollParent(editorNode);
     //console.log(`focus called: ${require('util').inspect(getUnboundedScrollPosition(scrollParent))}`)
     this.editor_.focus(getUnboundedScrollPosition(scrollParent));
     //this.refs.editor.focus();
-  };*/
+  };
 
   insertBlock = (blockType) => {
     const { editorState } = this.props

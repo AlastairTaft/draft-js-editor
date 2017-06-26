@@ -14,6 +14,7 @@ class BasicDemo extends Component {
 	        placeholder="Write your content..." 
           onChange={(editorState) => this.setState({ editorState })}
           editorState={this.state.editorState}
+          readOnly={false}
 	      />
 	    </div>
     </div>

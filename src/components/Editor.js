@@ -340,6 +340,7 @@ class RichEditor extends React.Component {
       inlineButtons,
       blockButtons,
       editorState,
+      placeholder,
       ...otherProps, } = this.props
 
     if (!editorState){
@@ -372,7 +373,7 @@ class RichEditor extends React.Component {
     return (
       <div style={Object.assign({}, styles.editorContainer, this.props.style)} 
         className={this.props.className} 
-          //onClick={this.focus}
+          onClick={placeholder ? this.focus : undefined}
         >
         <SideControl style={sideControlStyles} 
           iconSelectedColor={iconSelectedColor}
@@ -399,6 +400,7 @@ class RichEditor extends React.Component {
           blockRenderMap={defaultBlockRenderMap}
           spellCheck={true}
           handleKeyCommand={this._handleKeyCommand}
+          placeholder={placeholder}
           {...otherProps}
           editorState={editorState}
           onChange={this._onChange}

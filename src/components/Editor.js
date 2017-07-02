@@ -196,8 +196,8 @@ class RichEditor extends React.Component {
         if (!selectionRange.collapsed){
 
           // The control needs to be visible so that we can get it's width
-          popoverControlEle.style.display = 'block'
-          var popoverWidth = popoverControlEle.clientWidth
+          popoverControlEle && (popoverControlEle.style.display = 'block')
+          var popoverWidth = popoverControlEle && popoverControlEle.clientWidth
 
           // ----
           
@@ -216,14 +216,18 @@ class RichEditor extends React.Component {
           
           //console.log(popoverControlEle)
           //console.log(popoverControlEle.style)
-          popoverControlEle.style.left = popoverControlLeft + 'px'
-          popoverControlEle.style.top = popoverControlTop + 'px'
+          if (popoverControlEle){
+            popoverControlEle.style.left = popoverControlLeft + 'px'
+            popoverControlEle.style.top = popoverControlTop + 'px'
+          }
         } else {
-          popoverControlEle.style.display = 'none'
+          if (popoverControlEle)
+            popoverControlEle.style.display = 'none'
         }
       } else {
         sideControlEle.style.display = 'none'
-        popoverControlEle.style.display = 'none'
+        if (popoverControlEle)
+          popoverControlEle.style.display = 'none'
       }
     };
     
@@ -321,7 +325,7 @@ class RichEditor extends React.Component {
   onBlur = () => {
     var popoverControlEle = ReactDOM.findDOMNode(this.popoverControl_)
     var sideControlEle = ReactDOM.findDOMNode(this.sideControl_)
-    popoverControlEle.style.display = 'none'
+    if (popoverControlEle) popoverControlEle.style.display = 'none'
     sideControlEle.style.display = 'none'
     const { onBlur } = this.props
     if (onBlur)
@@ -341,6 +345,7 @@ class RichEditor extends React.Component {
       blockButtons,
       editorState,
       placeholder,
+      showInlineButtons,
       ...otherProps, } = this.props
 
     if (!editorState){
@@ -385,7 +390,7 @@ class RichEditor extends React.Component {
           editorState={editorState}
           updateEditorState={this.onEditorChange}
         />
-        <PopoverControl 
+        {showInlineButtons === false ? null : <PopoverControl 
           style={popoverStyleLocal} 
           editorState={editorState}
           iconSelectedColor={iconSelectedColor}
@@ -394,7 +399,7 @@ class RichEditor extends React.Component {
           //ref="popoverControl"
           ref={el => this.popoverControl_ = el}
           buttons={inlineButtons}
-        />
+        />}
         <Editor
           blockRendererFn={this._blockRenderer}
           blockRenderMap={defaultBlockRenderMap}

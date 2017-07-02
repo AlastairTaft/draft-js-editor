@@ -45,6 +45,7 @@ The Editor component accepts all the [draft-js Editor](https://facebook.github.i
   - `inlineButtons` This should be an array of React elements that will be rendered. Use this to customise the popover inline buttons. There's a 'Custom Inline Buttons' example under examples. Each element that gets rendered gets passed the following props: updateEditorState (call this after doing any editor state manipulations), editorState (the editor state), iconColor, iconSelectedColor.
   - `blockButtons` Customise the block buttons. See the custom block button example
   - `blockTypes` An object mapping custom types to components. Simpler than using draft-js's native blockRenderFn property.
+  - `showInlineButtons` Set to false to prevent showing the inline buttons.
   
 ## Saving the state
 

@@ -21,6 +21,4 @@ class BasicDemo extends Component {
   }
 }
 
-//
-
 export default BasicDemo

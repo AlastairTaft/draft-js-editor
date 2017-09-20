@@ -1,7 +1,7 @@
 import {ContentState, Editor, EditorState, RichUtils } from 'draft-js'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import SideControl from './SideControl/SideControl'
+import DefaultSideControl from './SideControl/SideControl'
 import PopoverControl from './PopoverControl/PopoverControl'
 import MediaWrapper from './MediaWrapper.js'
 import getUnboundedScrollPosition from 'fbjs/lib/getUnboundedScrollPosition.js'
@@ -346,12 +346,16 @@ class RichEditor extends React.Component {
       editorState,
       placeholder,
       showInlineButtons,
+      SideControl,
       ...otherProps, } = this.props
 
     if (!editorState){
       editorState = EditorState.createEmpty(defaultDecorator)
       this._onChange(editorState)
     }
+
+    if (!SideControl)
+      SideControl = DefaultSideControl
 
     /*const selectedBlock = editorState
       .getCurrentContent()

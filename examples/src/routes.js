@@ -5,6 +5,7 @@ import RawContentDemo from './pages/RawContentDemo'
 import CustomBlockButtonDemo from './pages/CustomBlockButtonDemo'
 import CustomBlockButtonDraftApiDemo from './pages/CustomBlockButtonDraftApiDemo'
 import CustomMenu from './pages/CustomMenu'
+import CustomSideControl from './pages/CustomSideControl'
 
 const routes = [
   {
@@ -34,6 +35,10 @@ const routes = [
 	{
 		path: 'custom-menu',
 		component: CustomMenu
+	},
+	{
+		path: 'side-control',
+		component: CustomSideControl
 	}
 ]
 

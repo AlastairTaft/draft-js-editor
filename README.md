@@ -46,6 +46,7 @@ The Editor component accepts all the [draft-js Editor](https://facebook.github.i
   - `blockButtons` Customise the block buttons. See the custom block button example
   - `blockTypes` An object mapping custom types to components. Simpler than using draft-js's native blockRenderFn property.
   - `showInlineButtons` Set to false to prevent showing the inline buttons.
+  - `SideControl` Override the side control to completely customise the interface. See the demo for an example.
   
 ## Saving the state
 

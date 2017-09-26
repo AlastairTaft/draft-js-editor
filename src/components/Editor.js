@@ -164,6 +164,7 @@ class RichEditor extends React.Component {
         if (!editorNode) return
         var editorBounds = editorNode.getBoundingClientRect()
         // Get offset parent that isn't a table cell
+        
         var offsetParent = getNonTDOffsetParent(editorNode)
         var offsetParentBounds = offsetParent.getBoundingClientRect()
 
@@ -175,7 +176,7 @@ class RichEditor extends React.Component {
           + styles.sideControl.left
 
         // If the side control is off the screen then put it above the block
-        if (sideControlLeft < 0){
+        if ((blockBounds.left + sideControlLeft) < 0){
           sideControlLeft = 0
           sideControlTop = (blockBounds.top - offsetParentBounds.top)
             - (styles.sideControl.height)

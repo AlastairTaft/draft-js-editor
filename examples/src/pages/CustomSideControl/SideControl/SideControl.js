@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react'
 import MoreOptions from './MoreOptions'
 
@@ -23,30 +24,30 @@ const styles = {
 export default class SideControl extends Component {
 
 	static propTypes = {
-		style: React.PropTypes.object,
-		onImageClick: React.PropTypes.func,
-		toggleBlockType: React.PropTypes.func,
-		selectedBlockType: React.PropTypes.string,
+		style: PropTypes.object,
+		onImageClick: PropTypes.func,
+		toggleBlockType: PropTypes.func,
+		selectedBlockType: PropTypes.string,
 
 		/**
 		 * The icon fill colour
 		 */
-		iconColor: React.PropTypes.string,
+		iconColor: PropTypes.string,
 
 		/**
 		 * The icon fill colour when selected
 		 */
-		iconSelectedColor: React.PropTypes.string,
+		iconSelectedColor: PropTypes.string,
 
     /**
      * Override the inline styles for the popover component.
      */
-    popoverStyle: React.PropTypes.object,
+    popoverStyle: PropTypes.object,
 
     /**
      * Override the block buttons.
      */
-    buttons: React.PropTypes.array,
+    buttons: PropTypes.array,
 	};
 
 	static defaultProps = {

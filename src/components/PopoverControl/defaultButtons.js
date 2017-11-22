@@ -5,7 +5,7 @@ import LinkButton from './LinkButton.js'
 
 
 export default [
-  <BoldButton />,
-  <ItalicButton />,
-  <LinkButton />,
+  <BoldButton key="bold-button" />,
+  <ItalicButton key="italic-button" />,
+  <LinkButton key="link-button" />,
 ]

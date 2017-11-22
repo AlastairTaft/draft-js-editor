@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Swipe from 'react-easy-swipe'
+//import Swipe from 'react-easy-swipe'
 import {Motion, spring} from 'react-motion'
 import jss from 'jss'
 import preset from 'jss-preset-default'
@@ -76,12 +76,14 @@ class SideMenu extends Component {
       }}
     >
       {({ left }) => {
-          return <Swipe
+          /* Swipe not available until they upgrade to React 16 */
+           /*<Swipe
           onSwipeStart={this.onSwipeStart}
           onSwipeMove={this.onSwipeMove}
           onSwipeEnd={this.onSwipeEnd}
-        >
-          <div className={styles.sideMenu} style={{left}}>
+          >*/
+        return <div>
+            <div className={styles.sideMenu} style={{left}}>
             <Button
               onClick={() => onEditorStateChange(insertBlock(editorState, 'textInput'))}
             >
@@ -91,7 +93,8 @@ class SideMenu extends Component {
           <div className={styles.contents} style={{left: left + 200}}>
           	{children}
           </div>
-        </Swipe>
+        {/*</Swipe>*/}
+        </div>
       }}
     </Motion>
 	};

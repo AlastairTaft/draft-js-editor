@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react'
 import { RichUtils } from 'draft-js'
 
@@ -16,28 +17,28 @@ class BlockButton extends Component {
     /**
      * The icon colour. This gets passed down from the Editor.
      */
-    iconColor: React.PropTypes.string,
+    iconColor: PropTypes.string,
     
     /**
      * The icon colour when selected. This gets passed down from the Editor.
      */
-    iconSelectedColor: React.PropTypes.string,
+    iconSelectedColor: PropTypes.string,
 
     /**
      * The current editorState. This gets passed down from the editor.
      */
-    editorState: React.PropTypes.object,
+    editorState: PropTypes.object,
 
     /**
      * A method that can be called to update the editor's editorState. This 
      * gets passed down from the editor.
      */
-    updateEditorState: React.PropTypes.func,
+    updateEditorState: PropTypes.func,
 
     /**
      * The block type this button is responsible for.
      */
-    blockType: React.PropTypes.string,
+    blockType: PropTypes.string,
   };
 
   isSelected = (editorState, blockType) => {

@@ -7,10 +7,10 @@ import BlockQuoteButton from './BlockQuoteButton'
 import CodeBlockButton from './CodeBlockButton'
 
 export default [
-  <HeaderOneButton />,
-  <HeaderTwoButton />,
-  <UnorderedListItemButton />,
-  <OrderedListItemButton />,
-  <BlockQuoteButton />,
-  <CodeBlockButton />,
+  <HeaderOneButton key="header-one-button" />,
+  <HeaderTwoButton key="header-two-button" />,
+  <UnorderedListItemButton key="unordered-list-button" />,
+  <OrderedListItemButton key="ordered-list-button" />,
+  <BlockQuoteButton key="block-quote-button" />,
+  <CodeBlockButton key="code-block-button" />,
 ]

@@ -1,8 +1,9 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react'
 import MoreOptions from './MoreOptions'
 
 
-  
+
 const styles = {
 	container: {
 		position: 'absolute',
@@ -28,30 +29,30 @@ const styles = {
 export default class SideControl extends Component {
 
 	static propTypes = {
-		style: React.PropTypes.object,
-		onImageClick: React.PropTypes.func,
-		toggleBlockType: React.PropTypes.func,
-		selectedBlockType: React.PropTypes.string,
+		style: PropTypes.object,
+		onImageClick: PropTypes.func,
+		toggleBlockType: PropTypes.func,
+		//selectedBlockType: React.PropTypes.string,
 
 		/**
 		 * The icon fill colour
 		 */
-		iconColor: React.PropTypes.string,
+		iconColor: PropTypes.string,
 
 		/**
 		 * The icon fill colour when selected
 		 */
-		iconSelectedColor: React.PropTypes.string,
+		iconSelectedColor: PropTypes.string,
 
     /**
      * Override the inline styles for the popover component.
      */
-    popoverStyle: React.PropTypes.object,
+    popoverStyle: PropTypes.object,
 
     /**
      * Override the block buttons.
      */
-    buttons: React.PropTypes.array,
+    buttons: PropTypes.array,
 	};
 
 	static defaultProps = {
@@ -151,14 +152,14 @@ export default class SideControl extends Component {
 			    <clipPath id="b">
 		        <use overflow="visible" />
 			    </clipPath>
-			    <path clip-path="url(#b)" d="M2.5 4v3h5v12h3V7h5V4h-13zm19 5h-9v3h3v7h3v-7h3V9z"/>
+			    <path clipPath="url(#b)" d="M2.5 4v3h5v12h3V7h5V4h-13zm19 5h-9v3h3v7h3v-7h3V9z"/>
 				</svg>
 				<MoreOptions 
 					style={Object.assign({}, popoverStyle, {
 						display: this.state.moreOptionsVisible ? 'block' : 'none',
 					})}
 					toggleBlockType={this.props.toggleBlockType}
-					selectedBlockType={this.props.selectedBlockType}
+					//selectedBlockType={this.props.selectedBlockType}
 					iconSelectedColor={iconSelectedColor}
 					iconColor={iconColor}
 					buttons={buttons}

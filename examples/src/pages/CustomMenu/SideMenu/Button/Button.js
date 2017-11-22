@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react'
 import jss from 'jss'
 import preset from 'jss-preset-default'
@@ -7,15 +8,15 @@ jss.setup(preset())
 class Button extends Component {
 
 	static propTypes = {
-		onClick: React.PropTypes.func,
+		onClick: PropTypes.func,
 
-		active: React.PropTypes.bool,
+		active: PropTypes.bool,
 
-    type: React.PropTypes.oneOf([
+    type: PropTypes.oneOf([
       'default', 'primary', 'success', 'danger',
     ]),
 
-    size: React.PropTypes.oneOf([
+    size: PropTypes.oneOf([
       'extra-small',
     ]),
 

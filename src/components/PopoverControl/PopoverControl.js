@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react'
 import defaultButtons from './defaultButtons.js'
 
@@ -15,36 +16,36 @@ export default class PopoverControl extends Component {
 		/**
 		 * The popover container style
 		 */
-		style: React.PropTypes.object,
+		style: PropTypes.object,
 		
-		toggleInlineStyle: React.PropTypes.func,
-		currentInlineStyle: React.PropTypes.object,
+		toggleInlineStyle: PropTypes.func,
+		currentInlineStyle: PropTypes.object,
 
 		/**
 		 * The icon fill colour
 		 */
-		iconColor: React.PropTypes.string,
+		iconColor: PropTypes.string,
 
 		/**
 		 * The icon fill colour when selected
 		 */
-		iconSelectedColor: React.PropTypes.string,
+		iconSelectedColor: PropTypes.string,
 
     /**
      * The current editorState
      */
-    editorState: React.PropTypes.object,
+    editorState: PropTypes.object,
 
     /**
      * Can call this to update the editor state
      */
-    updateEditorState: React.PropTypes.func,
+    updateEditorState: PropTypes.func,
 
     /**
      * The inline buttons to use, if this is omitted will use the default
      * buttons, bold, italic and link.
      */
-    buttons: React.PropTypes.array,
+    buttons: PropTypes.array,
 	};
 
 	static defaultProps = {

@@ -1,4 +1,5 @@
 import {ContentState, Editor, EditorState, RichUtils } from 'draft-js'
+import PropTypes from 'prop-types';
 import React from 'react'
 import ReactDOM from 'react-dom'
 import DefaultSideControl from './SideControl/SideControl'
@@ -63,43 +64,43 @@ const styles = {
 }
 
 const popoverSpacing = 3 // The distance above the selection that popover 
-  // will display
+// will display
 
 class RichEditor extends React.Component {
 
   static propTypes = {
-    blockTypes: React.PropTypes.object,
-    readOnly: React.PropTypes.bool,
+    blockTypes: PropTypes.object,
+    readOnly: PropTypes.bool,
     /**
      * The root component class name.
      */
-    className: React.PropTypes.string,
+    className: PropTypes.string,
 
     /**
      * The icon fill colour
      */
-    iconColor: React.PropTypes.string,
+    iconColor: PropTypes.string,
 
     /**
      * The icon fill colour when selected
      */
-    iconSelectedColor: React.PropTypes.string,
+    iconSelectedColor: PropTypes.string,
 
     /**
      * Override the inline styles for the popover component.
      */
-    popoverStyle: React.PropTypes.object,
+    popoverStyle: PropTypes.object,
 
     /**
      * Override the inline buttons, these are displayed in the popover control.
      */
-    inlineButtons: React.PropTypes.array,
+    inlineButtons: PropTypes.array,
 
     /**
      * Override the block buttons, these are displayed in the "more options" 
      * side control.
      */
-    blockButtons: React.PropTypes.array,
+    blockButtons: PropTypes.array,
   };
 
   static defaultProps = {

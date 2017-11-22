@@ -1,8 +1,9 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react'
 import defaultButtons from './defaultButtons'
 
 const popoverSpacing = 3 // The distance above the selection that popover 
-  // will display
+// will display
 
 const styles = {
 	container: {
@@ -36,25 +37,25 @@ export default class MoreOptions extends Component {
 		/**
      * Override the inline styles for the container.
      */
-		style: React.PropTypes.object,
+		style: PropTypes.object,
 		
-		toggleBlockType: React.PropTypes.func,
-		selectedBlockType: React.PropTypes.string,
+		toggleBlockType: PropTypes.func,
+		selectedBlockType: PropTypes.string,
 
 		/**
 		 * The icon fill colour
 		 */
-		iconColor: React.PropTypes.string,
+		iconColor: PropTypes.string,
 
 		/**
 		 * The icon fill colour when selected
 		 */
-		iconSelectedColor: React.PropTypes.string,
+		iconSelectedColor: PropTypes.string,
 
 		/**
 		 * Override the block buttons.
 		 */
-		buttons: React.PropTypes.array,
+		buttons: PropTypes.array,
 	};
 
 	static defaultProps = {
@@ -75,7 +76,8 @@ export default class MoreOptions extends Component {
 			style,
 			buttons, 
 			updateEditorState,
-			editorState,
+      editorState,
+      toggleBlockType,
 			...otherProps
 		} = this.props
 

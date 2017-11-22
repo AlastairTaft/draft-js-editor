@@ -1,12 +1,23 @@
 var path = require('path')
+var webpack = require('webpack')
 
 module.exports = {
-  entry: path.resolve(__dirname, 'src', 'Editor.js'),
+  entry: './src/Editor.js',
   //eslint: {
   //  configFile: '.eslintrc'
   //},
+  output: {
+    // export itself to a global var
+    libraryTarget: "var",
+    // name of the global var: "Foo"
+    library: "Editor",
+    filename: "Editor.js",
+    filename: process.env.NODE_ENV == 'production' ? 
+      'Editor.min.js' : 'Editor.js',
+    path: path.resolve(__dirname, "dist"),
+  },
   module: {
-    loaders: [
+    rules: [
       {
         loader: "babel-loader",
 
@@ -25,20 +36,15 @@ module.exports = {
       //}
     ]
   },
+  plugins: process.env.NODE_ENV == 'production' ? [
+    new webpack.optimize.UglifyJsPlugin(),
+  ] : [],
   resolve: {
-    extensions: [ '', '.js' ],
-    fallback: path.join(__dirname, "node_modules")
-  },
-  resolveLoader: {
-    root: path.join(__dirname, "node_modules")
-  },
-  output: {
-    // export itself to a global var
-    libraryTarget: "var",
-    // name of the global var: "Foo"
-    library: "Editor",
-    //filename: "Editor.js",
-    //path: "dist"
+    extensions: [ '.js', '.jsx', '.json' ],
+    modules: [
+      path.join(__dirname, "node_modules")
+    ],
+    symlinks: false,
   },
   externals: {
     immutable: 'Immutable',

@@ -64,7 +64,7 @@ var Editor =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 16);
+/******/ 	return __webpack_require__(__webpack_require__.s = 13);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -92,7 +92,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _propTypes = __webpack_require__(4);
+var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -204,6 +204,41 @@ exports.default = BlockButton;
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+if (process.env.NODE_ENV !== 'production') {
+  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
+    Symbol.for &&
+    Symbol.for('react.element')) ||
+    0xeac7;
+
+  var isValidElement = function(object) {
+    return typeof object === 'object' &&
+      object !== null &&
+      object.$$typeof === REACT_ELEMENT_TYPE;
+  };
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = __webpack_require__(36)(isValidElement, throwOnDirectAccess);
+} else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = __webpack_require__(35)();
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -393,41 +428,6 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-if (process.env.NODE_ENV !== 'production') {
-  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
-    Symbol.for &&
-    Symbol.for('react.element')) ||
-    0xeac7;
-
-  var isValidElement = function(object) {
-    return typeof object === 'object' &&
-      object !== null &&
-      object.$$typeof === REACT_ELEMENT_TYPE;
-  };
-
-  // By explicitly using `prop-types` you are opting into new development behavior.
-  // http://fb.me/prop-types-in-prod
-  var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(39)(isValidElement, throwOnDirectAccess);
-} else {
-  // By explicitly using `prop-types` you are opting into new production behavior.
-  // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(38)();
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ }),
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -440,7 +440,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _propTypes = __webpack_require__(4);
+var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -571,108 +571,6 @@ exports.default = InlineButton;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * 
- */
-
-function makeEmptyFunction(arg) {
-  return function () {
-    return arg;
-  };
-}
-
-/**
- * This function accepts and discards inputs; it has no side effects. This is
- * primarily useful idiomatically for overridable function endpoints which
- * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
- */
-var emptyFunction = function emptyFunction() {};
-
-emptyFunction.thatReturns = makeEmptyFunction;
-emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
-emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
-emptyFunction.thatReturnsNull = makeEmptyFunction(null);
-emptyFunction.thatReturnsThis = function () {
-  return this;
-};
-emptyFunction.thatReturnsArgument = function (arg) {
-  return arg;
-};
-
-module.exports = emptyFunction;
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-
-
-/**
- * Use invariant() to assert state which your program assumes to be true.
- *
- * Provide sprintf-style format (only %s is supported) and arguments
- * to provide information about what broke and what you were
- * expecting.
- *
- * The invariant message will be stripped in production, but the invariant
- * will remain to ensure logic does not differ in production.
- */
-
-var validateFormat = function validateFormat(format) {};
-
-if (process.env.NODE_ENV !== 'production') {
-  validateFormat = function validateFormat(format) {
-    if (format === undefined) {
-      throw new Error('invariant requires an error message argument');
-    }
-  };
-}
-
-function invariant(condition, format, a, b, c, d, e, f) {
-  validateFormat(format);
-
-  if (!condition) {
-    var error;
-    if (format === undefined) {
-      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
-    } else {
-      var args = [a, b, c, d, e, f];
-      var argIndex = 0;
-      error = new Error(format.replace(/%s/g, function () {
-        return args[argIndex++];
-      }));
-      error.name = 'Invariant Violation';
-    }
-
-    error.framesToPop = 1; // we don't care about invariant's own frame
-    throw error;
-  }
-}
-
-module.exports = invariant;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -688,7 +586,7 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 9 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -702,15 +600,15 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _BoldButton = __webpack_require__(18);
+var _BoldButton = __webpack_require__(15);
 
 var _BoldButton2 = _interopRequireDefault(_BoldButton);
 
-var _ItalicButton = __webpack_require__(19);
+var _ItalicButton = __webpack_require__(16);
 
 var _ItalicButton2 = _interopRequireDefault(_ItalicButton);
 
-var _LinkButton = __webpack_require__(20);
+var _LinkButton = __webpack_require__(17);
 
 var _LinkButton2 = _interopRequireDefault(_LinkButton);
 
@@ -719,7 +617,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = [_react2.default.createElement(_BoldButton2.default, { key: 'bold-button' }), _react2.default.createElement(_ItalicButton2.default, { key: 'italic-button' }), _react2.default.createElement(_LinkButton2.default, { key: 'link-button' })];
 
 /***/ }),
-/* 10 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -733,27 +631,27 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _HeaderOneButton = __webpack_require__(24);
+var _HeaderOneButton = __webpack_require__(21);
 
 var _HeaderOneButton2 = _interopRequireDefault(_HeaderOneButton);
 
-var _HeaderTwoButton = __webpack_require__(25);
+var _HeaderTwoButton = __webpack_require__(22);
 
 var _HeaderTwoButton2 = _interopRequireDefault(_HeaderTwoButton);
 
-var _UnorderedListItemButton = __webpack_require__(29);
+var _UnorderedListItemButton = __webpack_require__(26);
 
 var _UnorderedListItemButton2 = _interopRequireDefault(_UnorderedListItemButton);
 
-var _OrderedListItemButton = __webpack_require__(27);
+var _OrderedListItemButton = __webpack_require__(24);
 
 var _OrderedListItemButton2 = _interopRequireDefault(_OrderedListItemButton);
 
-var _BlockQuoteButton = __webpack_require__(22);
+var _BlockQuoteButton = __webpack_require__(19);
 
 var _BlockQuoteButton2 = _interopRequireDefault(_BlockQuoteButton);
 
-var _CodeBlockButton = __webpack_require__(23);
+var _CodeBlockButton = __webpack_require__(20);
 
 var _CodeBlockButton2 = _interopRequireDefault(_CodeBlockButton);
 
@@ -762,7 +660,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = [_react2.default.createElement(_HeaderOneButton2.default, { key: 'header-one-button' }), _react2.default.createElement(_HeaderTwoButton2.default, { key: 'header-two-button' }), _react2.default.createElement(_UnorderedListItemButton2.default, { key: 'unordered-list-button' }), _react2.default.createElement(_OrderedListItemButton2.default, { key: 'ordered-list-button' }), _react2.default.createElement(_BlockQuoteButton2.default, { key: 'block-quote-button' }), _react2.default.createElement(_CodeBlockButton2.default, { key: 'code-block-button' })];
 
 /***/ }),
-/* 11 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -808,7 +706,7 @@ var decorator = new _draftJs.CompositeDecorator([{
 exports.default = decorator;
 
 /***/ }),
-/* 12 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -833,7 +731,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = insertAtomicBlock;
 
-var _immutable = __webpack_require__(14);
+var _immutable = __webpack_require__(11);
 
 var _draftJs = __webpack_require__(1);
 
@@ -882,82 +780,13 @@ function insertAtomicBlock(editorState, data) {
 }
 
 /***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2014-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-
-
-var emptyFunction = __webpack_require__(6);
-
-/**
- * Similar to invariant but only logs a warning if the condition is not met.
- * This can be used to log issues in development environments in critical
- * paths. Removing the logging code for production environments will keep the
- * same logic and follow the same code paths.
- */
-
-var warning = emptyFunction;
-
-if (process.env.NODE_ENV !== 'production') {
-  var printWarning = function printWarning(format) {
-    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
-
-    var argIndex = 0;
-    var message = 'Warning: ' + format.replace(/%s/g, function () {
-      return args[argIndex++];
-    });
-    if (typeof console !== 'undefined') {
-      console.error(message);
-    }
-    try {
-      // --- Welcome to debugging React ---
-      // This error was thrown as a convenience so that you can use this stack
-      // to find the callsite that caused this warning to fire.
-      throw new Error(message);
-    } catch (x) {}
-  };
-
-  warning = function warning(condition, format) {
-    if (format === undefined) {
-      throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
-    }
-
-    if (format.indexOf('Failed Composite propType: ') === 0) {
-      return; // Ignore CompositeComponent proptype check.
-    }
-
-    if (!condition) {
-      for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-        args[_key2 - 2] = arguments[_key2];
-      }
-
-      printWarning.apply(undefined, [format].concat(args));
-    }
-  };
-}
-
-module.exports = warning;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ }),
-/* 14 */
+/* 11 */
 /***/ (function(module, exports) {
 
 module.exports = Immutable;
 
 /***/ }),
-/* 15 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -973,7 +802,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _draftJs = __webpack_require__(1);
 
-var _propTypes = __webpack_require__(4);
+var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -981,39 +810,39 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(40);
+var _reactDom = __webpack_require__(37);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _SideControl = __webpack_require__(28);
+var _SideControl = __webpack_require__(25);
 
 var _SideControl2 = _interopRequireDefault(_SideControl);
 
-var _PopoverControl = __webpack_require__(21);
+var _PopoverControl = __webpack_require__(18);
 
 var _PopoverControl2 = _interopRequireDefault(_PopoverControl);
 
-var _MediaWrapper = __webpack_require__(17);
+var _MediaWrapper = __webpack_require__(14);
 
 var _MediaWrapper2 = _interopRequireDefault(_MediaWrapper);
 
-var _getUnboundedScrollPosition = __webpack_require__(34);
+var _getUnboundedScrollPosition = __webpack_require__(31);
 
 var _getUnboundedScrollPosition2 = _interopRequireDefault(_getUnboundedScrollPosition);
 
-var _Style = __webpack_require__(31);
+var _Style = __webpack_require__(28);
 
 var _Style2 = _interopRequireDefault(_Style);
 
-var _defaultDecorator = __webpack_require__(11);
+var _defaultDecorator = __webpack_require__(9);
 
 var _defaultDecorator2 = _interopRequireDefault(_defaultDecorator);
 
-var _defaultBlockRenderMap = __webpack_require__(30);
+var _defaultBlockRenderMap = __webpack_require__(27);
 
 var _defaultBlockRenderMap2 = _interopRequireDefault(_defaultBlockRenderMap);
 
-var _insertAtomicBlock = __webpack_require__(12);
+var _insertAtomicBlock = __webpack_require__(10);
 
 var _insertAtomicBlock2 = _interopRequireDefault(_insertAtomicBlock);
 
@@ -1076,7 +905,7 @@ var styles = {
   }
 };
 
-var popoverSpacing = 3; // The distance above the selection that popover 
+var popoverSpacing = 3; // The distance above the selection that popover
 // will display
 
 var RichEditor = function (_React$Component) {
@@ -1090,6 +919,10 @@ var RichEditor = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (RichEditor.__proto__ || Object.getPrototypeOf(RichEditor)).call(this, props));
 
     _this.state = {};
+
+    _this.componentWillReceiveProps = function (newProps) {
+      if (newProps.readOnly && _this.props.readOnly == false) _this.hidePopControls();
+    };
 
     _this._blockRenderer = function (contentBlock) {
       var type = contentBlock.getType();
@@ -1133,7 +966,7 @@ var RichEditor = function (_React$Component) {
       //
 
       //var relativeBounds = {
-      //  left: editorBounds.left - offsetParentBounds.left, 
+      //  left: editorBounds.left - offsetParentBounds.left,
       //  top: editorBounds.top - offsetParentBounds.top,
       //}
       //debugger
@@ -1160,7 +993,7 @@ var RichEditor = function (_React$Component) {
 
     _this.insertBlockComponent = function (blockType, componentProps) {
       if (isInDev && componentProps) {
-        console.warn('The second componentProps parameter is not supported anymore\n        if this breaks your workflow, please file an issue at \n        https://github.com/AlastairTaft/draft-js-editor');
+        console.warn('The second componentProps parameter is not supported anymore\n        if this breaks your workflow, please file an issue at\n        https://github.com/AlastairTaft/draft-js-editor');
       }
       if (isInDev) {
         console.warn('insertBlockComponent is deprecated, use insertBlock instead.');
@@ -1179,20 +1012,25 @@ var RichEditor = function (_React$Component) {
     };
 
     _this.onBlur = function () {
-      var popoverControlEle = _reactDom2.default.findDOMNode(_this.popoverControl_);
-      var sideControlEle = _reactDom2.default.findDOMNode(_this.sideControl_);
-      if (popoverControlEle) popoverControlEle.style.display = 'none';
-      sideControlEle.style.display = 'none';
+
+      _this.hidePopControls();
       var onBlur = _this.props.onBlur;
 
       if (onBlur) onBlur.apply(_this, _arguments);
     };
 
-    if (props.decorator) throw new Error('Passing in a decorator is deprecated, you must first \n        create an editorState object using your decorator and pass in that\n        editorState object instead. e.g. EditorState.createEmpty(decorator)');
+    _this.hidePopControls = function () {
+      var popoverControlEle = _reactDom2.default.findDOMNode(_this.popoverControl_);
+      var sideControlEle = _reactDom2.default.findDOMNode(_this.sideControl_);
+      if (popoverControlEle) popoverControlEle.style.display = 'none';
+      if (sideControlEle) sideControlEle.style.display = 'none';
+    };
 
-    if (props.editorState instanceof _draftJs.ContentState) throw new Error('You passed in a ContentState object when an EditorState \n        object was expected, use EditorState.createWithContent first.');
+    if (props.decorator) throw new Error('Passing in a decorator is deprecated, you must first\n        create an editorState object using your decorator and pass in that\n        editorState object instead. e.g. EditorState.createEmpty(decorator)');
 
-    /*if (props.editorState != null && 
+    if (props.editorState instanceof _draftJs.ContentState) throw new Error('You passed in a ContentState object when an EditorState\n        object was expected, use EditorState.createWithContent first.');
+
+    /*if (props.editorState != null &&
       !(props.editorState instanceof EditorState))
      throw new Error('Invalid editorState')*/
 
@@ -1354,7 +1192,7 @@ var RichEditor = function (_React$Component) {
         'div',
         { style: Object.assign({}, styles.editorContainer, this.props.style),
           className: this.props.className,
-          onClick: placeholder ? this.focus : undefined
+          onClick: this.focus
         },
         _react2.default.createElement(SideControl, { style: sideControlStyles,
           iconSelectedColor: iconSelectedColor,
@@ -1431,7 +1269,7 @@ RichEditor.propTypes = {
   inlineButtons: _propTypes2.default.array,
 
   /**
-   * Override the block buttons, these are displayed in the "more options" 
+   * Override the block buttons, these are displayed in the "more options"
    * side control.
    */
   blockButtons: _propTypes2.default.array
@@ -1455,10 +1293,10 @@ function getNonTDOffsetParent(ele) {
 }
 
 exports.default = RichEditor;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
-/* 16 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1469,23 +1307,23 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.insertAtomicBlock = exports.defaultDecorator = exports.defaultBlockButtons = exports.defaultInlineButtons = undefined;
 
-var _Editor = __webpack_require__(15);
+var _Editor = __webpack_require__(12);
 
 var _Editor2 = _interopRequireDefault(_Editor);
 
-var _defaultButtons = __webpack_require__(9);
+var _defaultButtons = __webpack_require__(7);
 
 var _defaultButtons2 = _interopRequireDefault(_defaultButtons);
 
-var _defaultButtons3 = __webpack_require__(10);
+var _defaultButtons3 = __webpack_require__(8);
 
 var _defaultButtons4 = _interopRequireDefault(_defaultButtons3);
 
-var _defaultDecorator2 = __webpack_require__(11);
+var _defaultDecorator2 = __webpack_require__(9);
 
 var _defaultDecorator3 = _interopRequireDefault(_defaultDecorator2);
 
-var _insertAtomicBlock2 = __webpack_require__(12);
+var _insertAtomicBlock2 = __webpack_require__(10);
 
 var _insertAtomicBlock3 = _interopRequireDefault(_insertAtomicBlock2);
 
@@ -1498,7 +1336,7 @@ exports.insertAtomicBlock = _insertAtomicBlock3.default;
 exports.default = _Editor2.default;
 
 /***/ }),
-/* 17 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1557,7 +1395,7 @@ var MediaWrapper = function (_Component) {
 exports.default = MediaWrapper;
 
 /***/ }),
-/* 18 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1593,7 +1431,7 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 19 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1629,7 +1467,7 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 20 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1693,7 +1531,7 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 21 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1703,7 +1541,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _propTypes = __webpack_require__(4);
+var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -1711,7 +1549,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _defaultButtons = __webpack_require__(9);
+var _defaultButtons = __webpack_require__(7);
 
 var _defaultButtons2 = _interopRequireDefault(_defaultButtons);
 
@@ -1817,7 +1655,7 @@ PopoverControl.defaultProps = {
 exports.default = PopoverControl;
 
 /***/ }),
-/* 22 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1853,7 +1691,7 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 23 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1889,7 +1727,7 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 24 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1925,7 +1763,7 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 25 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1961,7 +1799,7 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 26 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1973,7 +1811,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _propTypes = __webpack_require__(4);
+var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -1981,7 +1819,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _defaultButtons = __webpack_require__(10);
+var _defaultButtons = __webpack_require__(8);
 
 var _defaultButtons2 = _interopRequireDefault(_defaultButtons);
 
@@ -2103,7 +1941,7 @@ MoreOptions.defaultProps = {
 exports.default = MoreOptions;
 
 /***/ }),
-/* 27 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2139,7 +1977,7 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 28 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2149,7 +1987,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _propTypes = __webpack_require__(4);
+var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -2157,7 +1995,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _MoreOptions = __webpack_require__(26);
+var _MoreOptions = __webpack_require__(23);
 
 var _MoreOptions2 = _interopRequireDefault(_MoreOptions);
 
@@ -2352,7 +2190,7 @@ SideControl.defaultProps = {
 exports.default = SideControl;
 
 /***/ }),
-/* 29 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2388,7 +2226,7 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 30 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2398,7 +2236,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _immutable = __webpack_require__(14);
+var _immutable = __webpack_require__(11);
 
 var _draftJs = __webpack_require__(1);
 
@@ -2415,7 +2253,7 @@ var extendedBlockRenderMap = _draftJs.DefaultDraftBlockRenderMap.merge(blockRend
 exports.default = extendedBlockRenderMap;
 
 /***/ }),
-/* 31 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2430,7 +2268,7 @@ exports.default = extendedBlockRenderMap;
  * @typechecks
  */
 
-var getStyleProperty = __webpack_require__(33);
+var getStyleProperty = __webpack_require__(30);
 
 /**
  * @param {DOMNode} element [description]
@@ -2483,7 +2321,7 @@ var Style = {
 module.exports = Style;
 
 /***/ }),
-/* 32 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2518,7 +2356,7 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 33 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2533,8 +2371,8 @@ module.exports = camelize;
  * @typechecks
  */
 
-var camelize = __webpack_require__(32);
-var hyphenate = __webpack_require__(35);
+var camelize = __webpack_require__(29);
+var hyphenate = __webpack_require__(32);
 
 function asString(value) /*?string*/{
   return value == null ? value : String(value);
@@ -2575,7 +2413,7 @@ function getStyleProperty( /*DOMNode*/node, /*string*/name) /*?string*/{
 module.exports = getStyleProperty;
 
 /***/ }),
-/* 34 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2617,7 +2455,7 @@ function getUnboundedScrollPosition(scrollable) {
 module.exports = getUnboundedScrollPosition;
 
 /***/ }),
-/* 35 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2653,7 +2491,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 36 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2750,7 +2588,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 
 /***/ }),
-/* 37 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2763,11 +2601,24 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 
 
+var printWarning = function() {};
+
 if (process.env.NODE_ENV !== 'production') {
-  var invariant = __webpack_require__(7);
-  var warning = __webpack_require__(13);
-  var ReactPropTypesSecret = __webpack_require__(8);
+  var ReactPropTypesSecret = __webpack_require__(6);
   var loggedTypeFailures = {};
+
+  printWarning = function(text) {
+    var message = 'Warning: ' + text;
+    if (typeof console !== 'undefined') {
+      console.error(message);
+    }
+    try {
+      // --- Welcome to debugging React ---
+      // This error was thrown as a convenience so that you can use this stack
+      // to find the callsite that caused this warning to fire.
+      throw new Error(message);
+    } catch (x) {}
+  };
 }
 
 /**
@@ -2792,12 +2643,29 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
         try {
           // This is intentionally an invariant that gets caught. It's the same
           // behavior as without this statement except with a better message.
-          invariant(typeof typeSpecs[typeSpecName] === 'function', '%s: %s type `%s` is invalid; it must be a function, usually from ' + 'the `prop-types` package, but received `%s`.', componentName || 'React class', location, typeSpecName, typeof typeSpecs[typeSpecName]);
+          if (typeof typeSpecs[typeSpecName] !== 'function') {
+            var err = Error(
+              (componentName || 'React class') + ': ' + location + ' type `' + typeSpecName + '` is invalid; ' +
+              'it must be a function, usually from the `prop-types` package, but received `' + typeof typeSpecs[typeSpecName] + '`.'
+            );
+            err.name = 'Invariant Violation';
+            throw err;
+          }
           error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
         } catch (ex) {
           error = ex;
         }
-        warning(!error || error instanceof Error, '%s: type specification of %s `%s` is invalid; the type checker ' + 'function must return `null` or an `Error` but returned a %s. ' + 'You may have forgotten to pass an argument to the type checker ' + 'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' + 'shape all require an argument).', componentName || 'React class', location, typeSpecName, typeof error);
+        if (error && !(error instanceof Error)) {
+          printWarning(
+            (componentName || 'React class') + ': type specification of ' +
+            location + ' `' + typeSpecName + '` is invalid; the type checker ' +
+            'function must return `null` or an `Error` but returned a ' + typeof error + '. ' +
+            'You may have forgotten to pass an argument to the type checker ' +
+            'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' +
+            'shape all require an argument).'
+          )
+
+        }
         if (error instanceof Error && !(error.message in loggedTypeFailures)) {
           // Only monitor this failure once because there tends to be a lot of the
           // same error.
@@ -2805,7 +2673,9 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
 
           var stack = getStack ? getStack() : '';
 
-          warning(false, 'Failed %s type: %s%s', location, error.message, stack != null ? stack : '');
+          printWarning(
+            'Failed ' + location + ' type: ' + error.message + (stack != null ? stack : '')
+          );
         }
       }
     }
@@ -2814,10 +2684,10 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
 
 module.exports = checkPropTypes;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
-/* 38 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2830,9 +2700,9 @@ module.exports = checkPropTypes;
 
 
 
-var emptyFunction = __webpack_require__(6);
-var invariant = __webpack_require__(7);
-var ReactPropTypesSecret = __webpack_require__(8);
+var ReactPropTypesSecret = __webpack_require__(6);
+
+function emptyFunction() {}
 
 module.exports = function() {
   function shim(props, propName, componentName, location, propFullName, secret) {
@@ -2840,12 +2710,13 @@ module.exports = function() {
       // It is still safe when called from React.
       return;
     }
-    invariant(
-      false,
+    var err = new Error(
       'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
       'Use PropTypes.checkPropTypes() to call them. ' +
       'Read more at http://fb.me/use-check-prop-types'
     );
+    err.name = 'Invariant Violation';
+    throw err;
   };
   shim.isRequired = shim;
   function getShim() {
@@ -2882,7 +2753,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 39 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2895,13 +2766,31 @@ module.exports = function() {
 
 
 
-var emptyFunction = __webpack_require__(6);
-var invariant = __webpack_require__(7);
-var warning = __webpack_require__(13);
-var assign = __webpack_require__(36);
+var assign = __webpack_require__(33);
 
-var ReactPropTypesSecret = __webpack_require__(8);
-var checkPropTypes = __webpack_require__(37);
+var ReactPropTypesSecret = __webpack_require__(6);
+var checkPropTypes = __webpack_require__(34);
+
+var printWarning = function() {};
+
+if (process.env.NODE_ENV !== 'production') {
+  printWarning = function(text) {
+    var message = 'Warning: ' + text;
+    if (typeof console !== 'undefined') {
+      console.error(message);
+    }
+    try {
+      // --- Welcome to debugging React ---
+      // This error was thrown as a convenience so that you can use this stack
+      // to find the callsite that caused this warning to fire.
+      throw new Error(message);
+    } catch (x) {}
+  };
+}
+
+function emptyFunctionThatReturnsNull() {
+  return null;
+}
 
 module.exports = function(isValidElement, throwOnDirectAccess) {
   /* global Symbol */
@@ -3045,12 +2934,13 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       if (secret !== ReactPropTypesSecret) {
         if (throwOnDirectAccess) {
           // New behavior only for users of `prop-types` package
-          invariant(
-            false,
+          var err = new Error(
             'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
             'Use `PropTypes.checkPropTypes()` to call them. ' +
             'Read more at http://fb.me/use-check-prop-types'
           );
+          err.name = 'Invariant Violation';
+          throw err;
         } else if (process.env.NODE_ENV !== 'production' && typeof console !== 'undefined') {
           // Old behavior for people using React.PropTypes
           var cacheKey = componentName + ':' + propName;
@@ -3059,15 +2949,12 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
             // Avoid spamming the console because they are often not actionable except for lib authors
             manualPropTypeWarningCount < 3
           ) {
-            warning(
-              false,
+            printWarning(
               'You are manually calling a React.PropTypes validation ' +
-              'function for the `%s` prop on `%s`. This is deprecated ' +
+              'function for the `' + propFullName + '` prop on `' + componentName  + '`. This is deprecated ' +
               'and will throw in the standalone `prop-types` package. ' +
               'You may be seeing this warning due to a third-party PropTypes ' +
-              'library. See https://fb.me/react-warning-dont-call-proptypes ' + 'for details.',
-              propFullName,
-              componentName
+              'library. See https://fb.me/react-warning-dont-call-proptypes ' + 'for details.'
             );
             manualPropTypeCallCache[cacheKey] = true;
             manualPropTypeWarningCount++;
@@ -3111,7 +2998,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   }
 
   function createAnyTypeChecker() {
-    return createChainableTypeChecker(emptyFunction.thatReturnsNull);
+    return createChainableTypeChecker(emptyFunctionThatReturnsNull);
   }
 
   function createArrayOfTypeChecker(typeChecker) {
@@ -3161,8 +3048,8 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
   function createEnumTypeChecker(expectedValues) {
     if (!Array.isArray(expectedValues)) {
-      process.env.NODE_ENV !== 'production' ? warning(false, 'Invalid argument supplied to oneOf, expected an instance of array.') : void 0;
-      return emptyFunction.thatReturnsNull;
+      process.env.NODE_ENV !== 'production' ? printWarning('Invalid argument supplied to oneOf, expected an instance of array.') : void 0;
+      return emptyFunctionThatReturnsNull;
     }
 
     function validate(props, propName, componentName, location, propFullName) {
@@ -3204,21 +3091,18 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
   function createUnionTypeChecker(arrayOfTypeCheckers) {
     if (!Array.isArray(arrayOfTypeCheckers)) {
-      process.env.NODE_ENV !== 'production' ? warning(false, 'Invalid argument supplied to oneOfType, expected an instance of array.') : void 0;
-      return emptyFunction.thatReturnsNull;
+      process.env.NODE_ENV !== 'production' ? printWarning('Invalid argument supplied to oneOfType, expected an instance of array.') : void 0;
+      return emptyFunctionThatReturnsNull;
     }
 
     for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
       var checker = arrayOfTypeCheckers[i];
       if (typeof checker !== 'function') {
-        warning(
-          false,
+        printWarning(
           'Invalid argument supplied to oneOfType. Expected an array of check functions, but ' +
-          'received %s at index %s.',
-          getPostfixForTypeWarning(checker),
-          i
+          'received ' + getPostfixForTypeWarning(checker) + ' at index ' + i + '.'
         );
-        return emptyFunction.thatReturnsNull;
+        return emptyFunctionThatReturnsNull;
       }
     }
 
@@ -3429,10 +3313,10 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   return ReactPropTypes;
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
-/* 40 */
+/* 37 */
 /***/ (function(module, exports) {
 
 module.exports = ReactDOM;

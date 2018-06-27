@@ -39,7 +39,7 @@ const isParentOf = (ele, maybeParent) => {
   return false
 }
 
-const isInDev = typeof process == 'undefined' 
+const isInDev = typeof process == 'undefined'
   || typeof process.env == 'undefined'
   || process.env.NODE_ENV != 'production'
 
@@ -51,7 +51,7 @@ const styles = {
   popOverControl: {
     //width: 78, // Height and width are needed to compute the position
     height: 24,
-    display: 'none', 
+    display: 'none',
     position: 'absolute',
     zIndex: 999,
   },
@@ -63,7 +63,7 @@ const styles = {
   }
 }
 
-const popoverSpacing = 3 // The distance above the selection that popover 
+const popoverSpacing = 3 // The distance above the selection that popover
 // will display
 
 class RichEditor extends React.Component {
@@ -97,7 +97,7 @@ class RichEditor extends React.Component {
     inlineButtons: PropTypes.array,
 
     /**
-     * Override the block buttons, these are displayed in the "more options" 
+     * Override the block buttons, these are displayed in the "more options"
      * side control.
      */
     blockButtons: PropTypes.array,
@@ -118,21 +118,21 @@ class RichEditor extends React.Component {
     super(props);
 
     if (props.decorator)
-      throw new Error(`Passing in a decorator is deprecated, you must first 
+      throw new Error(`Passing in a decorator is deprecated, you must first
         create an editorState object using your decorator and pass in that
         editorState object instead. e.g. EditorState.createEmpty(decorator)`)
 
     if (props.editorState instanceof ContentState)
-      throw new Error(`You passed in a ContentState object when an EditorState 
+      throw new Error(`You passed in a ContentState object when an EditorState
         object was expected, use EditorState.createWithContent first.`)
 
-    /*if (props.editorState != null && 
+    /*if (props.editorState != null &&
       !(props.editorState instanceof EditorState))
      throw new Error('Invalid editorState')*/
-    
-    
+
+
     this.updateSelection = () => {
-      
+
       var selectionRangeIsCollapsed = null,
         sideControlVisible = false,
         sideControlTop = null,
@@ -140,7 +140,7 @@ class RichEditor extends React.Component {
         popoverControlVisible = false,
         popoverControlTop = null,
         popoverControlLeft = null
-      
+
       if (this.props.readOnly) return
 
       let selectionRange = getSelectionRange()
@@ -165,7 +165,7 @@ class RichEditor extends React.Component {
         if (!editorNode) return
         var editorBounds = editorNode.getBoundingClientRect()
         // Get offset parent that isn't a table cell
-        
+
         var offsetParent = getNonTDOffsetParent(editorNode)
         var offsetParentBounds = offsetParent.getBoundingClientRect()
 
@@ -190,11 +190,11 @@ class RichEditor extends React.Component {
         }
 
         //console.log(require('util').inspect(sideControlTop))
-        
+
         sideControlEle.style.left = sideControlLeft + 'px'
         sideControlEle.style.top = sideControlTop + 'px'
         sideControlEle.style.display = 'block'
-  
+
         if (!selectionRange.collapsed){
 
           // The control needs to be visible so that we can get it's width
@@ -202,7 +202,7 @@ class RichEditor extends React.Component {
           var popoverWidth = popoverControlEle && popoverControlEle.clientWidth
 
           // ----
-          
+
           // ----
           //debugger
           popoverControlVisible = true
@@ -215,7 +215,7 @@ class RichEditor extends React.Component {
             + (rangeBounds.left - offsetParentBounds.left)
             + (rangeWidth / 2)
             - (/*styles.popOverControl.width*/ popoverWidth / 2)
-          
+
           //console.log(popoverControlEle)
           //console.log(popoverControlEle.style)
           if (popoverControlEle){
@@ -232,18 +232,23 @@ class RichEditor extends React.Component {
           popoverControlEle.style.display = 'none'
       }
     };
-    
+
 
   };
 
+  componentWillReceiveProps = (newProps) => {
+    if (newProps.readOnly && this.props.readOnly == false)
+      this.hidePopControls()
+  }
+
   _blockRenderer = (contentBlock) => {
     const type = contentBlock.getType()
-    
+
     if (type === 'atomic') {
       const data = contentBlock.getData().toJS()
       const { blockTypes } = this.props
       var component = blockTypes[data.type]
-      
+
       return {
         component,
         editable: false,
@@ -274,18 +279,18 @@ class RichEditor extends React.Component {
     if (this.props.readOnly) return
 
     var editorNode = ReactDOM.findDOMNode(this.editor_)
-    
+
     // relative bounds, this is the distance before finding a node with position
     // relative.
     //
-    
+
     //var relativeBounds = {
-    //  left: editorBounds.left - offsetParentBounds.left, 
+    //  left: editorBounds.left - offsetParentBounds.left,
     //  top: editorBounds.top - offsetParentBounds.top,
     //}
     //debugger
     //var parent = editorNode.offsetParent
-    
+
 
     /*this.setState({
       //editorBounds,
@@ -308,7 +313,7 @@ class RichEditor extends React.Component {
   insertBlockComponent = (blockType, componentProps) => {
     if (isInDev && componentProps){
       console.warn(`The second componentProps parameter is not supported anymore
-        if this breaks your workflow, please file an issue at 
+        if this breaks your workflow, please file an issue at
         https://github.com/AlastairTaft/draft-js-editor`)
     }
     if (isInDev){
@@ -325,22 +330,29 @@ class RichEditor extends React.Component {
   };
 
   onBlur = () => {
-    var popoverControlEle = ReactDOM.findDOMNode(this.popoverControl_)
-    var sideControlEle = ReactDOM.findDOMNode(this.sideControl_)
-    if (popoverControlEle) popoverControlEle.style.display = 'none'
-    sideControlEle.style.display = 'none'
+
+    this.hidePopControls()
     const { onBlur } = this.props
     if (onBlur)
       onBlur.apply(this, arguments)
   };
+
+  hidePopControls = () => {
+    var popoverControlEle = ReactDOM.findDOMNode(this.popoverControl_)
+    var sideControlEle = ReactDOM.findDOMNode(this.sideControl_)
+    if (popoverControlEle)
+      popoverControlEle.style.display = 'none'
+    if (sideControlEle)
+      sideControlEle.style.display = 'none'
+  }
 
   /**
    * While editing TeX, set the Draft editor to read-only. This allows us to
    * have a textarea within the DOM.
    */
   render() {
-    var { 
-      iconColor, 
+    var {
+      iconColor,
       iconSelectedColor,
       popoverStyle,
       inlineButtons,
@@ -368,7 +380,7 @@ class RichEditor extends React.Component {
       var currentInlineStyle = editorState.getCurrentInlineStyle()
     }
     const selection = editorState.getSelection()*/
-    
+
 
     var sideControlStyles = Object.assign({}, styles.sideControl)
     /*if (this.props.readOnly != true && this.state.sideControlVisible){
@@ -382,11 +394,11 @@ class RichEditor extends React.Component {
     Object.assign(popoverStyleLocal, popoverStyle)
 
     return (
-      <div style={Object.assign({}, styles.editorContainer, this.props.style)} 
-        className={this.props.className} 
-          onClick={placeholder ? this.focus : undefined}
+      <div style={Object.assign({}, styles.editorContainer, this.props.style)}
+        className={this.props.className}
+          onClick={this.focus}
         >
-        <SideControl style={sideControlStyles} 
+        <SideControl style={sideControlStyles}
           iconSelectedColor={iconSelectedColor}
           iconColor={iconColor}
           popoverStyle={popoverStyle}
@@ -396,8 +408,8 @@ class RichEditor extends React.Component {
           editorState={editorState}
           updateEditorState={this.onEditorChange}
         />
-        {showInlineButtons === false ? null : <PopoverControl 
-          style={popoverStyleLocal} 
+        {showInlineButtons === false ? null : <PopoverControl
+          style={popoverStyleLocal}
           editorState={editorState}
           iconSelectedColor={iconSelectedColor}
           iconColor={iconColor}
@@ -420,7 +432,7 @@ class RichEditor extends React.Component {
           onBlur={this.onBlur}
         />
       </div>
-        
+
     );
   }
 }

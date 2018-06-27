@@ -12,7 +12,7 @@ const styles = {
 		zIndex: 999,
 	},
 	inner: {
-		display: 'inline-block', 
+		display: 'inline-block',
 		cursor: 'pointer',
 		width: 24,
 		height: 24,
@@ -61,7 +61,7 @@ export default class SideControl extends Component {
 	};
 
 	state = {
-		moreOptionsVisible: false, 
+		moreOptionsVisible: false,
 	};
 
 	onMouseOut = (e) => {
@@ -72,7 +72,7 @@ export default class SideControl extends Component {
 		const { clientX, clientY } = this.state
 
 		var angle = Math.atan2(e.clientY - clientY, e.clientX - clientX) * 180 / Math.PI
-		
+
 		if (angle < 0 && angle >= -90){
 			this.setState({moreOptionsVisibleTimeout: true})
 			setTimeout(() => this.hideMoreOptionsTimeoutCallback(), 1000)
@@ -101,10 +101,10 @@ export default class SideControl extends Component {
 
 	render = () => {
 
-		const { 
-			iconColor, 
-			iconSelectedColor, 
-			popoverStyle, 
+		const {
+			iconColor,
+			iconSelectedColor,
+			popoverStyle,
 			buttons,
 			editorState,
 			updateEditorState,
@@ -114,8 +114,8 @@ export default class SideControl extends Component {
 		return <div
 			style={Object.assign({}, styles.container, this.props.style)}
 		>
-			
-			{/*<svg 
+
+			{/*<svg
 				style={{cursor: 'pointer'}}
 				onMouseDown={(e) => e.preventDefault()}
 				onClick={this.props.onImageClick}
@@ -123,8 +123,8 @@ export default class SideControl extends Component {
 		    <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
 		    <path d="M0 0h24v24H0z" fill="none"/>
 			</svg>*/}
-			
-			<div 
+
+			<div
 				style={styles.inner}
 				onMouseOut={this.onMouseOut}
 				onMouseMove={this.onMouseMove}
@@ -136,14 +136,14 @@ export default class SideControl extends Component {
 				className="DraftJsEditor-more-options"
 				ref={el => this.moreOptionsDiv_ = el}
 			>
-				{/*<svg 
+				{/*<svg
 					onMouseDown={(e) => e.preventDefault()}
 					fill={iconColor} height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
 			    <path d="M0 0h24v24H0z" fill="none"/>
 			    <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
 				</svg>*/}
 
-				<svg 
+				<svg
 					onMouseDown={(e) => e.preventDefault()}
 					fill={iconColor} height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
 			    <defs>
@@ -154,7 +154,7 @@ export default class SideControl extends Component {
 			    </clipPath>
 			    <path clipPath="url(#b)" d="M2.5 4v3h5v12h3V7h5V4h-13zm19 5h-9v3h3v7h3v-7h3V9z"/>
 				</svg>
-				<MoreOptions 
+				<MoreOptions
 					style={Object.assign({}, popoverStyle, {
 						display: this.state.moreOptionsVisible ? 'block' : 'none',
 					})}

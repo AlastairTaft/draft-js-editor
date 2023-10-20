@@ -1,3 +1,6 @@
+# ⚠️ Archived
+This repo is not maintained, I would encourage not using it.
+
 # draft-js-editor
 A rich text editor built using facebook's [draft.js](https://facebook.github.io/draft-js/). 
 
